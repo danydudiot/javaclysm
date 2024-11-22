@@ -51,4 +51,43 @@ public class Board {
             y++;
         }
     }
+
+    //TODO foutre les parser là où il faut
+
+    /**
+     * @param file chemin d'accès au fichier contenant la carte
+     * @throws FileNotFoundException si le fichier n'est pas trouvé
+     * @throws IllegalArgumentException si le fichier contient des charactères non reconnus
+     */
+    public BoardJUNGLE(String file) throws FileNotFoundException, IllegalArgumentException {
+        File mapFile = new File(file);
+        Scanner scanner = new Scanner(mapFile);
+        this.theme = (char) scanner.nextLine();
+        this.height = (int) scanner.nextLine();
+        this.width = (int) scanner.nextLine();
+        int y = 0;
+        while (scanner.hasNextLine()) {
+            String line = scanner.nextLine();
+            for (int x = 0; i < line.length(); i++) {
+                if (line[x] == '@') {
+                    this.board[y][x] = new PlayerCharacter(x,y);
+                } else if (line[x] == 'S') {
+                    this.board[y][x] = new Monkey(x,y);
+                } else if (line[x] == 'P') {
+                    this.board[y][x] = new PalmTree(x,y);
+                } else if (line[x] == 'R') {
+                    this.board[y][x] = new Rock(x,y);
+                } else if (line[x] == 'B') {
+                    this.board[y][x] = new Banana(x,y);
+                } else if (line[x] == 'C') {
+                    this.board[y][x] = new Mushroom(x,y);
+                } else if (line[x] == ' ') {
+                    this.board[y][x] = new Empty(x,y);
+                } else {
+                    thow new IllegalArgumentException("Le fichier est invalide.");
+                }
+            }
+            y++;
+        }
+    }
 }
