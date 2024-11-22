@@ -7,6 +7,10 @@ import modele.interaction.Interactible;
 import modele.interaction.Interaction;
 
 public abstract class NonPlayerCharacter extends Character implements Interactible, Observateur {
+    public NonPlayerCharacter(int x, int y) {
+        super(x, y);
+    }
+
     public Interaction[] getInteraction(){
         return null;
     }
