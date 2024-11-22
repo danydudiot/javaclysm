@@ -16,6 +16,27 @@ public class Board {
      */
     public Board() {
     }
+
+    public Entity[][] getBoard() {
+        return board;
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
+    public int getWidth() {
+        return width;
+    }
+
+    public char getTheme() {
+        return theme;
+    }
+
+    public Entity getAt(int x, int y) {
+        return board[y][x];
+    }
+
     /**
      * Construction de parseur
      * @param file chemin d'accès au fichier contenant la carte
