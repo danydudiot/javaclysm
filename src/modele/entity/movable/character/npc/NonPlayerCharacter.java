@@ -2,13 +2,22 @@ package modele.entity.movable.character.npc;
 
 import modele.clock.Observateur;
 import modele.entity.movable.character.Character;
+import modele.entity.movable.character.npc.state.NotHungryState;
 import modele.entity.movable.character.npc.state.State;
+import modele.entity.stationary.food.Food;
 import modele.interaction.Interactible;
 import modele.interaction.Interaction;
 
 public abstract class NonPlayerCharacter extends Character implements Interactible, Observateur {
-    public NonPlayerCharacter(int x, int y) {
+    public final int hungryCountBase;
+    private int hungryCount;
+    protected Class<? extends Food> foodPreference;
+    protected State curentState;
+
+    public NonPlayerCharacter(int x, int y, int hungryCountBase) {
         super(x, y);
+        this.curentState = new NotHungryState(this);
+        this.hungryCountBase = hungryCountBase;
     }
 
     public Interaction[] getInteraction(){
@@ -16,6 +25,18 @@ public abstract class NonPlayerCharacter extends Character implements Interactib
     }
 
     public void mettreAJour(Object object){
+        curentState.updateState();
+    }
 
+    public void setCurentState(State curentState) {
+        this.curentState = curentState;
+    }
+
+    public int getHungryCount() {
+        return hungryCount;
+    }
+
+    public void setHungryCount(int hungryCount) {
+        this.hungryCount = hungryCount;
     }
 }

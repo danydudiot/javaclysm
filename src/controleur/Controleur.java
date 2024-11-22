@@ -3,6 +3,8 @@ package controleur;
 import modele.Board;
 import vue.Ihm;
 
+import java.io.FileNotFoundException;
+
 public class Controleur {
     protected Ihm ihm;
     protected Board board;
@@ -14,7 +16,17 @@ public class Controleur {
         if (ihm.askBoard()){
             this.board = new Board();
         } else {
-            this.board = new Board(ihm.askFile());
+            try{
+                this.board = new Board(ihm.askFile());
+            } catch (FileNotFoundException exception) {
+                ihm.displayError("Le fichier indiqué n'a pas été trouver.");
+                startGame();
+                return;
+            } catch (IllegalArgumentException exception) {
+                ihm.displayError("Le fichier indiqué comporte des erreurs.");
+                startGame();
+                return;
+            }
         }
     }
 
