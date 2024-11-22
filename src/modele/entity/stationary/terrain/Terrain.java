@@ -10,4 +10,17 @@ public abstract class Terrain extends StaticEntity {
         super(x,y);
         this.entityOnCase = null;
     }
+
+    public void setEntityOnCase(Entity entity){
+        this.entityOnCase = entity;
+    }
+
+    @Override
+    public String toString() {
+        if (entityOnCase == null) {
+            return representation;
+        } else {
+            return entityOnCase.toString();
+        }
+    }
 }
