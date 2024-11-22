@@ -52,17 +52,25 @@ public class Board {
             String line = scanner.nextLine();
             for (int x = 0; i < line.length(); i++) {
                 if (line[x] == '@') {
-                    this.board[y][x] = new PlayerCharacter(x,y);
+                    Entity e = new Empty(x,y);
+                    e.setEntityOnCase(new PlayerCharacter(x,y));
+                    this.board[y][x] = e;
                 } else if (line[x] == 'E') {
-                    this.board[y][x] = new Squirrel(x,y);
+                    Entity e = new Empty(x,y);
+                    e.setEntityOnCase(new Squirrel(x,y));
+                    this.board[y][x] = e;
                 } else if (line[x] == 'A') {
                     this.board[y][x] = new Tree(x,y);
                 } else if (line[x] == 'B') {
                     this.board[y][x] = new Bush(x,y);
                 } else if (line[x] == 'G') {
-                    this.board[y][x] = new Acorn(x,y);
+                    Entity e = new Empty(x,y);
+                    e.setEntityOnCase(new Acorn(x,y));
+                    this.board[y][x] = e;
                 } else if (line[x] == 'C') {
-                    this.board[y][x] = new Mushroom(x,y);
+                    Entity e = new Empty(x,y);
+                    e.setEntityOnCase(new Mushroom(x,y));
+                    this.board[y][x] = e;
                 } else if (line[x] == ' ') {
                     this.board[y][x] = new Empty(x,y);
                 } else {
@@ -91,17 +99,25 @@ public class Board {
             String line = scanner.nextLine();
             for (int x = 0; i < line.length(); i++) {
                 if (line[x] == '@') {
-                    this.board[y][x] = new PlayerCharacter(x,y);
+                    Entity e = new Empty(x,y);
+                    e.setEntityOnCase(new PlayerCharacter(x,y));
+                    this.board[y][x] = e;
                 } else if (line[x] == 'S') {
-                    this.board[y][x] = new Monkey(x,y);
+                    Entity e = new Empty(x,y);
+                    e.setEntityOnCase(new Monkey(x,y));
+                    this.board[y][x] = e;
                 } else if (line[x] == 'P') {
                     this.board[y][x] = new PalmTree(x,y);
                 } else if (line[x] == 'R') {
                     this.board[y][x] = new Rock(x,y);
                 } else if (line[x] == 'B') {
-                    this.board[y][x] = new Banana(x,y);
+                    Entity e = new Empty(x,y);
+                    e.setEntityOnCase(new Banana(x,y));
+                    this.board[y][x] = e;
                 } else if (line[x] == 'C') {
-                    this.board[y][x] = new Mushroom(x,y);
+                    Entity e = new Empty(x,y);
+                    e.setEntityOnCase(new Mushroom(x,y));
+                    this.board[y][x] = e;
                 } else if (line[x] == ' ') {
                     this.board[y][x] = new Empty(x,y);
                 } else {
