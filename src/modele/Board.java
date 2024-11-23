@@ -1,5 +1,8 @@
 package modele;
 
+import exception.EntityNotFoundException;
+import exception.InvalidArgumentException;
+import exception.MoveInvalidException;
 import modele.entity.Entity;
 import modele.entity.movable.character.PlayerCharacter;
 import modele.entity.movable.character.npc.Monkey;
@@ -20,7 +23,7 @@ import java.io.FileNotFoundException;
 import java.util.Scanner;
 
 public class Board {
-    private Entity[][] board;
+    private Terrain[][] board;
     private int height;
     private int width;
     private char theme;
@@ -31,7 +34,7 @@ public class Board {
     public Board() {
     }
 
-    public Entity[][] getBoard() {
+    public Terrain[][] getBoard() {
         return board;
     }
 
@@ -100,9 +103,9 @@ public class Board {
     /**
      * @param file chemin d'accès au fichier contenant la carte
      * @throws FileNotFoundException si le fichier n'est pas trouvé
-     * @throws IllegalArgumentException si le fichier contient des charactères non reconnus
+     * @throws IllegalArgumentException si le fichier contient des caractères non reconnus
      */
-    public BoardJUNGLE(String file) throws FileNotFoundException, IllegalArgumentException {
+    public void BoardJUNGLE(String file) throws FileNotFoundException, IllegalArgumentException {
         File mapFile = new File(file);
         Scanner scanner = new Scanner(mapFile);
         this.theme = scanner.nextLine().charAt(0);
@@ -161,7 +164,7 @@ public class Board {
                 new_x = x + 1;
                 new_y = y;
             } else {
-                throw new InvalidArgumentException();
+                throw new InvalidArgumentException("Déplacement inconnue");
             }
             if (new_x < 0 || new_x >= width || new_y < 0 || new_y >= height) {
                 throw new MoveInvalidException("Le mouvement est en dehors de la carte.");
