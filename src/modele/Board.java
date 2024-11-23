@@ -64,11 +64,18 @@ public class Board {
         this.theme = scanner.nextLine().charAt(0);
         this.height = scanner.nextInt();
         this.width = scanner.nextInt();
+        this.board = new Terrain[height][width];
         int y = 0;
         while (scanner.hasNextLine()) {
             String line = scanner.nextLine();
-            for (int x = 0; x < line.length(); x++) {
-                if (line.charAt(x) == '@') {
+            if (line.isEmpty()){ // TODO : Ca peut êtes améliorer en réglant le problème du scanner fantôme
+                line = scanner.nextLine();
+            }
+            for (int x = 0; x < width; x++) {
+                if (x >= line.length()){
+                    this.board[y][x] = new Empty(x,y);
+                }
+                else if (line.charAt(x) == '@') {
                     Terrain e = new Empty(x,y);
                     e.setEntityOnCase(new PlayerCharacter(x,y));
                     this.board[y][x] = e;
@@ -195,5 +202,20 @@ public class Board {
         } else {
             board[y][x].clearEntityOnCase();
         }
+    }
+
+    @Override
+    public String toString() {
+        String board_string ="";
+        for (int i=0;i< board.length;i++){ //(Terrain[] line : board){
+            for (int j = 0; j< board[i].length;j++){//(Terrain cell : line){
+                if (board[i][j] == null){
+                    System.out.println("null");
+                }
+                board_string += board[i][j].toString();
+            }
+            board_string+="\n";
+        }
+        return board_string;
     }
 }

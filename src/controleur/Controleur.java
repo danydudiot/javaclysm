@@ -9,13 +9,11 @@ public class Controleur {
     protected Ihm ihm;
     protected Board board;
     public Controleur() {
-        this.ihm = Ihm();
+        this.ihm = new Ihm();
     }
 
     public void startGame(){
         if (ihm.askBoard()){
-            this.board = new Board();
-        } else {
             try{
                 this.board = new Board(ihm.askFile());
             } catch (FileNotFoundException exception) {
@@ -27,7 +25,10 @@ public class Controleur {
                 startGame();
                 return;
             }
+        } else {
+            this.board = new Board();
         }
+        System.out.println(board);
     }
 
 }
