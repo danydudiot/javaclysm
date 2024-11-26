@@ -25,8 +25,9 @@ public class Ihm {
 
 	public boolean askBoard() {
 		while (true) {
-			System.out.println("Voulez vous charger une carte au format "+ ANSI_YELLOW+".txt"+ANSI_RESET +" ? (y/n");
-			String answer = sc.next(".");
+			System.out.println("Voulez vous charger une carte au format "+ ANSI_YELLOW+".txt"+ANSI_RESET +" ? (y/n)");
+			//String answer = sc.next(".");
+			String answer = sc.nextLine();
 			if (answer.equals("y")) {
 				return true;
 			} else if (answer.equals("n")) {
