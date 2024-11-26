@@ -3,35 +3,35 @@ package modele.entity.movable.character;
 import modele.Board;
 
 public class PlayerCharacter extends Character{
-    private char direction;
+    protected char orientation;
     public PlayerCharacter(int x, int y) {
         super(x, y);
         this.representation = "@";
-        this.direction = 'z';
+        this.orientation = 'z';
     }
 
-    public char getDirection() {
-        return direction;
+    public char getOrientation() {
+        return orientation;
     }
 
 
     @Override
     public void move(char direction, Board board) {
         super.move(direction, board);
-        changeDirection(direction);
+        changeOrientation(direction);
     }
 
-    public void changeDirection(char direction){
-        if ("oklm".indexOf(direction) != -1){
-            this.direction = switch (direction) {
+    public void changeOrientation(char orientation){
+        if ("oklm".indexOf(orientation) != -1){
+            this.orientation = switch (orientation) {
                 case 'o' -> 'z';
                 case 'k' -> 'q';
                 case 'l' -> 's';
                 case 'm' -> 'd';
-                default -> throw new IllegalStateException("Unexpected value: " + direction);
+                default -> throw new IllegalStateException("Unexpected value: " + orientation);
             };
-        } else if ("zqsd".indexOf(direction) != -1){
-            this.direction = direction;
+        } else if ("zqsd".indexOf(orientation) != -1){
+            this.orientation = orientation;
         }
     }
 }

@@ -116,7 +116,7 @@ public class Board {
      * @throws FileNotFoundException si le fichier n'est pas trouvé
      * @throws IllegalArgumentException si le fichier contient des caractères non reconnus
      */
-    public void BoardJUNGLE(String file) throws FileNotFoundException, IllegalArgumentException {
+    public void BoardJUNGLE(String file, Clock clock) throws FileNotFoundException, IllegalArgumentException {
         File mapFile = new File(file);
         Scanner scanner = new Scanner(mapFile);
         this.theme = scanner.nextLine().charAt(0);

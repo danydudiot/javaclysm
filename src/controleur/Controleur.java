@@ -48,12 +48,12 @@ public class Controleur {
         deque.add("Element 2");
         deque.add("Element 3");
         while (true){
-            ihm.display(board.toString(), board.getHeight(), board.getWidth(), deque, playerCharacter.getPosition()[0], playerCharacter.getPosition()[1], playerCharacter.getDirection(), "Pas d'inventaire");
+            ihm.display(board.toString(), board.getHeight(), board.getWidth(), deque, playerCharacter.getPosition()[0], playerCharacter.getPosition()[1], playerCharacter.getOrientation(), "Pas d'inventaire");
             char action = ihm.askAction();
             if ("zqsd".indexOf(action) != -1){
                  playerCharacter.move(action, board);
             } else if ("oklm".indexOf(action) != -1) {
-                playerCharacter.changeDirection(action);
+                playerCharacter.changeOrientation(action);
             }
 //            clock.notifierObservateur();
         }
