@@ -55,7 +55,7 @@ public class Controleur {
             } else if ("oklm".indexOf(action) != -1) {
                 playerCharacter.changeOrientation(action);
             }
-//            clock.notifierObservateur(board);
+            clock.notifierObservateur(board);
         }
     }
 }

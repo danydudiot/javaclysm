@@ -60,10 +60,10 @@ public class Board {
 
     public Map<Character, Terrain> getNeighbours(int x, int y) {
         Map<Character, Terrain> out = new HashMap<>();
-        out.put('z', (Terrain) getAt(x+1, y));
-        out.put('s', (Terrain) getAt(x-1, y));
-        out.put('q', (Terrain) getAt(x, y-1));
-        out.put('d', (Terrain) getAt(x, y+1));
+        out.put('z', (Terrain) getAt(x, y-1));
+        out.put('s', (Terrain) getAt(x, y+1));
+        out.put('q', (Terrain) getAt(x-1, y));
+        out.put('d', (Terrain) getAt(x+1, y));
         return out;
     }
     /**
