@@ -105,7 +105,7 @@ public class Ihm {
 			}
 		}
 		if (border) {
-			output.append("+").append("-".repeat(targetWidth)).append("+");
+			output.append("\n").append("+").append("-".repeat(targetWidth)).append("+");
 		}
 		return output.toString();
 	}
