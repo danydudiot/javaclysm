@@ -1,5 +1,6 @@
 package modele.entity.movable.character.npc.state;
 
+import modele.Board;
 import modele.entity.movable.character.npc.NonPlayerCharacter;
 
 public class NotHungryState implements State {
@@ -17,7 +18,16 @@ public class NotHungryState implements State {
         }
     }
 
+    @Override
+    public char deplacement(Board board) {
+        int[] postion = npc.getPosition();
+        int[] z = new int[]{postion[0]+1,postion[1]};
+        int[] q = new int[]{postion[0],postion[1]-1};
+        int[] s = new int[]{postion[0]-1,postion[1]};
+        int[] d = new int[]{postion[0],postion[1]+1};
 
 
 
+        return 'a';
+    }
 }

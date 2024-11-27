@@ -1,11 +1,14 @@
 package modele.clock;
 
+import modele.Board;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class Clock implements Observable{
     private List<Observateur> observateurs;
     private int nbTour;
+
 
     public Clock() {
         this.nbTour = 0;
@@ -23,10 +26,10 @@ public class Clock implements Observable{
     }
 
     @Override
-    public void notifierObservateur() {
+    public void notifierObservateur(Board board) {
         nbTour++;
         for (Observateur observateur : observateurs){
-            observateur.mettreAJour(this);
+            observateur.mettreAJour(board);
         }
     }
 }

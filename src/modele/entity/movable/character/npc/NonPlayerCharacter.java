@@ -1,5 +1,6 @@
 package modele.entity.movable.character.npc;
 
+import modele.Board;
 import modele.clock.Observateur;
 import modele.entity.movable.character.Character;
 import modele.entity.movable.character.npc.state.NotHungryState;
@@ -25,7 +26,12 @@ public abstract class NonPlayerCharacter extends Character implements Interactib
     }
 
     public void mettreAJour(Object object){
-        curentState.updateState();
+
+        if (object instanceof Board){
+            Board board = (Board) object;
+            curentState.updateState();
+            curentState.deplacement(board);
+        }
     }
 
     public void setCurentState(State curentState) {
