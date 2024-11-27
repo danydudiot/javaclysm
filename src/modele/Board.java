@@ -11,6 +11,7 @@ import modele.entity.movable.character.npc.NonPlayerCharacter;
 import modele.entity.movable.character.npc.Squirrel;
 import modele.entity.stationary.food.Acorn;
 import modele.entity.stationary.food.Banana;
+import modele.entity.stationary.food.Food;
 import modele.entity.stationary.food.Mushroom;
 import modele.entity.stationary.terrain.Empty;
 import modele.entity.stationary.terrain.Terrain;
@@ -21,6 +22,8 @@ import modele.entity.stationary.terrain.low.Rock;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
 
 public class Board {
@@ -55,6 +58,14 @@ public class Board {
         return board[y][x];
     }
 
+    public Map<Character, Terrain> getNeighbours(int x, int y) {
+        Map<Character, Terrain> out = new HashMap<>();
+        out.put('z', (Terrain) getAt(x+1, y));
+        out.put('s', (Terrain) getAt(x-1, y));
+        out.put('q', (Terrain) getAt(x, y-1));
+        out.put('d', (Terrain) getAt(x, y+1));
+        return out;
+    }
     /**
      * Construction de parseur
      * @param file chemin d'accès au fichier contenant la carte
@@ -174,6 +185,10 @@ public class Board {
             } else if (direction == 'd') {
                 new_x = x + 1;
                 new_y = y;
+            } else if (direction == 'a') {
+//                NPC IS STUCK AND CANNOT MOVE
+                new_x = x;
+                new_y = y;
             } else {
                 throw new InvalidArgumentException("Déplacement inconnue");
             }
@@ -189,9 +204,21 @@ public class Board {
                     board[y][x].clearEntityOnCase();
                 }
             } else if (entity.getClass() == Monkey.class || entity.getClass() == Squirrel.class) {
-                if (board[new_y][new_x].getEntityOnCase() == null) {
+				if (board[new_y][new_x].getEntityOnCase() == null) {
                     board[new_y][new_x].setEntityOnCase(entity);
                     board[y][x].clearEntityOnCase();
+                } else if (board[new_y][new_x].getEntityOnCase() instanceof Food) {
+                    board[new_y][new_x].setEntityOnCase(entity);
+                    board[y][x].clearEntityOnCase();
+                    Map<Character, Terrain> neighbours = getNeighbours(x, y);
+                    boolean isPlayerNearby = false;
+                    for (char k : neighbours.keySet()) {
+                        if (neighbours.get(k).getEntityOnCase() instanceof PlayerCharacter) {
+                            isPlayerNearby = true;
+                            break;
+                        }
+                    }
+                    ((NonPlayerCharacter) entity).eat(isPlayerNearby);
                 } else {
                     throw new MoveInvalidException("L'animal ne peut pas aller sur cette case.");
                 }

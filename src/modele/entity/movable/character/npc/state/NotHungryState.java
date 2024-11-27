@@ -1,7 +1,12 @@
 package modele.entity.movable.character.npc.state;
 
 import modele.Board;
+import modele.entity.Entity;
 import modele.entity.movable.character.npc.NonPlayerCharacter;
+import modele.entity.stationary.terrain.Terrain;
+
+import java.util.List;
+import java.util.Map;
 
 public class NotHungryState implements State {
 
@@ -20,14 +25,20 @@ public class NotHungryState implements State {
 
     @Override
     public char deplacement(Board board) {
-        int[] postion = npc.getPosition();
-        int[] z = new int[]{postion[0]+1,postion[1]};
-        int[] q = new int[]{postion[0],postion[1]-1};
-        int[] s = new int[]{postion[0]-1,postion[1]};
-        int[] d = new int[]{postion[0],postion[1]+1};
-
-
-
-        return 'a';
+        int[] position = npc.getPosition();
+        Map<Character, Terrain> neighbours = board.getNeighbours(position[0], position[1]);
+        String possibleOutcomes = "";
+        for (char a : neighbours.keySet()) {
+            if (neighbours.get(a).getEntityOnCase() == null) {
+                possibleOutcomes += a;
+            }
+        }
+        if (possibleOutcomes.isEmpty()) {
+            return 'a';
+        } else if (possibleOutcomes.length() == 1) {
+            return possibleOutcomes.charAt(0);
+        } else {
+            return possibleOutcomes.charAt((int) (Math.random() * possibleOutcomes.length()));
+        }
     }
 }

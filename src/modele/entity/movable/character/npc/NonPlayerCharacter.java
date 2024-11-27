@@ -14,6 +14,7 @@ public abstract class NonPlayerCharacter extends Character implements Interactib
     private int hungryCount;
     protected Class<? extends Food> foodPreference;
     protected State curentState;
+    protected int friendLevel;
 
     public NonPlayerCharacter(int x, int y, int hungryCountBase) {
         super(x, y);
@@ -30,10 +31,12 @@ public abstract class NonPlayerCharacter extends Character implements Interactib
         if (object instanceof Board){
             Board board = (Board) object;
             curentState.updateState();
-            curentState.deplacement(board);
+            move(curentState.deplacement(board), board);
         }
     }
-
+    public boolean isFriendly () {
+        return friendLevel <= 1;
+    }
     public void setCurentState(State curentState) {
         this.curentState = curentState;
     }
@@ -44,5 +47,16 @@ public abstract class NonPlayerCharacter extends Character implements Interactib
 
     public void setHungryCount(int hungryCount) {
         this.hungryCount = hungryCount;
+    }
+
+    public Class<? extends Food> getFoodPreference() {
+        return foodPreference;
+    }
+
+    public void eat(boolean isPlayerNearby) {
+        if (isPlayerNearby) {
+            friendLevel++;
+        }
+        hungryCount = hungryCountBase;
     }
 }

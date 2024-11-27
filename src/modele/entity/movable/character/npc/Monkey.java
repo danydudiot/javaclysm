@@ -10,4 +10,9 @@ public class Monkey extends NonPlayerCharacter{
         this.representation = "M";
         this.foodPreference = Banana.class;
     }
+
+    @Override
+    public boolean isFriendly () {
+        return friendLevel <= 2;
+    }
 }
