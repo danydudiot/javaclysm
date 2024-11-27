@@ -52,8 +52,8 @@ public class Ihm {
 	public char askAction() {
 		while (true) {
 			char input = sc.next(".").charAt(0);
-			if ("zqsdoklmei ".indexOf(input) != -1) {
-				return input;
+			if ("zqsdoklmei ".indexOf(Character.toLowerCase(input)) != -1) {
+				return Character.toLowerCase(input);
 			}
 		}
 	}
@@ -106,7 +106,7 @@ public class Ihm {
 			}
 		}
 		if (border) {
-			output.append("+").append("-".repeat(targetWidth)).append("+");
+			output.append("\n").append("+").append("-".repeat(targetWidth)).append("+");
 		}
 		return output.toString();
 	}
