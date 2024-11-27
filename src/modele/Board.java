@@ -3,6 +3,7 @@ package modele;
 import exception.EntityNotFoundException;
 import exception.InvalidArgumentException;
 import exception.MoveInvalidException;
+import modele.clock.Clock;
 import modele.entity.Entity;
 import modele.entity.movable.character.PlayerCharacter;
 import modele.entity.movable.character.npc.Monkey;
@@ -27,12 +28,12 @@ public class Board {
     private int height;
     private int width;
     private char theme;
+    private PlayerCharacter player;
 
     /**
      * Construction de génération
      */
-    public Board() {
-    }
+    public Board(Clock clock) {}
 
     public Terrain[][] getBoard() {
         return board;
@@ -58,7 +59,7 @@ public class Board {
      * Construction de parseur
      * @param file chemin d'accès au fichier contenant la carte
      */
-    public Board(String file) throws FileNotFoundException, IllegalArgumentException {
+    public Board(String file, Clock clock) throws FileNotFoundException, IllegalArgumentException {
         File mapFile = new File(file);
         Scanner scanner = new Scanner(mapFile);
         this.theme = scanner.nextLine().charAt(0);
@@ -77,11 +78,14 @@ public class Board {
                 }
                 else if (line.charAt(x) == '@') {
                     Terrain e = new Empty(x,y);
-                    e.setEntityOnCase(new PlayerCharacter(x,y));
+                    this.player = new PlayerCharacter(x,y);
+                    e.setEntityOnCase(player);
                     this.board[y][x] = e;
                 } else if (line.charAt(x) == 'E') {
                     Terrain e = new Empty(x,y);
-                    e.setEntityOnCase(new Squirrel(x,y));
+                    NonPlayerCharacter npc = new Squirrel(x,y);
+                    clock.attacher(npc);
+                    e.setEntityOnCase(npc);
                     this.board[y][x] = e;
                 } else if (line.charAt(x) == 'A') {
                     this.board[y][x] = new Tree(x,y);
@@ -112,7 +116,7 @@ public class Board {
      * @throws FileNotFoundException si le fichier n'est pas trouvé
      * @throws IllegalArgumentException si le fichier contient des caractères non reconnus
      */
-    public void BoardJUNGLE(String file) throws FileNotFoundException, IllegalArgumentException {
+    public void BoardJUNGLE(String file, Clock clock) throws FileNotFoundException, IllegalArgumentException {
         File mapFile = new File(file);
         Scanner scanner = new Scanner(mapFile);
         this.theme = scanner.nextLine().charAt(0);
@@ -202,6 +206,10 @@ public class Board {
         } else {
             board[y][x].clearEntityOnCase();
         }
+    }
+
+    public PlayerCharacter getPlayer() {
+        return player;
     }
 
     @Override

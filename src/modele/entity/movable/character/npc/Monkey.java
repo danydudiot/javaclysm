@@ -1,7 +1,6 @@
 package modele.entity.movable.character.npc;
 
 import modele.entity.stationary.food.Banana;
-import modele.entity.stationary.food.Food;
 
 public class Monkey extends NonPlayerCharacter{
 
