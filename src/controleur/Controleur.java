@@ -1,6 +1,7 @@
 package controleur;
 
 import modele.Board;
+import modele.Inventory;
 import modele.clock.Clock;
 import modele.entity.movable.character.PlayerCharacter;
 import vue.Ihm;
@@ -14,10 +15,12 @@ public class Controleur {
     protected Board board;
     protected PlayerCharacter playerCharacter;
     protected Clock clock;
+    protected Inventory inventory;
 
     public Controleur() {
         this.ihm = new Ihm();
         this.clock = new Clock();
+        this.inventory = new Inventory();
     }
 
     public void startGame(){
@@ -54,6 +57,8 @@ public class Controleur {
                  playerCharacter.move(action, board);
             } else if ("oklm".indexOf(action) != -1) {
                 playerCharacter.changeOrientation(action);
+            } else if ("i".indexOf(action) != -1) {
+                System.out.println(inventory);
             }
             clock.notifierObservateur(board);
         }
