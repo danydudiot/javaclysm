@@ -12,6 +12,9 @@ public class Ihm {
 	public static final String ANSI_BLACK = "\u001B[30m";
 	public static final String ANSI_WHITE_BACKGROUND = "\u001B[47m";
 
+	public static final String ANSI_DARK_BLACK = "\u001B[30m";
+	public static final String ANSI_LIGHT_BLACK = "\u001B[90m";
+
 	private final int displayHeight;
 	private final int displayWidth;
 	private final Scanner sc;
@@ -65,11 +68,11 @@ public class Ihm {
 	public void displayError(String error) {
 		System.out.println(ANSI_RED + error + ANSI_RESET);
 	}
-	public void display(List<List<String>> board, int boardHeight, int boardWidth, Queue<String> actionHistory, int playerX, int playerY, char playerDir, String equippedItem) {
+	public void display(List<List<String>> board, int boardHeight, int boardWidth, List<String> actionHistory, int playerX, int playerY, char playerDir, String equippedItem) {
 		String croppedBoard = cropBoard(board, boardWidth, boardHeight, displayWidth, displayHeight,playerX,playerY, true);
 		String ui = makeUi(displayWidth, actionHistory, playerX, playerY, playerDir, equippedItem);
+		System.out.println(ANSI_RESET);
 		System.out.println(croppedBoard);
-//		System.out.println(board);
 		System.out.print(ui);
 	}
 	private int clamp(int value, int low, int high) {
@@ -117,12 +120,12 @@ public class Ihm {
 		}
 		return output.toString();
 	}
-	private String makeUi(int targetWidth, Queue<String> actionHistory, int playerX, int playerY, char playerDir, String equippedItem) {
+	private String makeUi(int targetWidth, List<String> actionHistory, int playerX, int playerY, char playerDir, String equippedItem) {
 		Queue<String> actionHistoryCopy = new ArrayDeque<>(actionHistory);
 		return 	"│ x: " + String.format("%-4S", playerX) +"y: " + String.format("%-4S", playerY) +"       │ " + actionHistoryCopy.remove() + '\n' +
-				"│ Dir : (" + asArrow(playerDir) +")            │ "+ actionHistoryCopy.remove() + '\n' +
-				"│ >> " + String.format("%-18s", equippedItem) + "│ " + actionHistoryCopy.remove() + '\n' +
-				ANSI_WHITE_BACKGROUND + ANSI_BLACK + String.format(("%-"+(targetWidth-1)+"s"), " ZQSD : Move    OKLM : Look    I : Inventaire    E : Interagir") + ANSI_RESET;
+				"│ Dir : (" + asArrow(playerDir) +")            │ " + ANSI_LIGHT_BLACK + actionHistoryCopy.remove() + ANSI_RESET + '\n' +
+				"│ >> " + String.format("%-18s", equippedItem) + "│ " + ANSI_DARK_BLACK + actionHistoryCopy.remove() + ANSI_RESET + '\n' +
+				ANSI_WHITE_BACKGROUND + ANSI_BLACK + String.format(("%-"+(targetWidth-1)+"s"), " ZQSD : Move    OKLM : Look    I : Inventaire    E : Interagir");
 //		| x: 14  y: 36   | Player move up
 //		| Dir : (↓)      | Player look left
 //		| >> Ecureil     | Monkey is now friend w/ Player

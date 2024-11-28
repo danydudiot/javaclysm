@@ -31,10 +31,15 @@ public class Board {
     private char theme;
     private PlayerCharacter player;
 
+    private List<String> logs;
+
+
     /**
      * Construction de génération
      */
-    public Board(Clock clock) {}
+    public Board(Clock clock) {
+        logs = new ArrayList<>();
+    }
 
     public Terrain[][] getBoard() {
         return board;
@@ -71,6 +76,8 @@ public class Board {
     public Board(String file, Clock clock) throws FileNotFoundException, IllegalArgumentException {
         File mapFile = new File(file);
         Scanner scanner = new Scanner(mapFile);
+        logs = new ArrayList<>();
+
         this.theme = scanner.nextLine().charAt(0);
         this.height = scanner.nextInt();
         this.width = scanner.nextInt();
@@ -216,7 +223,7 @@ public class Board {
                             break;
                         }
                     }
-                    ((NonPlayerCharacter) entity).eat(isPlayerNearby);
+                    ((NonPlayerCharacter) entity).eat(isPlayerNearby, this);
                 } else {
                     throw new MoveInvalidException("L'animal ne peut pas aller sur cette case.");
                 }
@@ -265,5 +272,21 @@ public class Board {
             board_string.append("\n");
         }
         return board_string.toString();
+    }
+
+    public void logAction(String log) {
+        logs.add(log);
+    }
+
+    public List<String> peekAtLogs(int amount) {
+        List<String> out = new LinkedList<>();
+        for (int i = 0; i < amount; i++) {
+            try {
+                out.add(logs.get(logs.size()-i-1));
+            } catch (IndexOutOfBoundsException e) {
+                out.add("");
+            }
+        }
+        return out;
     }
 }

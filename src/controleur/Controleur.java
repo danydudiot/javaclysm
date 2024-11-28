@@ -8,6 +8,7 @@ import vue.Ihm;
 import java.io.FileNotFoundException;
 import java.util.ArrayDeque;
 import java.util.Deque;
+import java.util.List;
 
 public class Controleur {
     protected Ihm ihm;
@@ -42,13 +43,9 @@ public class Controleur {
     }
 
 
-    private void game(){
-        Deque<String> deque = new ArrayDeque<>(3);
-        deque.add("Element 1");
-        deque.add("Element 2");
-        deque.add("Element 3");
+    private void game() {
         while (true){
-            ihm.display(board.getBoardAsList(), board.getHeight(), board.getWidth(), deque, playerCharacter.getPosition()[0], playerCharacter.getPosition()[1], playerCharacter.getOrientation(), "Pas d'inventaire");
+            ihm.display(board.getBoardAsList(), board.getHeight(), board.getWidth(), board.peekAtLogs(3), playerCharacter.getPosition()[0], playerCharacter.getPosition()[1], playerCharacter.getOrientation(), "Pas d'inventaire");
             char action = ihm.askAction();
             if ("zqsd".indexOf(action) != -1){
                  playerCharacter.move(action, board);
@@ -58,4 +55,6 @@ public class Controleur {
             clock.notifierObservateur(board);
         }
     }
+
+
 }
