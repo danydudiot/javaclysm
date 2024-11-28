@@ -28,6 +28,10 @@ public class Inventory {
         }
     }
 
+    public void add(InventoryItem inventoryItem){
+        items.add(inventoryItem);
+    }
+
     @Override
     public String toString() {
         StringBuilder itemsString = new StringBuilder();

@@ -34,4 +34,31 @@ public class PlayerCharacter extends Character{
             this.orientation = orientation;
         }
     }
+
+    public int[] getTarget(){
+        int[] target = new int[2];
+        switch (orientation) {
+            case 'z' :
+                target[0] = x;
+                target[1] = y-1;
+                break;
+			case 'q' :
+                target[0] = x-1;
+                target[1] = y;
+                break;
+            case 's' :
+                target[0] = x;
+                target[1] = y+1;
+                break;
+            case 'd' :
+                target[0] = x+1;
+                target[1] = y;
+                break;
+            default :
+                target[0] = x;
+                target[1] = y;
+                break;
+		};
+        return target;
+    }
 }
