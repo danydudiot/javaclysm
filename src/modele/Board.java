@@ -22,9 +22,7 @@ import modele.entity.stationary.terrain.low.Rock;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Scanner;
+import java.util.*;
 
 public class Board {
     private Terrain[][] board;
@@ -239,18 +237,33 @@ public class Board {
         return player;
     }
 
+    public List<List<String>> getBoardAsList() {
+        List<List<String>> board_list = new ArrayList<>();
+		for (Terrain[] terrains : board) { //(Terrain[] line : board){
+            List<String> line_list = new ArrayList<>();
+			for (Terrain terrain : terrains) {//(Terrain cell : line){
+				if (terrain == null) {
+					System.out.println("null");
+				}
+                line_list.add(terrain.toString());
+			}
+            board_list.add(line_list);
+		}
+        return board_list;
+    }
+
     @Override
     public String toString() {
-        String board_string ="";
+        StringBuilder board_string = new StringBuilder();
         for (int i=0;i< board.length;i++){ //(Terrain[] line : board){
             for (int j = 0; j< board[i].length;j++){//(Terrain cell : line){
                 if (board[i][j] == null){
                     System.out.println("null");
                 }
-                board_string += board[i][j].toString();
+                board_string.append(board[i][j].toString());
             }
-            board_string+="\n";
+            board_string.append("\n");
         }
-        return board_string;
+        return board_string.toString();
     }
 }

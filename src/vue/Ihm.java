@@ -1,6 +1,7 @@
 package vue;
 
 import java.util.ArrayDeque;
+import java.util.List;
 import java.util.Queue;
 import java.util.Scanner;
 
@@ -64,10 +65,11 @@ public class Ihm {
 	public void displayError(String error) {
 		System.out.println(ANSI_RED + error + ANSI_RESET);
 	}
-	public void display(String board, int boardHeight, int boardWidth, Queue<String> actionHistory, int playerX, int playerY, char playerDir, String equippedItem) {
+	public void display(List<List<String>> board, int boardHeight, int boardWidth, Queue<String> actionHistory, int playerX, int playerY, char playerDir, String equippedItem) {
 		String croppedBoard = cropBoard(board, boardWidth, boardHeight, displayWidth, displayHeight,playerX,playerY, true);
 		String ui = makeUi(displayWidth, actionHistory, playerX, playerY, playerDir, equippedItem);
 		System.out.println(croppedBoard);
+//		System.out.println(board);
 		System.out.print(ui);
 	}
 	private int clamp(int value, int low, int high) {
@@ -82,7 +84,7 @@ public class Ihm {
 			default  -> '·';
 		};
 	}
-	private String cropBoard(String sourceString, int sourceWidth, int sourceHeight, int targetWidth, int targetHeight, int playerX, int playerY, boolean border) {
+	private String cropBoard(List<List<String>> lines, int sourceWidth, int sourceHeight, int targetWidth, int targetHeight, int playerX, int playerY, boolean border) {
 		StringBuilder output = new StringBuilder();
 
 		if (border) {
@@ -90,8 +92,6 @@ public class Ihm {
 			targetHeight -= 2;
 			output.append("┌").append("─".repeat(targetWidth)).append("┐");
 		}
-
-		String[] lines = sourceString.split("\n");
 
 		int offsetY = clamp(playerY - (targetHeight / 2), 0, sourceHeight-targetHeight);
 
@@ -104,7 +104,10 @@ public class Ihm {
 			}
 			int lineStart = offsetY + i;
 			int start = clamp(playerX - (targetWidth / 2), 0,sourceWidth-targetWidth);
-			output.append(lines[lineStart], start, start + targetWidth);
+//			output.append(lines[lineStart], start, start + targetWidth);
+			for (int c = start; c < start + targetWidth; ++c) {
+				output.append(lines.get(lineStart).get(c));
+			}
 			if (border) {
 				output.append("│");
 			}
