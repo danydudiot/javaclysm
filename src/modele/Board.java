@@ -112,8 +112,7 @@ public class Board {
                 new_y = y;
             } else if (direction == 'a') {
 //                NPC IS STUCK AND CANNOT MOVE
-                new_x = x;
-                new_y = y;
+                return new int[]{x,y};
             } else {
                 throw new InvalidArgumentException("Déplacement inconnue");
             }
