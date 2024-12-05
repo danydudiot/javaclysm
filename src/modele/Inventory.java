@@ -1,5 +1,7 @@
 package modele;
 
+import modele.entity.Entity;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,6 +29,17 @@ public class Inventory {
             return equippedItem.getDisplayName();
         }
     }
+
+
+    public void dropItem(Board board){
+        int x = board.getPlayer().getPosition()[0];
+        int y = board.getPlayer().getPosition()[1];
+        board.fillCase(x,y,board.getPlayer().getOrientation(), ((Entity)equippedItem));
+        this.equippedItem = null;
+    }
+
+
+
 
     public void add(InventoryItem inventoryItem){
         items.add(inventoryItem);

@@ -1,6 +1,7 @@
 package modele;
 
 import exception.EntityNotFoundException;
+import exception.InvalidActionException;
 import exception.InvalidArgumentException;
 import exception.MoveInvalidException;
 import modele.clock.Clock;
@@ -158,6 +159,17 @@ public class Board {
             board[y][x].clearEntityOnCase();
         }
     }
+
+
+    public void fillCase(int x, int y, char direction , Entity entity) {
+        Terrain new_postion = getToward(x,y, getPlayer().getOrientation());
+        if (new_postion == null || new_postion.getEntityOnCase() != null){
+            throw new InvalidActionException("Vous ne pouvez pas jeter quelque chose sur un case non vide");
+        }
+        entity.setPosition(new_postion.getPosition()[0],new_postion.getPosition()[1]);
+        new_postion.setEntityOnCase(entity);
+    }
+
 
     public PlayerCharacter getPlayer() {
         return player;
