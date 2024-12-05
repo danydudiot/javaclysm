@@ -15,6 +15,7 @@ public class Ihm {
 	public static final String ANSI_DARK_BLACK = "\u001B[30m";
 	public static final String ANSI_LIGHT_BLACK = "\u001B[90m";
 
+	private String[] last_frame = new String[2];
 	private final int displayHeight;
 	private final int displayWidth;
 	private final Scanner sc;
@@ -65,12 +66,30 @@ public class Ihm {
 			}
 		}
 	}
+	public int askInteraction() {
+		while (true) {
+			char input = sc.next(".").charAt(0);
+			if (input == 'e') { return -1; }
+			else if (Character.isDigit(input)) { return Integer.parseInt(Character.toString(input))-1; }
+		}
+	}
+	public void displayInteractions(List<String> interactions) {
+		String ui = makeInteractionUi(interactions);
+		System.out.println(ANSI_RESET);
+		System.out.println(last_frame[0]);
+		System.out.print(ui);
+		last_frame[1] = ui;
+	}
 	public void displayError(String error) {
 		System.out.println(ANSI_RED + error + ANSI_RESET);
 	}
 	public void display(List<List<String>> board, int boardHeight, int boardWidth, List<String> actionHistory, int playerX, int playerY, char playerDir, String equippedItem) {
 		String croppedBoard = cropBoard(board, boardWidth, boardHeight, displayWidth, displayHeight,playerX,playerY, true);
 		String ui = makeUi(displayWidth, actionHistory, playerX, playerY, playerDir, equippedItem);
+
+		last_frame[0] = croppedBoard;
+		last_frame[1] = ui;
+
 		System.out.println(ANSI_RESET);
 		System.out.println(croppedBoard);
 		System.out.print(ui);
@@ -130,5 +149,21 @@ public class Ihm {
 //		| Dir : (↓)      | Player look left
 //		| >> Ecureil     | Monkey is now friend w/ Player
 //		H : Help    ZQSD : Move    OKLM : Look    I : Inventaire    E : Interagir
+	}
+	private String makeInteractionUi(List<String> interactions) {
+		StringBuilder out = new StringBuilder();
+		for (int i = 1; i <= 9; ++i) {
+			if (i!= 1 && (i%3 == 1)) { out.append('\n'); }
+			out.append("[").append(i).append("] : ");
+			if (i-1 <= interactions.size()-1) {
+				out.append(String.format("%-19s", interactions.get(i-1)));
+			}
+			else { out.append(String.format("%-19s", "...")); }
+		}
+		out.append("\n")
+				.append(ANSI_WHITE_BACKGROUND)
+				.append(ANSI_BLACK)
+				.append(String.format("%-"+(displayWidth -1)+"s","1-"+ interactions.size() +" : select interaction    E : close menu"));
+		return out.toString();
 	}
 }

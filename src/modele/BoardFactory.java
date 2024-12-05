@@ -1,5 +1,6 @@
 package modele;
 
+import controleur.Controleur;
 import modele.clock.Clock;
 import modele.entity.movable.character.PlayerCharacter;
 import modele.entity.movable.character.npc.Monkey;
@@ -17,11 +18,13 @@ import modele.entity.stationary.terrain.low.Rock;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class BoardFactory {
 	File mapFile;
 	Clock clock;
+	Controleur controleur;
 	public BoardFactory(String file, Clock clock)  {
 		this.mapFile = new File(file);
 		this.clock = clock;
@@ -30,7 +33,7 @@ public class BoardFactory {
 		char theme;
 		int height;
 		int width;
-		PlayerCharacter player;
+		PlayerCharacter player = null;
 
 		Scanner scanner = new Scanner(mapFile);
 		theme = scanner.nextLine().charAt(0);
@@ -49,6 +52,7 @@ public class BoardFactory {
 				} else if (line.charAt(x) == '@') {
 					Terrain e = new Empty(x, y);
 					player = new PlayerCharacter(x, y);
+					System.out.println(Arrays.toString(player.getPosition()));
 					e.setEntityOnCase(player);
 					board[y][x] = e;
 				} else if (line.charAt(x) == 'E') {
@@ -91,6 +95,6 @@ public class BoardFactory {
 			}
 			y++;
 		}
-		return new Board(clock, theme, height, width, board);
+		return new Board(clock, theme, height, width, board, player);
 	}
 }

@@ -29,7 +29,7 @@ public abstract class NonPlayerCharacter extends Character implements Interactib
         interactionList[0]= new Hit();
     }
 
-    public Interaction[] getInteraction(){
+    public Interaction[] getInteractions(){
         return interactionList;
     }
 

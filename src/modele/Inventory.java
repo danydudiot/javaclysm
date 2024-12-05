@@ -22,7 +22,7 @@ public class Inventory {
 
     public String getEquippedItem(){
         if (equippedItem == null){
-            return "Rien";
+            return "...";
         } else {
             return equippedItem.getDisplayName();
         }
@@ -39,7 +39,7 @@ public class Inventory {
             return "Inventaire vide";
         }
         for (InventoryItem item : items) {
-            itemsString.append(item.toString());
+            itemsString.append(item.toString()).append('\n');
         }
         return itemsString.toString();
     }

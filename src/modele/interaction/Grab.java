@@ -12,7 +12,7 @@ public class Grab implements Interaction {
         if (entity instanceof InventoryItem){
             inventory.add((InventoryItem) entity);
             board.clearCase(entity.getPosition()[0], entity.getPosition()[1]);
-            //board.logAction("x à été ramasser");
+            board.logAction("Un " +((InventoryItem) entity).getDisplayName() + " à été ramassé");
         }
 
     }

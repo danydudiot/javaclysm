@@ -9,19 +9,10 @@ import modele.entity.movable.character.PlayerCharacter;
 import modele.entity.movable.character.npc.Monkey;
 import modele.entity.movable.character.npc.NonPlayerCharacter;
 import modele.entity.movable.character.npc.Squirrel;
-import modele.entity.stationary.food.Acorn;
-import modele.entity.stationary.food.Banana;
 import modele.entity.stationary.food.Food;
-import modele.entity.stationary.food.Mushroom;
 import modele.entity.stationary.terrain.Empty;
 import modele.entity.stationary.terrain.Terrain;
-import modele.entity.stationary.terrain.high.PalmTree;
-import modele.entity.stationary.terrain.high.Tree;
-import modele.entity.stationary.terrain.low.Bush;
-import modele.entity.stationary.terrain.low.Rock;
 
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.util.*;
 
 public class Board {
@@ -58,24 +49,47 @@ public class Board {
     }
 
     public Terrain getAt(int x, int y) {
+        if (x < 0 || x > width-1 || y < 0 || y > height-1
+        ) {
+            return null;
+        }
         return board[y][x];
+    }
+
+    public Terrain getToward(int x, int y, char direction) {
+        switch (direction) {
+            case 'z' :
+                return getAt(x, y-1);
+            case 's':
+                return getAt(x, y+1);
+            case 'q':
+                return getAt(x-1, y);
+            case 'd':
+                return getAt(x+1, y);
+            default:
+                System.out.println("unknown direction" + direction);
+                return null;
+        }
     }
 
     public Map<Character, Terrain> getNeighbours(int x, int y) {
         Map<Character, Terrain> out = new HashMap<>();
-        out.put('z', (Terrain) getAt(x, y-1));
-        out.put('s', (Terrain) getAt(x, y+1));
-        out.put('q', (Terrain) getAt(x-1, y));
-        out.put('d', (Terrain) getAt(x+1, y));
+        for (char c : new char[]{'z', 'q', 's', 'd'}) {
+            Terrain target = getToward(x,y,c);
+            if (target != null) {
+                out.put(c, target);
+            }
+        }
         return out;
     }
 
-    public Board(Clock clock, char theme, int height, int width, Terrain[][] board) {
+    public Board(Clock clock, char theme, int height, int width, Terrain[][] board, PlayerCharacter player) {
         logs = new ArrayList<>();
         this.theme = theme;
         this.height = height;
         this.width = width;
         this.board = board;
+        this.player = player;
     }
 
     public int[] moveEntity(int x, int y, char direction) throws MoveInvalidException, EntityNotFoundException, InvalidArgumentException {

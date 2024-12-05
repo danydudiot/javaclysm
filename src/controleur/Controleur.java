@@ -1,18 +1,17 @@
 package controleur;
 
 import modele.Board;
+import modele.BoardFactory;
 import modele.Inventory;
 import modele.clock.Clock;
 import modele.entity.Entity;
 import modele.entity.movable.character.PlayerCharacter;
-import modele.interaction.Grab;
 import modele.interaction.Interactible;
 import modele.interaction.Interaction;
 import vue.Ihm;
 
 import java.io.FileNotFoundException;
-import java.util.ArrayDeque;
-import java.util.Deque;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -20,6 +19,12 @@ public class Controleur {
     protected Ihm ihm;
     protected Board board;
     protected PlayerCharacter playerCharacter;
+
+    public void setPlayerCharacter(PlayerCharacter playerCharacter) {
+        System.out.println("HERE");
+        this.playerCharacter = playerCharacter;
+    }
+
     protected Clock clock;
     protected Inventory inventory;
 
@@ -33,7 +38,7 @@ public class Controleur {
 
         if (ihm.askBoard()){
             try{
-                this.board = new Board(ihm.askFile(), clock);
+                this.board = new BoardFactory(ihm.askFile(), clock).makeBoard();
             } catch (FileNotFoundException exception) {
                 ihm.displayError("Le fichier indiqué n'a pas été trouver.");
                 startGame();
@@ -53,7 +58,7 @@ public class Controleur {
 
     private void game() {
         while (true){
-            ihm.display(board.getBoardAsList(), board.getHeight(), board.getWidth(), board.peekAtLogs(3), playerCharacter.getPosition()[0], playerCharacter.getPosition()[1], playerCharacter.getOrientation(), "Pas d'inventaire");
+            ihm.display(board.getBoardAsList(), board.getHeight(), board.getWidth(), board.peekAtLogs(3), playerCharacter.getPosition()[0], playerCharacter.getPosition()[1], playerCharacter.getOrientation(), inventory.getEquippedItem());
             char action = ihm.askAction();
             if ("zqsd".indexOf(action) != -1){
                  playerCharacter.move(action, board);
@@ -72,19 +77,22 @@ public class Controleur {
     private void interation(){
         int[] position = playerCharacter.getTarget();
         Entity entity = board.getAt(position[0],position[1]).getEntityOnCase();
-        if (entity instanceof Interactible){
-            Interactible interactible = (Interactible) entity;
-            Interaction[] interactions = interactible.getInteraction();
-            for (int i = 0; i < interactions.length; i++) {
-                System.out.println(interactions[i].getDisplayName());
-            }
-            Scanner sc = new Scanner(System.in);
-            int numInteraction = sc.nextInt();
-            if (numInteraction < interactions.length){
-                interactions[0].interact(inventory, board, (Entity) interactible);
+        if (entity instanceof Interactible interactible){
+            // Transtypage par pattern variable.
+            Interaction[] interactions = interactible.getInteractions();
+            List<String> interactions_string = new ArrayList<>();
+			for (Interaction interaction : interactions) {
+                interactions_string.add(interaction.getDisplayName());
+			}
+            ihm.displayInteractions(interactions_string);
+            int numInteraction = ihm.askInteraction();
+            if (numInteraction == -1) {
+                return;
+            } else if (numInteraction < interactions.length){
+                interactions[numInteraction].interact(inventory, board, (Entity) interactible);
             }
         } else {
-            System.out.println("pas d'interaction disponible");
+            board.logAction(Entity.ANSI_RED_BACKGROUND + "Pas d'interactions disponible." + Entity.ANSI_RESET);
         }
 
     }

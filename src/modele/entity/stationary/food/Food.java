@@ -19,7 +19,7 @@ public abstract class Food extends StaticEntity implements Interactible, Invento
         interactionList[0]= new Grab();
     }
 
-    public Interaction[] getInteraction(){
+    public Interaction[] getInteractions(){
         return interactionList;
     }
 
