@@ -69,107 +69,13 @@ public class Board {
         out.put('d', (Terrain) getAt(x+1, y));
         return out;
     }
-    /**
-     * Construction de parseur
-     * @param file chemin d'accès au fichier contenant la carte
-     */
-    public Board(String file, Clock clock) throws FileNotFoundException, IllegalArgumentException {
-        File mapFile = new File(file);
-        Scanner scanner = new Scanner(mapFile);
+
+    public Board(Clock clock, char theme, int height, int width, Terrain[][] board) {
         logs = new ArrayList<>();
-
-        this.theme = scanner.nextLine().charAt(0);
-        this.height = scanner.nextInt();
-        this.width = scanner.nextInt();
-        this.board = new Terrain[height][width];
-        int y = 0;
-        while (scanner.hasNextLine()) {
-            String line = scanner.nextLine();
-            if (line.isEmpty()){ // TODO : Ca peut êtes améliorer en réglant le problème du scanner fantôme
-                line = scanner.nextLine();
-            }
-            for (int x = 0; x < width; x++) {
-                if (x >= line.length()){
-                    this.board[y][x] = new Empty(x,y);
-                }
-                else if (line.charAt(x) == '@') {
-                    Terrain e = new Empty(x,y);
-                    this.player = new PlayerCharacter(x,y);
-                    e.setEntityOnCase(player);
-                    this.board[y][x] = e;
-                } else if (line.charAt(x) == 'E') {
-                    Terrain e = new Empty(x,y);
-                    NonPlayerCharacter npc = new Squirrel(x,y);
-                    clock.attacher(npc);
-                    e.setEntityOnCase(npc);
-                    this.board[y][x] = e;
-                } else if (line.charAt(x) == 'A') {
-                    this.board[y][x] = new Tree(x,y);
-                } else if (line.charAt(x) == 'B') {
-                    this.board[y][x] = new Bush(x,y);
-                } else if (line.charAt(x) == 'G') {
-                    Terrain e = new Empty(x,y);
-                    e.setEntityOnCase(new Acorn(x,y));
-                    this.board[y][x] = e;
-                } else if (line.charAt(x) == 'C') {
-                    Terrain e = new Empty(x,y);
-                    e.setEntityOnCase(new Mushroom(x,y));
-                    this.board[y][x] = e;
-                } else if (line.charAt(x) == ' ') {
-                    this.board[y][x] = new Empty(x,y);
-                } else {
-                    throw new IllegalArgumentException("Le fichier est invalide.");
-                }
-            }
-            y++;
-        }
-    }
-
-    //TODO foutre les parser là où il faut
-
-    /**
-     * @param file chemin d'accès au fichier contenant la carte
-     * @throws FileNotFoundException si le fichier n'est pas trouvé
-     * @throws IllegalArgumentException si le fichier contient des caractères non reconnus
-     */
-    public void BoardJUNGLE(String file, Clock clock) throws FileNotFoundException, IllegalArgumentException {
-        File mapFile = new File(file);
-        Scanner scanner = new Scanner(mapFile);
-        this.theme = scanner.nextLine().charAt(0);
-        this.height = scanner.nextInt();
-        this.width = scanner.nextInt();
-        int y = 0;
-        while (scanner.hasNextLine()) {
-            String line = scanner.nextLine();
-            for (int x = 0; x < line.length(); x++) {
-                if (line.charAt(x) == '@') {
-                    Terrain e = new Empty(x,y);
-                    e.setEntityOnCase(new PlayerCharacter(x,y));
-                    this.board[y][x] = e;
-                } else if (line.charAt(x) == 'S') {
-                    Terrain e = new Empty(x,y);
-                    e.setEntityOnCase(new Monkey(x,y));
-                    this.board[y][x] = e;
-                } else if (line.charAt(x) == 'P') {
-                    this.board[y][x] = new PalmTree(x,y);
-                } else if (line.charAt(x) == 'R') {
-                    this.board[y][x] = new Rock(x,y);
-                } else if (line.charAt(x) == 'B') {
-                    Terrain e = new Empty(x,y);
-                    e.setEntityOnCase(new Banana(x,y));
-                    this.board[y][x] = e;
-                } else if (line.charAt(x) == 'C') {
-                    Terrain e = new Empty(x,y);
-                    e.setEntityOnCase(new Mushroom(x,y));
-                    this.board[y][x] = e;
-                } else if (line.charAt(x) == ' ') {
-                    this.board[y][x] = new Empty(x,y);
-                } else {
-                    throw new IllegalArgumentException("Le fichier est invalide.");
-                }
-            }
-            y++;
-        }
+        this.theme = theme;
+        this.height = height;
+        this.width = width;
+        this.board = board;
     }
 
     public int[] moveEntity(int x, int y, char direction) throws MoveInvalidException, EntityNotFoundException, InvalidArgumentException {
@@ -251,8 +157,9 @@ public class Board {
 			for (Terrain terrain : terrains) {//(Terrain cell : line){
 				if (terrain == null) {
 					System.out.println("null");
-				}
-                line_list.add(terrain.toString());
+				} else {
+                    line_list.add(terrain.toString());
+                }
 			}
             board_list.add(line_list);
 		}
