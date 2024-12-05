@@ -52,7 +52,7 @@ public class Board {
         return theme;
     }
 
-    public Entity getAt(int x, int y) {
+    public Terrain getAt(int x, int y) {
         return board[y][x];
     }
 
