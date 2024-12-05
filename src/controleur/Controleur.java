@@ -1,5 +1,7 @@
 package controleur;
 
+import exception.InvalidActionException;
+import exception.MoveInvalidException;
 import modele.Board;
 import modele.BoardFactory;
 import modele.Inventory;
@@ -13,7 +15,6 @@ import vue.Ihm;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
 public class Controleur {
     protected Ihm ihm;
@@ -58,8 +59,15 @@ public class Controleur {
 
     private void game() {
         while (true){
-            ihm.display(board.getBoardAsList(), board.getHeight(), board.getWidth(), board.peekAtLogs(3), playerCharacter.getPosition()[0], playerCharacter.getPosition()[1], playerCharacter.getOrientation(), inventory.getEquippedItem());
-            char action = ihm.askAction();
+            tour();
+        }
+    }
+
+
+    private void tour(){
+        ihm.display(board.getBoardAsList(), board.getHeight(), board.getWidth(), board.peekAtLogs(3), playerCharacter.getPosition()[0], playerCharacter.getPosition()[1], playerCharacter.getOrientation(), inventory.getEquippedItem());
+        char action = ihm.askAction();
+        try{
             if ("zqsd".indexOf(action) != -1){
                  playerCharacter.move(action, board);
             } else if ("oklm".indexOf(action) != -1) {
@@ -68,9 +76,15 @@ public class Controleur {
                 System.out.println(inventory);
             } else if ("e".indexOf(action) != -1) {
                 interation();
+            } else {
+                throw new InvalidActionException("Action inconnue.");
             }
-            clock.notifierObservateur(board);
+        } catch (InvalidActionException | MoveInvalidException e) {
+            ihm.displayError(e.getMessage());
+            tour();
+            return;
         }
+        clock.notifierObservateur(board);
     }
 
 

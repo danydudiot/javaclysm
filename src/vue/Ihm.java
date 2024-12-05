@@ -60,7 +60,7 @@ public class Ihm {
 
 	public char askAction() {
 		while (true) {
-			char input = sc.next(".").charAt(0);
+			char input = sc.next().charAt(0);
 			if ("zqsdoklmei ".indexOf(Character.toLowerCase(input)) != -1) {
 				return Character.toLowerCase(input);
 			}
