@@ -10,9 +10,13 @@ public class Grab implements Interaction {
 
     public void interact(Inventory inventory, Board board, Entity entity){
         if (entity instanceof InventoryItem){
-            inventory.add((InventoryItem) entity);
-            board.clearCase(entity.getPosition()[0], entity.getPosition()[1]);
-            board.logAction("Un " +((InventoryItem) entity).getDisplayName() + " à été ramassé");
+            try {
+                inventory.add((InventoryItem) entity);
+                board.clearCase(entity.getPosition()[0], entity.getPosition()[1]);
+                board.logAction(((InventoryItem) entity).getDisplayName() + " ramassé");
+            } catch (Exception e) {
+                board.logAction(e.getMessage());
+            }
         }
 
     }

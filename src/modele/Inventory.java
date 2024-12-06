@@ -1,15 +1,19 @@
 package modele;
 
+import modele.entity.Entity;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class Inventory {
     private List<InventoryItem> items;
-    private InventoryItem equippedItem;
 
+    private final int MAX_INVENTORY_SIZE = 9;
+//    private InventoryItem equippedItem;
+    private int equippedItemId;
     public Inventory() {
         this.items = new ArrayList<>();
-        this.equippedItem = null;
+        this.equippedItemId = -1;
     }
 
     public void setItems(List<InventoryItem> items) {
@@ -17,19 +21,47 @@ public class Inventory {
     }
 
     public void setEquippedItem(InventoryItem equippedItem) {
-        this.equippedItem = equippedItem;
+        this.equippedItemId = items.indexOf(equippedItem);
     }
 
-    public String getEquippedItem(){
-        if (equippedItem == null){
-            return "...";
+    public void setEquippedItem(int equippedItemId) {
+        if (equippedItemId < items.size()) {
+            this.equippedItemId = equippedItemId;
         } else {
-            return equippedItem.getDisplayName();
+            this.equippedItemId = -1;
         }
     }
 
-    public void add(InventoryItem inventoryItem){
-        items.add(inventoryItem);
+    public int getEquippedItemId() {
+        return equippedItemId;
+    }
+
+    public String getEquippedItemString(){
+        if (equippedItemId == -1){
+            return "...";
+        } else {
+            return items.get(equippedItemId).getDisplayName();
+        }
+    }
+
+    public List<String> getItemsStrings() {
+        List<String> out = new ArrayList<>();
+		for (InventoryItem item : items) {
+			out.add(item.getDisplayName());
+		}
+        return out;
+    }
+
+    public void add(InventoryItem inventoryItem) throws Exception {
+        if (items.size() < MAX_INVENTORY_SIZE) {
+            items.add(inventoryItem);
+        } else {
+            throw new Exception("l'Inventaire est plein");
+        }
+    }
+
+    public int getInventorySize() {
+        return MAX_INVENTORY_SIZE;
     }
 
     @Override

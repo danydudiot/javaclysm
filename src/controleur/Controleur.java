@@ -65,7 +65,7 @@ public class Controleur {
 
 
     private void tour(){
-        ihm.display(board.getBoardAsList(), board.getHeight(), board.getWidth(), board.peekAtLogs(3), playerCharacter.getPosition()[0], playerCharacter.getPosition()[1], playerCharacter.getOrientation(), inventory.getEquippedItem());
+        ihm.display(board.getBoardAsList(), board.getHeight(), board.getWidth(), board.peekAtLogs(3), playerCharacter.getPosition()[0], playerCharacter.getPosition()[1], playerCharacter.getOrientation(), inventory.getEquippedItemString());
         char action = ihm.askAction();
         try{
             if ("zqsd".indexOf(action) != -1){
@@ -73,9 +73,9 @@ public class Controleur {
             } else if ("oklm".indexOf(action) != -1) {
                 playerCharacter.changeOrientation(action);
             } else if ("i".indexOf(action) != -1) {
-                System.out.println(inventory);
+                manageInventory();
             } else if ("e".indexOf(action) != -1) {
-                interation();
+                manageInteraction();
             } else {
                 throw new InvalidActionException("Action inconnue.");
             }
@@ -88,7 +88,7 @@ public class Controleur {
     }
 
 
-    private void interation(){
+    private void manageInteraction(){
         int[] position = playerCharacter.getTarget();
         Entity entity = board.getAt(position[0],position[1]).getEntityOnCase();
         if (entity instanceof Interactible interactible){
@@ -109,5 +109,16 @@ public class Controleur {
             board.logAction(Entity.ANSI_RED_BACKGROUND + "Pas d'interactions disponible." + Entity.ANSI_RESET);
         }
 
+    }
+
+    private void manageInventory(){
+        ihm.displayInventory(inventory.getItemsStrings(), inventory.getEquippedItemString(), inventory.getEquippedItemId());
+        int numSelection = ihm.askInventory();
+        if (numSelection == -1) {
+            return;
+        } else if (numSelection < inventory.getInventorySize()) {
+            inventory.setEquippedItem(numSelection);
+            manageInventory();
+        }
     }
 }

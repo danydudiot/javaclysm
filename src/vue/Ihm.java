@@ -80,6 +80,20 @@ public class Ihm {
 		System.out.print(ui);
 		last_frame[1] = ui;
 	}
+	public int askInventory() {
+		while (true) {
+			char input = sc.next(".").charAt(0);
+			if (input == 'i') { return -1; }
+			else if (Character.isDigit(input)) { return Integer.parseInt(Character.toString(input))-1; }
+		}
+	}
+	public void displayInventory(List<String> items, String equippedItem, int equippedItemId) {
+		String ui = makeInventoryUi(items, equippedItemId);
+		System.out.println(ANSI_RESET);
+		System.out.println(last_frame[0]);
+		System.out.print(ui);
+		last_frame[1] = ui;
+	}
 	public void displayError(String error) {
 		System.out.println(ANSI_RED + error + ANSI_RESET);
 	}
@@ -166,4 +180,34 @@ public class Ihm {
 				.append(String.format("%-"+(displayWidth -1)+"s","1-"+ interactions.size() +" : select interaction    E : close menu"));
 		return out.toString();
 	}
+
+	private String makeInventoryUi(List<String> items, int equippedItem) {
+		StringBuilder out = new StringBuilder();
+		for (int i = 1; i <= 9; ++i) {
+			if (i!= 1 && (i%3 == 1)) {
+				out.append('\n');
+			}
+			if (i-1 == equippedItem) {
+				out.append(ANSI_WHITE_BACKGROUND + ANSI_BLACK);
+			}
+
+			out.append("[").append(i).append("] : ");
+			if (i-1 <= items.size()-1) {
+				out.append(String.format("%-19s", items.get(i-1)));
+			} else {
+				out.append(String.format("%-19s", "..."));
+			}
+
+			if (i-1 == equippedItem) {
+				out.append(ANSI_RESET);
+			}
+		}
+		out.append("\n")
+				.append(ANSI_WHITE_BACKGROUND)
+				.append(ANSI_BLACK)
+				.append(String.format("%-"+(displayWidth -1)+"s","1-"+ items.size() +" : select item    I : close menu"));
+		return out.toString();
+	}
+
+
 }
