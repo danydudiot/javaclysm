@@ -76,6 +76,8 @@ public class Controleur {
                 manageInventory();
             } else if ("e".indexOf(action) != -1) {
                 manageInteraction();
+            } else if ("j".indexOf(action) != -1) {
+                inventory.dropItem(board);
             } else {
                 throw new InvalidActionException("Action inconnue.");
             }

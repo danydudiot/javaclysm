@@ -44,6 +44,17 @@ public class Inventory {
         }
     }
 
+
+    public void dropItem(Board board){
+        int x = board.getPlayer().getPosition()[0];
+        int y = board.getPlayer().getPosition()[1];
+        board.fillCase(x,y,board.getPlayer().getOrientation(), ((Entity)equippedItem));
+        this.equippedItem = null;
+    }
+
+
+
+
     public List<String> getItemsStrings() {
         List<String> out = new ArrayList<>();
 		for (InventoryItem item : items) {
