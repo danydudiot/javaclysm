@@ -36,6 +36,14 @@ public class Inventory {
         return equippedItemId;
     }
 
+    public InventoryItem getEquippedItem() {
+        if (equippedItemId == -1){
+            return null;
+        } else {
+            return items.get(equippedItemId);
+        }
+    }
+
     public String getEquippedItemString(){
         if (equippedItemId == -1){
             return "...";
@@ -48,8 +56,10 @@ public class Inventory {
     public void dropItem(Board board){
         int x = board.getPlayer().getPosition()[0];
         int y = board.getPlayer().getPosition()[1];
-        board.fillCase(x,y,board.getPlayer().getOrientation(), ((Entity)equippedItem));
-        this.equippedItem = null;
+        board.fillCase(x,y,board.getPlayer().getOrientation(), ((Entity) getEquippedItem()));
+        items.remove(equippedItemId);
+        this.equippedItemId = -1;
+
     }
 
 
