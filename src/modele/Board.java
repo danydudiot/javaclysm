@@ -135,10 +135,11 @@ public class Board {
                 } else if (board[new_y][new_x].getEntityOnCase() instanceof Food) {
                     board[new_y][new_x].setEntityOnCase(entity);
                     board[y][x].clearEntityOnCase();
-                    Map<Character, Terrain> neighbours = getNeighbours(x, y);
+                    Map<Character, Terrain> neighbours = getNeighbours(new_x, new_y);
                     boolean isPlayerNearby = false;
-                    for (char k : neighbours.keySet()) {
-                        if (neighbours.get(k).getEntityOnCase() instanceof PlayerCharacter) {
+                    Object[] neighbours_list = neighbours.keySet().toArray();
+                    for (int i = 0; i<neighbours_list.length; ++i) {
+                        if (neighbours.get(neighbours_list[i]).getEntityOnCase() instanceof PlayerCharacter) {
                             isPlayerNearby = true;
                             break;
                         }

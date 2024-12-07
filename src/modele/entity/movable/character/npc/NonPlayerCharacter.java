@@ -3,6 +3,7 @@ package modele.entity.movable.character.npc;
 import modele.Board;
 import modele.clock.Observateur;
 import modele.entity.movable.character.Character;
+import modele.entity.movable.character.npc.state.HungryState;
 import modele.entity.movable.character.npc.state.NotHungryState;
 import modele.entity.movable.character.npc.state.State;
 import modele.entity.stationary.food.Food;
@@ -25,6 +26,7 @@ public abstract class NonPlayerCharacter extends Character implements Interactib
         super(x, y);
         this.curentState = new NotHungryState(this);
         this.hungryCountBase = hungryCountBase;
+        this.hungryCount = hungryCountBase;
         this.interactionList = new Interaction[1];
         interactionList[0]= new Hit();
     }
@@ -42,9 +44,17 @@ public abstract class NonPlayerCharacter extends Character implements Interactib
         }
     }
     public boolean isFriendly () {
-        return friendLevel <= 1;
+        return friendLevel >= 1;
     }
+
     public void setCurentState(State curentState) {
+        if (curentState instanceof NotHungryState){
+            System.out.println("changement d'état pas faim");
+        } else if (curentState instanceof HungryState){
+            System.out.println("changement d'état faim");
+        } else {
+            System.out.println("INCONNUE " + curentState);
+        }
         this.curentState = curentState;
     }
 
@@ -70,6 +80,7 @@ public abstract class NonPlayerCharacter extends Character implements Interactib
             }
         }
         hungryCount = hungryCountBase;
+        curentState.updateState();
     }
 
     @Override
