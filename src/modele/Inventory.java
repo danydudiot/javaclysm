@@ -1,6 +1,8 @@
 package modele;
 
 import modele.entity.Entity;
+import modele.entity.stationary.terrain.Empty;
+import modele.entity.stationary.terrain.Terrain;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -54,11 +56,21 @@ public class Inventory {
 
 
     public void dropItem(Board board){
-        int x = board.getPlayer().getPosition()[0];
-        int y = board.getPlayer().getPosition()[1];
-        board.fillCase(x,y,board.getPlayer().getOrientation(), ((Entity) getEquippedItem()));
-        items.remove(equippedItemId);
-        this.equippedItemId = -1;
+        if (equippedItemId != -1) {
+            int x = board.getPlayer().getPosition()[0];
+            int y = board.getPlayer().getPosition()[1];
+            Terrain target = board.getToward(x,y,board.getPlayer().getOrientation());
+            if ((target instanceof Empty) && (target.getEntityOnCase() == null)) {
+                board.fillCase(x,y,board.getPlayer().getOrientation(), ((Entity) getEquippedItem()));
+                board.logAction(getEquippedItemString() + " jeté.");
+                items.remove(equippedItemId);
+                this.equippedItemId = -1;
+            } else {
+                board.logAction("Impossible de jeter cela ici.");
+            }
+        } else {
+            board.logAction("Aucun objet équipé.");
+        }
 
     }
 
@@ -76,6 +88,9 @@ public class Inventory {
     public void add(InventoryItem inventoryItem) throws Exception {
         if (items.size() < MAX_INVENTORY_SIZE) {
             items.add(inventoryItem);
+            if (equippedItemId == -1) {
+                setEquippedItem(inventoryItem);
+            }
         } else {
             throw new Exception("l'Inventaire est plein");
         }

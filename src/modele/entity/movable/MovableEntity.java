@@ -9,9 +9,14 @@ public abstract class MovableEntity extends Entity {
         super(x, y);
     }
 
-    public void move(char direction, Board board){
+    public boolean move(char direction, Board board){
         int [] new_position = board.moveEntity(x,y,direction);
-        this.x = new_position[0];
-        this.y = new_position[1];
+        if (this.x != new_position[0] || this.y != new_position[1]) {
+            this.x = new_position[0];
+            this.y = new_position[1];
+            return true;
+        } else {
+            return false;
+        }
     }
 }

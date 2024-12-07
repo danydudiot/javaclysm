@@ -16,17 +16,19 @@ public class PlayerCharacter extends Character{
 
 
     @Override
-    public void move(char direction, Board board) {
-        super.move(direction, board);
+    public boolean move(char direction, Board board) {
+        boolean b = super.move(direction, board);
+        if (b) {
+            board.logAction("Joueur bouge vers " + switch (direction) {
+                case 'z' -> "le haut";
+                case 's' -> "le bas";
+                case 'q' -> "la gauche";
+                case 'd' -> "la droite";
+                default -> "nulle part ???? ceci est une erreur ?";
+            });
+        }
         changeOrientation(direction);
-
-        board.logAction("Joueur bouge vers " + switch (direction) {
-            case 'z' -> "le haut";
-            case 's' -> "le bas";
-            case 'q' -> "la gauche";
-            case 'd' -> "la droite";
-            default -> "nulle part ???? ceci est une erreur ?";
-        });
+        return b;
     }
 
     public void changeOrientation(char orientation){
@@ -68,5 +70,10 @@ public class PlayerCharacter extends Character{
                 break;
 		};
         return target;
+    }
+
+    @Override
+    public String toString() {
+        return ANSI_YELLOW_BACKGROUND + ANSI_BLACK + representation + ANSI_RESET;
     }
 }

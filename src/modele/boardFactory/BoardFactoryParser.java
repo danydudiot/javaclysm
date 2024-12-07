@@ -1,6 +1,6 @@
-package modele;
+package modele.boardFactory;
 
-import controleur.Controleur;
+import modele.Board;
 import modele.clock.Clock;
 import modele.entity.movable.character.PlayerCharacter;
 import modele.entity.movable.character.npc.Monkey;
@@ -21,15 +21,20 @@ import java.io.FileNotFoundException;
 import java.util.Arrays;
 import java.util.Scanner;
 
-public class BoardFactory {
+public class BoardFactoryParser extends BoardFactory {
 	File mapFile;
-	Clock clock;
-	Controleur controleur;
-	public BoardFactory(String file, Clock clock)  {
-		this.mapFile = new File(file);
+	public BoardFactoryParser(Clock clock, String file)  {
+		mapFile = new File(file);
 		this.clock = clock;
 	}
+
+	@Override
 	public Board makeBoard() throws FileNotFoundException {
+		return parseBoard();
+	}
+
+	public Board parseBoard() throws FileNotFoundException {
+
 		char theme;
 		int height;
 		int width;

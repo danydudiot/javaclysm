@@ -23,9 +23,10 @@ public class Ihm {
 		this.displayHeight = height;
 		this.displayWidth = width;
 		this.sc	= new Scanner(System.in);
+		last_frame = new String[]{"",""};
 	}
 	public Ihm() {
-		this(24, 80);
+		this(21, 80);
 	}
 
 
@@ -58,10 +59,35 @@ public class Ihm {
 		}
 	}
 
+	public char askTheme() {
+		while (true) {
+			System.out.println("Veuillez entrer le theme pour la partie :");
+			System.out.println("F : Forêt, J : Jungle");
+			char input = Character.toUpperCase(sc.next(".").charAt(0));
+			if ("FJ".indexOf(input) != -1) {
+				return input;
+			} else {
+				System.out.println(ANSI_RED + "Merci d'entrer un theme valide" + ANSI_RESET);
+			}
+		}
+	}
+
+	public int askDimension(String type) {
+		while (true) {
+			System.out.println("Veuillez entrer la "+ type + " souhaitée :");
+			int input = sc.nextInt();
+			if (input >= 3) {
+				return input;
+			} else {
+				System.out.println(ANSI_RED + "Merci d'entrer une taille >= 3" + ANSI_RESET);
+			}
+		}
+	}
+
 	public char askAction() {
 		while (true) {
 			char input = sc.next().charAt(0);
-			if ("zqsdoklmei ".indexOf(Character.toLowerCase(input)) != -1) {
+			if ("zqsdoklmeij ".indexOf(Character.toLowerCase(input)) != -1) {
 				return Character.toLowerCase(input);
 			}
 		}
@@ -76,7 +102,7 @@ public class Ihm {
 	public void displayInteractions(List<String> interactions) {
 		String ui = makeInteractionUi(interactions);
 		System.out.println(ANSI_RESET);
-		System.out.println(last_frame[0]);
+		System.out.println(last_frame[0].replace('├','└').replace('┬', '─'));
 		System.out.print(ui);
 		last_frame[1] = ui;
 	}
@@ -90,15 +116,16 @@ public class Ihm {
 	public void displayInventory(List<String> items, String equippedItem, int equippedItemId) {
 		String ui = makeInventoryUi(items, equippedItemId);
 		System.out.println(ANSI_RESET);
-		System.out.println(last_frame[0]);
+		System.out.println(last_frame[0].replace('├','└').replace('┬', '─'));
 		System.out.print(ui);
 		last_frame[1] = ui;
 	}
 	public void displayError(String error) {
-		System.out.println(ANSI_RED + error + ANSI_RESET);
+		System.out.println(last_frame[0].replace('├','└').replace('┬', '─'));
+		System.out.println(ANSI_RESET + ANSI_RED + error + ANSI_RESET);
 	}
 	public void display(List<List<String>> board, int boardHeight, int boardWidth, List<String> actionHistory, int playerX, int playerY, char playerDir, String equippedItem) {
-		String croppedBoard = cropBoard(board, boardWidth, boardHeight, displayWidth, displayHeight,playerX,playerY, true);
+		String croppedBoard = cropBoard(board, boardWidth, boardHeight, displayWidth, displayHeight-4,playerX,playerY, true);
 		String ui = makeUi(displayWidth, actionHistory, playerX, playerY, playerDir, equippedItem);
 
 		last_frame[0] = croppedBoard;
@@ -142,7 +169,13 @@ public class Ihm {
 			int start = clamp(playerX - (targetWidth / 2), 0,sourceWidth-targetWidth);
 //			output.append(lines[lineStart], start, start + targetWidth);
 			for (int c = start; c < start + targetWidth; ++c) {
+				try {
 				output.append(lines.get(lineStart).get(c));
+
+				} catch (Exception e) {
+					System.out.println(lineStart + "; " + c);
+					throw e;
+				}
 			}
 			if (border) {
 				output.append("│");
@@ -158,7 +191,7 @@ public class Ihm {
 		return 	"│ x: " + String.format("%-4S", playerX) +"y: " + String.format("%-4S", playerY) +"       │ " + actionHistoryCopy.remove() + '\n' +
 				"│ Dir : (" + asArrow(playerDir) +")            │ " + ANSI_LIGHT_BLACK + actionHistoryCopy.remove() + ANSI_RESET + '\n' +
 				"│ >> " + String.format("%-18s", equippedItem) + "│ " + ANSI_DARK_BLACK + actionHistoryCopy.remove() + ANSI_RESET + '\n' +
-				ANSI_WHITE_BACKGROUND + ANSI_BLACK + String.format(("%-"+(targetWidth-1)+"s"), " ZQSD : Move    OKLM : Look    I : Inventaire    E : Interagir");
+				ANSI_WHITE_BACKGROUND + ANSI_BLACK + String.format(("%-"+(targetWidth-1)+"s"), " ZQSD : Bouger   OKLM : Regarder   I : Inventaire   E : Interagir   J : Jeter");
 //		| x: 14  y: 36   | Player move up
 //		| Dir : (↓)      | Player look left
 //		| >> Ecureil     | Monkey is now friend w/ Player

@@ -3,7 +3,9 @@ package controleur;
 import exception.InvalidActionException;
 import exception.MoveInvalidException;
 import modele.Board;
-import modele.BoardFactory;
+import modele.boardFactory.BoardFactoryGeneratorForest;
+import modele.boardFactory.BoardFactoryGeneratorJungle;
+import modele.boardFactory.BoardFactoryParser;
 import modele.Inventory;
 import modele.clock.Clock;
 import modele.entity.Entity;
@@ -14,6 +16,7 @@ import vue.Ihm;
 
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class Controleur {
@@ -22,7 +25,6 @@ public class Controleur {
     protected PlayerCharacter playerCharacter;
 
     public void setPlayerCharacter(PlayerCharacter playerCharacter) {
-        System.out.println("HERE");
         this.playerCharacter = playerCharacter;
     }
 
@@ -39,7 +41,7 @@ public class Controleur {
 
         if (ihm.askBoard()){
             try{
-                this.board = new BoardFactory(ihm.askFile(), clock).makeBoard();
+                this.board = new BoardFactoryParser(clock, ihm.askFile()).parseBoard();
             } catch (FileNotFoundException exception) {
                 ihm.displayError("Le fichier indiqué n'a pas été trouver.");
                 startGame();
@@ -50,7 +52,20 @@ public class Controleur {
                 return;
             }
         } else {
-            this.board = new Board(clock);
+            char theme = ihm.askTheme();
+            if (theme == 'F') {
+                this.board = new BoardFactoryGeneratorForest(
+                                clock,
+                                ihm.askDimension("hauteur"),
+                                ihm.askDimension("largeur")
+                        ).generateBoard();
+            } else {
+                this.board = new BoardFactoryGeneratorJungle(
+                        clock,
+                        ihm.askDimension("hauteur"),
+                        ihm.askDimension("largeur")
+                ).generateBoard();
+            }
         }
         playerCharacter = board.getPlayer();
         game();
@@ -69,7 +84,9 @@ public class Controleur {
         char action = ihm.askAction();
         try{
             if ("zqsd".indexOf(action) != -1){
-                 playerCharacter.move(action, board);
+                 if (playerCharacter.move(action, board)) {
+                     clock.notifierObservateur(board);
+                 }
             } else if ("oklm".indexOf(action) != -1) {
                 playerCharacter.changeOrientation(action);
             } else if ("i".indexOf(action) != -1) {
@@ -78,6 +95,7 @@ public class Controleur {
                 manageInteraction();
             } else if ("j".indexOf(action) != -1) {
                 inventory.dropItem(board);
+                clock.notifierObservateur(board);
             } else {
                 throw new InvalidActionException("Action inconnue.");
             }
@@ -86,7 +104,6 @@ public class Controleur {
             tour();
             return;
         }
-        clock.notifierObservateur(board);
     }
 
 
@@ -106,9 +123,10 @@ public class Controleur {
                 return;
             } else if (numInteraction < interactions.length){
                 interactions[numInteraction].interact(inventory, board, (Entity) interactible);
+                clock.notifierObservateur(board);
             }
         } else {
-            board.logAction(Entity.ANSI_RED_BACKGROUND + "Pas d'interactions disponible." + Entity.ANSI_RESET);
+            board.logAction(Entity.ANSI_RED_BACKGROUND + Entity.ANSI_BLACK + "Pas d'interactions disponible." + Entity.ANSI_RESET);
         }
 
     }
