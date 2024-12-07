@@ -46,6 +46,17 @@ public class HungryState implements State {
         }
     }
 
+    @Override
+    public String applyColorModifier() {
+        if (npc.isFriendly()) {
+            // Dark purple
+            return "\u001b[35m" + npc.getRepresentation() + "\u001b[0m";
+        } else {
+            // Dark white
+            return "\u001b[37m" + npc.getRepresentation() + "\u001b[0m";
+        }
+    }
+
     public void updateState(){}
 
 }

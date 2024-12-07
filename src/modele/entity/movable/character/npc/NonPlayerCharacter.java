@@ -76,4 +76,9 @@ public abstract class NonPlayerCharacter extends Character implements Interactib
     public void hit() {
         friendLevel = 0;
     }
+
+    @Override
+    public String toString() {
+        return curentState.applyColorModifier();
+    }
 }

@@ -41,4 +41,15 @@ public class NotHungryState implements State {
             return possibleOutcomes.charAt((int) (Math.random() * possibleOutcomes.length()));
         }
     }
+
+    @Override
+    public String applyColorModifier() {
+        if (npc.isFriendly()) {
+            // Light purple
+            return "\u001b[95m" + npc.getRepresentation() + "\u001b[0m";
+        } else {
+            // light white
+            return "\u001b[97m" + npc.getRepresentation() + "\u001b[0m";
+        }
+    }
 }

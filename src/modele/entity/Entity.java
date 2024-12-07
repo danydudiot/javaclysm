@@ -37,6 +37,10 @@ public abstract class Entity {
         this.y = y;
     }
 
+    public String getRepresentation() {
+        return representation;
+    }
+
     @Override
     public String toString() {
         return representation;
