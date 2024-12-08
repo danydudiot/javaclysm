@@ -14,6 +14,6 @@ public class Monkey extends NonPlayerCharacter{
 
     @Override
     public boolean isFriendly () {
-        return friendLevel <= 2;
+        return friendLevel >= 2;
     }
 }
