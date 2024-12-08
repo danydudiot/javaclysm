@@ -63,7 +63,7 @@ public class Ihm {
 		while (true) {
 			System.out.println("Veuillez entrer le theme pour la partie :");
 			System.out.println("F : Forêt, J : Jungle");
-			char input = Character.toUpperCase(sc.next(".").charAt(0));
+			char input = Character.toUpperCase(sc.nextLine().charAt(0));
 			if ("FJ".indexOf(input) != -1) {
 				return input;
 			} else {
@@ -86,7 +86,7 @@ public class Ihm {
 
 	public char askAction() {
 		while (true) {
-			char input = sc.next().charAt(0);
+			char input = sc.nextLine().charAt(0);
 			if ("zqsdoklmeij ".indexOf(Character.toLowerCase(input)) != -1) {
 				return Character.toLowerCase(input);
 			}
@@ -94,7 +94,7 @@ public class Ihm {
 	}
 	public int askInteraction() {
 		while (true) {
-			char input = sc.next(".").charAt(0);
+			char input = sc.nextLine().charAt(0);
 			if (input == 'e') { return -1; }
 			else if (Character.isDigit(input)) { return Integer.parseInt(Character.toString(input))-1; }
 		}
@@ -108,7 +108,7 @@ public class Ihm {
 	}
 	public int askInventory() {
 		while (true) {
-			char input = sc.next(".").charAt(0);
+			char input = sc.nextLine().charAt(0);
 			if (input == 'i') { return -1; }
 			else if (Character.isDigit(input)) { return Integer.parseInt(Character.toString(input))-1; }
 		}
