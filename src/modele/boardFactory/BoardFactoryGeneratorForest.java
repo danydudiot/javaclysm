@@ -22,7 +22,7 @@ public class BoardFactoryGeneratorForest extends BoardFactoryGenerator{
 
 	public Board generateBoard() {
 		board = new Terrain[height][width];
-		int clusterAmount = (height*width) / 400;
+		int clusterAmount = Math.max(((height*width) / 400), 3);
 
 		int[][] clusters = new int[clusterAmount][2];
 		for (int i = 0; i < clusterAmount; ++i) {
