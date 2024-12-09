@@ -5,6 +5,7 @@ public class PalmTree extends High {
     public PalmTree(int x, int y) {
         super(x, y);
         this.representation = ANSI_CYAN + "P" + ANSI_RESET;
+        this.displayName = "Cocotier";
     }
 
     @Override

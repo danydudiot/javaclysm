@@ -4,6 +4,7 @@ public class Bush extends Low {
     public Bush(int x, int y) {
         super(x,y);
         this.representation = ANSI_GREEN + "B" + ANSI_RESET;
+        this.displayName = "Buisson";
     }
 
     @Override

@@ -11,7 +11,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public abstract class Food extends StaticEntity implements Interactible, InventoryItem {
-    protected String displayName;
     protected Interaction[] interactionList;
     public Food(int x, int y) {
         super(x, y);
@@ -23,7 +22,4 @@ public abstract class Food extends StaticEntity implements Interactible, Invento
         return interactionList;
     }
 
-    public String getDisplayName(){
-        return displayName;
-    }
 }

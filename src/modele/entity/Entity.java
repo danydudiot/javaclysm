@@ -22,6 +22,7 @@ public abstract class Entity {
     protected int x;
     protected int y;
     protected String representation;
+    protected String displayName;
 
     public Entity(int x, int y) {
         this.x = x;
@@ -44,5 +45,9 @@ public abstract class Entity {
     @Override
     public String toString() {
         return representation;
+    }
+
+    public String getDisplayName() {
+        return displayName;
     }
 }

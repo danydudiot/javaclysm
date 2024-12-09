@@ -12,21 +12,19 @@ import modele.interaction.Interaction;
 
 public abstract class NonPlayerCharacter extends Character implements Interactible, Observateur {
     public final int hungryCountBase;
-    private int hungryCount;
+    protected int hungryCount;
     protected Class<? extends Food> foodPreference;
     protected State curentState;
     protected int friendLevel;
     protected Interaction[] interactionList;
 
-
-    protected String displayName;
     public NonPlayerCharacter(int x, int y, int hungryCountBase) {
         super(x, y);
         this.curentState = new NotHungryState(this);
         this.hungryCountBase = hungryCountBase;
         this.hungryCount = hungryCountBase;
         this.interactionList = new Interaction[1];
-        interactionList[0]= new Hit();
+        this.interactionList[0]= new Hit();
     }
 
     public Interaction[] getInteractions(){

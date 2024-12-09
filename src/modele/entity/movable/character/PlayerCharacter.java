@@ -8,6 +8,7 @@ public class PlayerCharacter extends Character{
         super(x, y);
         this.representation = "@";
         this.orientation = 'z';
+        this.displayName = "Joueur";
     }
 
     public char getOrientation() {
@@ -26,8 +27,8 @@ public class PlayerCharacter extends Character{
                 case 'd' -> "la droite";
                 default -> "nulle part ???? ceci est une erreur ?";
             });
+            changeOrientation(direction);
         }
-        changeOrientation(direction);
         return b;
     }
 
@@ -68,12 +69,17 @@ public class PlayerCharacter extends Character{
                 target[0] = x;
                 target[1] = y;
                 break;
-		};
+		}
         return target;
     }
 
     @Override
     public String toString() {
         return ANSI_YELLOW_BACKGROUND + ANSI_BLACK + representation + ANSI_RESET;
+    }
+
+    @Override
+    public void hit() {
+        System.out.println("hit");
     }
 }
