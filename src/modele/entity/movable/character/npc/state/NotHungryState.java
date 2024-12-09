@@ -17,7 +17,7 @@ public class NotHungryState implements State {
     public void updateState(){
         npc.setHungryCount(npc.getHungryCount()-1);
         if (npc.getHungryCount() <= 0){
-            npc.setCurentState(new HungryState(npc));
+            npc.setCurrentState(new HungryState(npc));
         }
     }
 

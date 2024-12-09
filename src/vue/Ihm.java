@@ -1,9 +1,6 @@
 package vue;
 
-import java.util.ArrayDeque;
-import java.util.List;
-import java.util.Queue;
-import java.util.Scanner;
+import java.util.*;
 
 public class Ihm {
 	public static final String ANSI_RESET = "\u001B[0m";
@@ -33,7 +30,7 @@ public class Ihm {
 	public boolean askBoard() {
 		while (true) {
 			System.out.println("Voulez vous charger une carte au format "+ ANSI_YELLOW+".txt"+ANSI_RESET +" ? (y/n)");
-			//String answer = sc.next(".");
+//			String answer = sc.next(".");
 			String answer = sc.nextLine();
 			if (answer.equals("y") || answer.equals("Y")) {
 				return true;
@@ -63,9 +60,12 @@ public class Ihm {
 		while (true) {
 			System.out.println("Veuillez entrer le theme pour la partie :");
 			System.out.println("F : Forêt, J : Jungle");
-			char input = Character.toUpperCase(sc.nextLine().charAt(0));
-			if ("FJ".indexOf(input) != -1) {
-				return input;
+//			char input = Character.toUpperCase(sc.nextLine().charAt(0));
+			String input = sc.nextLine().toUpperCase();
+			if (input.equals("F")) {
+				return 'F';
+			} else if (input.equals("J")) {
+				return 'J';
 			} else {
 				System.out.println(ANSI_RED + "Merci d'entrer un theme valide" + ANSI_RESET);
 			}
@@ -75,28 +75,41 @@ public class Ihm {
 	public int askDimension(String type) {
 		while (true) {
 			System.out.println("Veuillez entrer la "+ type + " souhaitée :");
-			int input = sc.nextInt();
-			if (input >= 3) {
-				return input;
-			} else {
-				System.out.println(ANSI_RED + "Merci d'entrer une taille >= 3" + ANSI_RESET);
+			try {
+				if (sc.hasNextLine()) {
+					sc.nextLine();
+				}
+				int input = sc.nextInt();
+				if (input >= 3) {
+					return input;
+				} else {
+					System.out.println(ANSI_RED + "Merci d'entrer une taille >= 3" + ANSI_RESET);
+				}
+			} catch (InputMismatchException e) {
+				System.out.println(ANSI_RED + "Merci d'entrer une valeur numérique." + ANSI_RESET);
 			}
 		}
 	}
 
 	public char askAction() {
 		while (true) {
-			char input = sc.nextLine().charAt(0);
-			if ("zqsdoklmeij ".indexOf(Character.toLowerCase(input)) != -1) {
-				return Character.toLowerCase(input);
+			String scannerInput = sc.nextLine();
+			if (! scannerInput.isEmpty()) {
+				char input = scannerInput.toLowerCase().charAt(0);
+				if ("zqsdoklmeij ".indexOf(input) != -1) {
+					return input;
+				}
 			}
 		}
 	}
 	public int askInteraction() {
 		while (true) {
-			char input = sc.nextLine().charAt(0);
-			if (input == 'e') { return -1; }
-			else if (Character.isDigit(input)) { return Integer.parseInt(Character.toString(input))-1; }
+			String scannerInput = sc.nextLine();
+			if (! scannerInput.isEmpty()) {
+				char input = scannerInput.toLowerCase().charAt(0);
+				if (input == 'e') { return -1; }
+				else if (Character.isDigit(input)) { return Integer.parseInt(Character.toString(input))-1; }
+			}
 		}
 	}
 	public void displayInteractions(List<String> interactions) {
@@ -210,7 +223,7 @@ public class Ihm {
 		out.append("\n")
 				.append(ANSI_WHITE_BACKGROUND)
 				.append(ANSI_BLACK)
-				.append(String.format("%-"+(displayWidth -1)+"s","1-"+ interactions.size() +" : select interaction    E : close menu"));
+				.append(String.format("%-"+(displayWidth -1)+"s","1-"+ interactions.size() +" : Choisir l'interaction    E : Fermer le menu"));
 		return out.toString();
 	}
 
@@ -238,7 +251,7 @@ public class Ihm {
 		out.append("\n")
 				.append(ANSI_WHITE_BACKGROUND)
 				.append(ANSI_BLACK)
-				.append(String.format("%-"+(displayWidth -1)+"s","1-"+ items.size() +" : select item    I : close menu"));
+				.append(String.format("%-"+(displayWidth -1)+"s","1-"+ items.size() +" : Selectionner l'objet à equiper    I : fermer le menu"));
 		return out.toString();
 	}
 

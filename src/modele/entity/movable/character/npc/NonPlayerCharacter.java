@@ -34,6 +34,7 @@ public abstract class NonPlayerCharacter extends Character implements Interactib
     public void mettreAJour(Object object){
 
         if (object instanceof Board board){
+            // Pattern Variable (board)
             curentState.updateState();
             move(curentState.deplacement(board), board);
         }
@@ -42,8 +43,8 @@ public abstract class NonPlayerCharacter extends Character implements Interactib
         return friendLevel >= 1;
     }
 
-    public void setCurentState(State curentState) {
-        this.curentState = curentState;
+    public void setCurrentState(State currentState) {
+        this.curentState = currentState;
     }
 
     public int getHungryCount() {

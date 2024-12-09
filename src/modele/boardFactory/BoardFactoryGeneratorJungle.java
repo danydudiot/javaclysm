@@ -31,24 +31,24 @@ public class BoardFactoryGeneratorJungle extends BoardFactoryGenerator{
 
 		int[][] clusters = new int[clusterAmount][2];
 		for (int i = 0; i < clusterAmount; ++i) {
-			clusters[i][0] = (int) (Math.random() * height);
-			clusters[i][1] = (int) (Math.random() * width);
+			clusters[i][0] = (int) (Math.random() * (height-2) +1);
+			clusters[i][1] = (int) (Math.random() * (width-2) +1);
 		}
 
-		for (int x = 0; x < height; ++x) {
-			for (int y = 0; y < width; ++y) {
+		for (int y = 0; y < height; ++y) {
+			for (int x = 0; x < width; ++x) {
 				// Create a wall of tree around the map
-				if (x == 0 || y == 0 || x == height-1 || y == width-1) {
+				if (y == 0 || x == 0 || y == height-1 || x == width-1) {
 					if (Math.random() <= .95) {
-						board[x][y] = new PalmTree(y,x);
+						board[y][x] = new PalmTree(x,y);
 					} else {
-						board[x][y] = new Rock(y,x);
+						board[y][x] = new Rock(x,y);
 					}
 				} else {
 					int closestCluster = 0;
-					int closestDistance = distance(x,y,clusters[0][0],clusters[0][1]);
+					int closestDistance = distance(y,x,clusters[0][0],clusters[0][1]);
 					for (int i = 1; i < clusterAmount; ++i) {
-						int distance = distance(x,y,clusters[i][0],clusters[i][1]);
+						int distance = distance(y,x,clusters[i][0],clusters[i][1]);
 						if (distance < closestDistance) {
 							closestDistance = distance;
 							closestCluster = i;
@@ -60,31 +60,31 @@ public class BoardFactoryGeneratorJungle extends BoardFactoryGenerator{
 						if (closestCluster %2 == 0) {
 							if (closestCluster == 0) {
 								// Spawn Cluster
-								board[x][y] = new Empty(y,x);
+								board[y][x] = new Empty(x,y);
 							} else {
 								// Food Cluster
-								board[x][y] = new Empty(y, x);
+								board[y][x] = new Empty(x, y);
 								if (Math.random() <= .65) {
-									board[x][y].setEntityOnCase(new Mushroom(y, x));
+									board[y][x].setEntityOnCase(new Mushroom(x, y));
 								} else {
-									board[x][y].setEntityOnCase(new Banana(y, x));
+									board[y][x].setEntityOnCase(new Banana(x, y));
 								}
 							}
 						} else {
 							// Tree Cluster
 							if (Math.random() <= .65) {
-								board[x][y] = new PalmTree(y,x);
+								board[y][x] = new PalmTree(x,y);
 							} else {
-								board[x][y] = new Rock(y,x);
+								board[y][x] = new Rock(x,y);
 							}
 						}
 					} else {
 						// Generating an empty space
-						board[x][y] = new Empty(y,x);
+						board[y][x] = new Empty(x,y);
 						if (Math.random() <= .03) {
-							Monkey npc = new Monkey(y,x);
+							Monkey npc = new Monkey(x,y);
 							clock.attacher(npc);
-							board[x][y].setEntityOnCase(npc);
+							board[y][x].setEntityOnCase(npc);
 
 						}
 					}
