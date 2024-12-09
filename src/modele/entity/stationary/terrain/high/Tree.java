@@ -5,6 +5,7 @@ public class Tree extends High {
     public Tree(int x, int y) {
         super(x, y);
         this.representation = ANSI_GREEN + "A" + ANSI_RESET;
+        this.displayName = "Arbre";
     }
 
     @Override
