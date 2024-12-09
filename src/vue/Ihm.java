@@ -75,17 +75,15 @@ public class Ihm {
 	public int askDimension(String type) {
 		while (true) {
 			System.out.println("Veuillez entrer la "+ type + " souhaitée :");
+			String scInput = sc.nextLine();
 			try {
-				if (sc.hasNextLine()) {
-					sc.nextLine();
-				}
-				int input = sc.nextInt();
-				if (input >= 3) {
+				int input = Integer.parseInt(scInput);
+				if (input >= 10) {
 					return input;
 				} else {
-					System.out.println(ANSI_RED + "Merci d'entrer une taille >= 3" + ANSI_RESET);
+					System.out.println(ANSI_RED + "Merci d'entrer une taille >= 10" + ANSI_RESET);
 				}
-			} catch (InputMismatchException e) {
+			} catch (NumberFormatException e) {
 				System.out.println(ANSI_RED + "Merci d'entrer une valeur numérique." + ANSI_RESET);
 			}
 		}
@@ -170,7 +168,9 @@ public class Ihm {
 		}
 
 		int offsetY = clamp(playerY - (targetHeight / 2), 0, sourceHeight-targetHeight);
-
+		if (offsetY < 0) {
+			offsetY /= 2;
+		}
 		for (int i = 0; i < targetHeight; ++i) {
 			if (! output.isEmpty()) {
 				output.append('\n');
@@ -181,14 +181,20 @@ public class Ihm {
 			int lineStart = offsetY + i;
 			int start = clamp(playerX - (targetWidth / 2), 0,sourceWidth-targetWidth);
 //			output.append(lines[lineStart], start, start + targetWidth);
-			for (int c = start; c < start + targetWidth; ++c) {
-				try {
-				output.append(lines.get(lineStart).get(c));
-
-				} catch (Exception e) {
-					System.out.println(lineStart + "; " + c);
-					throw e;
+			if (lineStart < 0 || lineStart >= lines.size()) {
+				output.append(ANSI_LIGHT_BLACK).append("#".repeat(targetWidth)).append(ANSI_RESET);
+			} else {
+				if (start < 0) {
+					start /= 2;
 				}
+				for (int c = start; c < start + targetWidth; ++c) {
+					try {
+						output.append(lines.get(lineStart).get(c));
+					} catch (IndexOutOfBoundsException e) {
+						output.append(ANSI_LIGHT_BLACK + "#" + ANSI_RESET);
+					}
+				}
+
 			}
 			if (border) {
 				output.append("│");
