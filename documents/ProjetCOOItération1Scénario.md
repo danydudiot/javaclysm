@@ -101,11 +101,11 @@ P --> R -. "Include" .-> I
 
 - 2 : L'objet n'a pas d'interaction possible.
     - 1 : Affichage d'un message d'erreur.
-    - 2 : Retour à la fin du scénario nominal.
+    - 2 : Retour à la fin du scénario nominal (sans passer de tour).
 
 - 3 : Le joueur presse à nouveau la touche d'interaction.
     - 1 : Le système ferme le menu.
-    - 2 : Retour à la fin du scénario nominal.
+    - 2 : Retour à la fin du scénario nominal (sans passer de tour).
 
 
 ## Attaquer 
@@ -113,14 +113,13 @@ P --> R -. "Include" .-> I
 ### Scénario nominal
 
 1. UC Interagir.
-2. L'entité attaquée est repoussée.
-3. L'entité enregistre qu'elle a été frappée.
+2. L'entité enregistre qu'elle a été frappée.
+3. L'entité réinitialise son status d'amitié
 4. Le système passe un tour.
 
 ### Extensions
 
-- 2 : L'Entité ne peut pas être repoussée (case inaccessible).
-    - 1 : Retour au point 3 du scénario nominal.
+Aucune
 
 
 ## Ramasser un objet
@@ -128,29 +127,15 @@ P --> R -. "Include" .-> I
 ### Scénario nominal
 
 1. UC Interagir
-2. Le système affiche la liste des objets à ramasser.
-3. L'Utilisateur choisi un objet.
-4. L'Utilisateur confirme le ramassage de l'objet.
-5. Le système ajoute l'objet à l'inventaire du personnage et le retire de la liste.
-6. Retour au point 2 du scénario nominal.
-7. Le système masque la liste.
-8. Le système passe un tour.
+2. Le système ajoute l'objet à l'inventaire du personnage et le retire de la liste.
+3. Le système passe un tour.
 
 ### Extensions 
 
-- 2 : La liste est vide.
-    - 1 : Le système affiche un message d'erreur.
-    - 2 : Retour au point 8 du scénario nominal.
-
 - 5 : L'Utilisateur a déjà 9 objets dans son inventaire.
     - 1 : Le système affiche un message d'erreur.
-    - 2 : Retour au point 6 du scénario nominal.
+    - 2 : Retour à la fin du scénario nominal (sans passer de tour).
 
-- 2-5 : L'utilisateur appuie sur I.
-    - 1 : Retour au point 8 du scénario nominal.
-
-- 8 : L'Utilisateur n'a pas ramassé d'objet.
-    - 1 : Fin du scénario nominal (sans passer de tour).
 
 ## Ouvrir l'Inventaire
 
