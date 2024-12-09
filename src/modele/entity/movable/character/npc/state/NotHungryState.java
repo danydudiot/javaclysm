@@ -1,11 +1,9 @@
 package modele.entity.movable.character.npc.state;
 
 import modele.Board;
-import modele.entity.Entity;
 import modele.entity.movable.character.npc.NonPlayerCharacter;
 import modele.entity.stationary.terrain.Terrain;
 
-import java.util.List;
 import java.util.Map;
 
 public class NotHungryState implements State {
@@ -19,7 +17,7 @@ public class NotHungryState implements State {
     public void updateState(){
         npc.setHungryCount(npc.getHungryCount()-1);
         if (npc.getHungryCount() <= 0){
-            npc.setCurentState(new HungryState(npc));
+            npc.setCurrentState(new HungryState(npc));
         }
     }
 

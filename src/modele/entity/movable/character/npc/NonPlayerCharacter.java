@@ -3,11 +3,9 @@ package modele.entity.movable.character.npc;
 import modele.Board;
 import modele.clock.Observateur;
 import modele.entity.movable.character.Character;
-import modele.entity.movable.character.npc.state.HungryState;
 import modele.entity.movable.character.npc.state.NotHungryState;
 import modele.entity.movable.character.npc.state.State;
 import modele.entity.stationary.food.Food;
-import modele.interaction.Grab;
 import modele.interaction.Hit;
 import modele.interaction.Interactible;
 import modele.interaction.Interaction;
@@ -37,8 +35,8 @@ public abstract class NonPlayerCharacter extends Character implements Interactib
 
     public void mettreAJour(Object object){
 
-        if (object instanceof Board){
-            Board board = (Board) object;
+        if (object instanceof Board board){
+            // Pattern Variable (board)
             curentState.updateState();
             move(curentState.deplacement(board), board);
         }
@@ -47,15 +45,8 @@ public abstract class NonPlayerCharacter extends Character implements Interactib
         return friendLevel >= 1;
     }
 
-    public void setCurentState(State curentState) {
-        if (curentState instanceof NotHungryState){
-            System.out.println("changement d'état pas faim");
-        } else if (curentState instanceof HungryState){
-            System.out.println("changement d'état faim");
-        } else {
-            System.out.println("INCONNUE " + curentState);
-        }
-        this.curentState = curentState;
+    public void setCurrentState(State currentState) {
+        this.curentState = currentState;
     }
 
     public int getHungryCount() {
