@@ -60,16 +60,16 @@ public class Inventory {
             int x = board.getPlayer().getPosition()[0];
             int y = board.getPlayer().getPosition()[1];
             Terrain target = board.getToward(x,y,board.getPlayer().getOrientation());
-            if ((target instanceof Empty) && (target.getEntityOnCase() == null)) {
+            if (target != null && (target instanceof Empty) && (target.getEntityOnCase() == null)) {
                 board.fillCase(x,y,board.getPlayer().getOrientation(), ((Entity) getEquippedItem()));
                 board.logAction(getEquippedItemString() + " jeté.");
                 items.remove(equippedItemId);
                 this.equippedItemId = -1;
             } else {
-                board.logAction("Impossible de jeter cela ici.");
+                board.logAction(Entity.ANSI_RED + "Impossible de jeter cela ici." + Entity.ANSI_RESET);
             }
         } else {
-            board.logAction("Aucun objet équipé.");
+            board.logAction(Entity.ANSI_RED + "Aucun objet équipé." + Entity.ANSI_RESET);
         }
 
     }

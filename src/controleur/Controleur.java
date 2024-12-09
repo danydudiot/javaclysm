@@ -10,6 +10,7 @@ import modele.Inventory;
 import modele.clock.Clock;
 import modele.entity.Entity;
 import modele.entity.movable.character.PlayerCharacter;
+import modele.entity.stationary.terrain.Terrain;
 import modele.interaction.Interactible;
 import modele.interaction.Interaction;
 import vue.Ihm;
@@ -108,26 +109,30 @@ public class Controleur {
 
     private void manageInteraction(){
         int[] position = playerCharacter.getTarget();
-        Entity entity = board.getAt(position[0],position[1]).getEntityOnCase();
-        if (entity instanceof Interactible interactible){
-            // Transtypage par pattern variable.
-            Interaction[] interactions = interactible.getInteractions();
-            List<String> interactions_string = new ArrayList<>();
-			for (Interaction interaction : interactions) {
-                interactions_string.add(interaction.getDisplayName());
-			}
-            ihm.displayInteractions(interactions_string);
-            int numInteraction = ihm.askInteraction();
-            if (numInteraction == -1) {
-                return;
-            } else if (numInteraction < interactions.length){
-                interactions[numInteraction].interact(inventory, board, (Entity) interactible);
-                clock.notifierObservateur(board);
+        Terrain terrain = board.getAt(position[0],position[1]);
+        if (terrain != null) {
+            Entity entity = terrain.getEntityOnCase();
+            if (entity instanceof Interactible interactible){
+                // Transtypage par pattern variable.
+                Interaction[] interactions = interactible.getInteractions();
+                List<String> interactions_string = new ArrayList<>();
+                for (Interaction interaction : interactions) {
+                    interactions_string.add(interaction.getDisplayName());
+                }
+                ihm.displayInteractions(interactions_string);
+                int numInteraction = ihm.askInteraction();
+                if (numInteraction == -1) {
+                    return;
+                } else if (numInteraction < interactions.length){
+                    interactions[numInteraction].interact(inventory, board, (Entity) interactible);
+                    clock.notifierObservateur(board);
+                }
+            } else {
+                board.logAction(Entity.ANSI_RED + "Pas d'interactions disponibles." + Entity.ANSI_RESET);
             }
         } else {
-            board.logAction(Entity.ANSI_RED_BACKGROUND + Entity.ANSI_BLACK + "Pas d'interactions disponible." + Entity.ANSI_RESET);
+            board.logAction(Entity.ANSI_RED + "Pas d'interactions disponibles." + Entity.ANSI_RESET);
         }
-
     }
 
     private void manageInventory(){

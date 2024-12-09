@@ -55,11 +55,15 @@ public class BoardFactoryParser extends BoardFactory {
 				if (x >= line.length()) {
 					board[y][x] = new Empty(x, y);
 				} else if (line.charAt(x) == '@') {
-					Terrain e = new Empty(x, y);
-					player = new PlayerCharacter(x, y);
-					System.out.println(Arrays.toString(player.getPosition()));
-					e.setEntityOnCase(player);
-					board[y][x] = e;
+					if (player == null) {
+						Terrain e = new Empty(x, y);
+						player = new PlayerCharacter(x, y);
+//						System.out.println(Arrays.toString(player.getPosition()));
+						e.setEntityOnCase(player);
+						board[y][x] = e;
+					} else {
+						throw new IllegalArgumentException("Le fichier est invalide. (2 joueurs)");
+					}
 				} else if (line.charAt(x) == 'E') {
 					Terrain e = new Empty(x, y);
 					NonPlayerCharacter npc = new Squirrel(x, y);
@@ -95,7 +99,7 @@ public class BoardFactoryParser extends BoardFactory {
 				} else if (line.charAt(x) == ' ') {
 					board[y][x] = new Empty(x, y);
 				} else {
-					throw new IllegalArgumentException("Le fichier est invalide.");
+					throw new IllegalArgumentException("Le fichier est invalide. (Caractère inconnu)");
 				}
 			}
 			y++;

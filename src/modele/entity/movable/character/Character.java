@@ -9,4 +9,5 @@ public abstract class Character extends MovableEntity {
     }
 
     public abstract void hit();
+
 }
