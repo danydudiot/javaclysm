@@ -23,11 +23,6 @@ public class Controleur {
     protected Ihm ihm;
     protected Board board;
     protected PlayerCharacter playerCharacter;
-
-    public void setPlayerCharacter(PlayerCharacter playerCharacter) {
-        this.playerCharacter = playerCharacter;
-    }
-
     protected Clock clock;
     protected Inventory inventory;
 
