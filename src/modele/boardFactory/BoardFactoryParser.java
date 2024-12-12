@@ -23,8 +23,8 @@ import java.util.Scanner;
 
 public class BoardFactoryParser extends BoardFactory {
 	File mapFile;
-	public BoardFactoryParser(Clock clock, String file)  {
-		mapFile = new File(file);
+	public BoardFactoryParser(Clock clock)  {
+		mapFile = new File("carte.txt");
 		this.clock = clock;
 	}
 

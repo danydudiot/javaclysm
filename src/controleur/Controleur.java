@@ -36,7 +36,7 @@ public class Controleur {
 
         if (ihm.askBoard()){
             try{
-                this.board = new BoardFactoryParser(clock, ihm.askFile()).parseBoard();
+                this.board = new BoardFactoryParser(clock).parseBoard();
             } catch (FileNotFoundException exception) {
                 ihm.displayError("Le fichier indiqué n'a pas été trouver.");
                 startGame();
