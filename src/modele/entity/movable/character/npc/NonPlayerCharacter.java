@@ -31,30 +31,34 @@ public abstract class NonPlayerCharacter extends Character implements Interactib
         return interactionList;
     }
 
-    public void mettreAJour(Object object){
-
-        if (object instanceof Board board){
-            // Pattern Variable (board)
-            curentState.updateState();
-            move(curentState.deplacement(board), board);
-        }
+    public void mettreAJour(){
+        curentState.updateState();
+        move(curentState.deplacement());
     }
+
     public boolean isFriendly () {
         return friendLevel >= 1;
+    }
+    public int getFriendLevel() {
+        return friendLevel;
+    }
+    public void setFriendLevel(int value) {
+        friendLevel = value;
     }
 
     public void setCurrentState(State currentState) {
         this.curentState = currentState;
     }
+    public State getCurrentState() {
+        return curentState;
+    }
 
     public int getHungryCount() {
         return hungryCount;
     }
-
     public void setHungryCount(int hungryCount) {
         this.hungryCount = hungryCount;
     }
-
     public Class<? extends Food> getFoodPreference() {
         return foodPreference;
     }

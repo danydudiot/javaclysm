@@ -1,5 +1,5 @@
 package modele.clock;
 
 public interface Observateur {
-    public void mettreAJour(Object object);
+    public void mettreAJour();
 }

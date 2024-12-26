@@ -77,8 +77,8 @@ public class Controleur {
         char action = ihm.askAction();
         try{
             if ("zqsd".indexOf(action) != -1){
-                 if (playerCharacter.move(action, board)) {
-                     clock.notifierObservateur(board);
+                 if (playerCharacter.move(action)) {
+                     clock.notifierObservateur();
                  }
             } else if ("oklm".indexOf(action) != -1) {
                 playerCharacter.changeOrientation(action);
@@ -87,8 +87,8 @@ public class Controleur {
             } else if ("e".indexOf(action) != -1) {
                 manageInteraction();
             } else if ("j".indexOf(action) != -1) {
-                inventory.dropItem(board);
-                clock.notifierObservateur(board);
+                inventory.dropItem();
+                clock.notifierObservateur();
             } else {
                 throw new InvalidActionException("Action inconnue.");
             }
@@ -118,8 +118,8 @@ public class Controleur {
                 if (numInteraction == -1) {
                     return;
                 } else if (numInteraction < interactions.length){
-                    interactions[numInteraction].interact(inventory, board, (Entity) interactible);
-                    clock.notifierObservateur(board);
+                    interactions[numInteraction].interact(inventory, (Entity) interactible);
+                    clock.notifierObservateur();
                 }
             } else {
                 board.logAction(Colors.ANSI_RED + "Pas d'interactions disponibles." + Colors.ANSI_RESET);

@@ -22,9 +22,9 @@ public class NotHungryState implements State {
     }
 
     @Override
-    public char deplacement(Board board) {
+    public char deplacement() {
         int[] position = npc.getPosition();
-        Map<Character, Terrain> neighbours = board.getNeighbours(position[0], position[1]);
+        Map<Character, Terrain> neighbours = Board.getInstance().getNeighbours(position[0], position[1]);
         String possibleOutcomes = "";
         for (char a : neighbours.keySet()) {
             if (neighbours.get(a).getEntityOnCase() == null) {

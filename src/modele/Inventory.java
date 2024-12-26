@@ -11,7 +11,6 @@ public class Inventory {
     private List<InventoryItem> items;
 
     private final int MAX_INVENTORY_SIZE = 9;
-//    private InventoryItem equippedItem;
     private int equippedItemId;
     public Inventory() {
         this.items = new ArrayList<>();
@@ -54,9 +53,9 @@ public class Inventory {
         }
     }
 
-
-    public void dropItem(Board board){
+    public void dropItem(){
         if (equippedItemId != -1) {
+            Board board = Board.getInstance();
             int x = board.getPlayer().getPosition()[0];
             int y = board.getPlayer().getPosition()[1];
             Terrain target = board.getToward(x,y,board.getPlayer().getOrientation());
@@ -69,9 +68,17 @@ public class Inventory {
                 board.logAction(Colors.ANSI_RED + "Impossible de jeter cela ici." + Colors.ANSI_RESET);
             }
         } else {
-            board.logAction(Colors.ANSI_RED + "Aucun objet équipé." + Colors.ANSI_RESET);
+            Board.getInstance().logAction(Colors.ANSI_RED + "Aucun objet équipé." + Colors.ANSI_RESET);
         }
+    }
 
+    public void dropSpecificItem(Entity what) {
+        int id = items.indexOf(what);
+        Board board = Board.getInstance();
+        int x = board.getPlayer().getPosition()[0];
+        int y = board.getPlayer().getPosition()[1];
+        board.fillCase(x,y,board.getPlayer().getOrientation(), (Entity) items.get(id));
+        items.remove(id);
     }
 
 

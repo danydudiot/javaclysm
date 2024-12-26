@@ -18,10 +18,10 @@ public class PlayerCharacter extends Character{
 
 
     @Override
-    public boolean move(char direction, Board board) {
-        boolean b = super.move(direction, board);
+    public boolean move(char direction) {
+        boolean b = super.move(direction);
         if (b) {
-            board.logAction("Joueur bouge vers " + switch (direction) {
+            Board.getInstance().logAction("Joueur bouge vers " + switch (direction) {
                 case 'z' -> "le haut";
                 case 's' -> "le bas";
                 case 'q' -> "la gauche";

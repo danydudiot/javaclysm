@@ -8,8 +8,9 @@ import modele.entity.Entity;
 public class Grab implements Interaction {
     private final String displayName = "Prendre";
 
-    public void interact(Inventory inventory, Board board, Entity entity){
+    public void interact(Inventory inventory,Entity entity){
         if (entity instanceof InventoryItem){
+            Board board = Board.getInstance();
             try {
                 inventory.add((InventoryItem) entity);
                 board.clearCase(entity.getPosition()[0], entity.getPosition()[1]);

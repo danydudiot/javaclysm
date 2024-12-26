@@ -5,7 +5,7 @@ import modele.Inventory;
 import modele.entity.Entity;
 
 public interface Interaction {
-    public void interact(Inventory inventory, Board board, Entity entity);
+    public void interact(Inventory inventory, Entity entity);
     public String getDisplayName();
 
 }

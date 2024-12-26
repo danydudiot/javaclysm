@@ -4,6 +4,6 @@ import modele.Board;
 
 public interface State {
     public void updateState();
-    public char deplacement(Board board);
+    public char deplacement();
     public String applyColorModifier();
 }
