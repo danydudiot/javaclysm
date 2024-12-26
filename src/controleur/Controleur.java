@@ -9,9 +9,16 @@ import modele.boardFactory.BoardFactoryGeneratorJungle;
 import modele.boardFactory.BoardFactoryParser;
 import modele.Inventory;
 import modele.clock.Clock;
+import modele.clock.commands.DropCommand;
+import modele.clock.commands.InteractionGrabCommand;
+import modele.clock.commands.InteractionHitCommand;
+import modele.clock.commands.MovePlayerCommand;
 import modele.entity.Entity;
 import modele.entity.movable.character.PlayerCharacter;
+import modele.entity.movable.character.npc.NonPlayerCharacter;
 import modele.entity.stationary.terrain.Terrain;
+import modele.interaction.Grab;
+import modele.interaction.Hit;
 import modele.interaction.Interactible;
 import modele.interaction.Interaction;
 import vue.Ihm;
@@ -73,13 +80,14 @@ public class Controleur {
     private void tour(){
         Clock clock = Clock.getInstance();
         Board board = Board.getInstance();
-        ihm.display(board.getBoardAsList(), board.getHeight(), board.getWidth(), board.peekAtLogs(3), playerCharacter.getPosition()[0], playerCharacter.getPosition()[1], playerCharacter.getOrientation(), inventory.getEquippedItemString());
+        ihm.display(board.getBoardAsList(), board.getHeight(), board.getWidth(), board.peekAtLogs(3), playerCharacter.getPosition()[0], playerCharacter.getPosition()[1], playerCharacter.getOrientation(), inventory.getEquippedItemString(), clock.getNbTour());
         char action = ihm.askAction();
-        try{
-            if ("zqsd".indexOf(action) != -1){
-                 if (playerCharacter.move(action)) {
-                     clock.notifierObservateur();
-                 }
+        try {
+            if ("zqsd".indexOf(action) != -1) {
+                if (playerCharacter.canMove(action)) {
+                    clock.addCommandToTurn(new MovePlayerCommand(playerCharacter, action));
+                    clock.notifierObservateur();
+                }
             } else if ("oklm".indexOf(action) != -1) {
                 playerCharacter.changeOrientation(action);
             } else if ("i".indexOf(action) != -1) {
@@ -87,8 +95,10 @@ public class Controleur {
             } else if ("e".indexOf(action) != -1) {
                 manageInteraction();
             } else if ("j".indexOf(action) != -1) {
-                inventory.dropItem();
+                clock.addCommandToTurn(new DropCommand(inventory, (Entity) inventory.getEquippedItem()));
                 clock.notifierObservateur();
+            } else if ("r".indexOf(action) != -1) {
+                clock.undoLastTurn();
             } else {
                 throw new InvalidActionException("Action inconnue.");
             }
@@ -118,7 +128,11 @@ public class Controleur {
                 if (numInteraction == -1) {
                     return;
                 } else if (numInteraction < interactions.length){
-                    interactions[numInteraction].interact(inventory, (Entity) interactible);
+                    if (interactions[numInteraction] instanceof Grab) {
+                        clock.addCommandToTurn(new InteractionGrabCommand(playerCharacter, (Entity) interactible, inventory,(Grab) interactions[numInteraction]));
+                    } else if (interactions[numInteraction] instanceof Hit) {
+                        clock.addCommandToTurn(new InteractionHitCommand(playerCharacter, (NonPlayerCharacter) entity, (Hit) interactions[numInteraction]));
+                    }
                     clock.notifierObservateur();
                 }
             } else {

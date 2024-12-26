@@ -1,5 +1,7 @@
 package modele.clock;
 
+import modele.Board;
+import modele.Colors;
 import modele.clock.commands.Command;
 
 import java.util.ArrayList;
@@ -31,6 +33,10 @@ public final class Clock implements Observable{
         this.currentTurn = new ArrayList<>();
     }
 
+    public int getNbTour() {
+        return nbTour;
+    }
+
     @Override
     public void attacher(Observateur observateur) {
         observateurs.add(observateur);
@@ -47,12 +53,18 @@ public final class Clock implements Observable{
         for (Observateur observateur : observateurs){
             observateur.mettreAJour();
         }
+        historizeTurn();
     }
 
-    public void undoTurn() {
-        List <Command> turn = allTurns.remove(allTurns.size() - 1);
-        for (Command cmd : turn) {
-            cmd.undoCommand();
+    public void undoLastTurn() {
+        if (nbTour > 0) {
+            List <Command> turn = allTurns.remove(allTurns.size() - 1);
+            while (! turn.isEmpty()) {
+                turn.remove(turn.size()-1).undoCommand();
+            }
+            nbTour--;
+        } else {
+            Board.getInstance().logAction(Colors.ANSI_BLUE_BACKGROUND + "Je ne peut pas annuler le Big Bang chef..." + Colors.ANSI_RESET);
         }
     }
 

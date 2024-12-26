@@ -54,9 +54,6 @@ public class Board {
     public static void buildBoard(char theme, int height, int width, Terrain[][] board, PlayerCharacter player) {
         INSTANCE = new Board(theme,height, width, board, player);
     }
-
-
-
     public Terrain[][] getBoard() {
         return board;
     }
@@ -74,8 +71,7 @@ public class Board {
     }
 
     public Terrain getAt(int x, int y) {
-        if (x < 0 || x > width-1 || y < 0 || y > height-1
-        ) {
+        if (x < 0 || x > width-1 || y < 0 || y > height-1 ) {
             return null;
         }
         return board[y][x];
@@ -243,10 +239,10 @@ public class Board {
 
     public List<Entity> getNear(int x, int y, int nbCases) {
         List<Entity> listNear = new ArrayList<>();
-        for (int i = max(x-nbCases, 0); i < max(x+nbCases, width); i++) {
-            for (int j = max(y-nbCases, 0); j < max(y+nbCases, height); j++) {
-                if ((abs(x - i) + abs(y - j)) <= nbCases) {
-                    listNear.add(Terrain[j][i]);
+        for (int i = Math.max(x-nbCases, 0); i < Math.max(x+nbCases, width); i++) {
+            for (int j = Math.max(y-nbCases, 0); j < Math.max(y+nbCases, height); j++) {
+                if ((Math.abs(x - i) + Math.abs(y - j)) <= nbCases) {
+                    listNear.add(board[j][i]);
                 }
             }
         }

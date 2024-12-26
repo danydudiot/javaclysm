@@ -3,6 +3,8 @@ package modele.entity.movable;
 import modele.Board;
 import modele.entity.Entity;
 
+import java.math.BigInteger;
+
 public abstract class MovableEntity extends Entity {
 
     public MovableEntity(int x, int y) {

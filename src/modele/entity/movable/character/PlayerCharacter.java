@@ -2,6 +2,8 @@ package modele.entity.movable.character;
 
 import modele.Board;
 import modele.Colors;
+import modele.entity.stationary.terrain.Empty;
+import modele.entity.stationary.terrain.Terrain;
 
 public class PlayerCharacter extends Character{
     protected char orientation;
@@ -31,6 +33,16 @@ public class PlayerCharacter extends Character{
             changeOrientation(direction);
         }
         return b;
+    }
+
+    public boolean canMove(char direction) {
+        Terrain target = Board.getInstance().getToward(x,y,direction);
+        if (target != null && target.isEmpty() && (target instanceof Empty)) {
+            return true;
+        } else {
+            Board.getInstance().logAction(Colors.ANSI_RED + "Déplacement impossible" + Colors.ANSI_RESET);
+            return false;
+        }
     }
 
     public void changeOrientation(char orientation){

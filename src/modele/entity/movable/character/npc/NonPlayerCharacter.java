@@ -1,7 +1,9 @@
 package modele.entity.movable.character.npc;
 
 import modele.Board;
+import modele.clock.Clock;
 import modele.clock.Observateur;
+import modele.clock.commands.MoveNPCCommand;
 import modele.entity.movable.character.Character;
 import modele.entity.movable.character.npc.state.NotHungryState;
 import modele.entity.movable.character.npc.state.State;
@@ -14,13 +16,13 @@ public abstract class NonPlayerCharacter extends Character implements Interactib
     public final int hungryCountBase;
     protected int hungryCount;
     protected Class<? extends Food> foodPreference;
-    protected State curentState;
+    protected State currentState;
     protected int friendLevel;
     protected Interaction[] interactionList;
 
     public NonPlayerCharacter(int x, int y, int hungryCountBase) {
         super(x, y);
-        this.curentState = new NotHungryState(this);
+        this.currentState = new NotHungryState(this);
         this.hungryCountBase = hungryCountBase;
         this.hungryCount = hungryCountBase;
         this.interactionList = new Interaction[1];
@@ -32,8 +34,8 @@ public abstract class NonPlayerCharacter extends Character implements Interactib
     }
 
     public void mettreAJour(){
-        curentState.updateState();
-        move(curentState.deplacement());
+        Clock.getInstance().addCommandToTurn(new MoveNPCCommand(this, currentState.deplacement()));
+        currentState.updateState();
     }
 
     public boolean isFriendly () {
@@ -47,10 +49,10 @@ public abstract class NonPlayerCharacter extends Character implements Interactib
     }
 
     public void setCurrentState(State currentState) {
-        this.curentState = currentState;
+        this.currentState = currentState;
     }
     public State getCurrentState() {
-        return curentState;
+        return currentState;
     }
 
     public int getHungryCount() {
@@ -73,7 +75,7 @@ public abstract class NonPlayerCharacter extends Character implements Interactib
             }
         }
         hungryCount = hungryCountBase;
-        curentState.updateState();
+        currentState.updateState();
     }
 
     @Override
@@ -83,6 +85,6 @@ public abstract class NonPlayerCharacter extends Character implements Interactib
 
     @Override
     public String toString() {
-        return curentState.applyColorModifier();
+        return currentState.applyColorModifier();
     }
 }

@@ -89,7 +89,7 @@ public class Ihm {
 			String scannerInput = sc.nextLine();
 			if (! scannerInput.isEmpty()) {
 				char input = scannerInput.toLowerCase().charAt(0);
-				if ("zqsdoklmeij ".indexOf(input) != -1) {
+				if ("zqsdoklmeijr ".indexOf(input) != -1) {
 					return input;
 				}
 			}
@@ -130,9 +130,9 @@ public class Ihm {
 		System.out.println(last_frame[0].replace('├','└').replace('┬', '─'));
 		System.out.println(Colors.ANSI_RESET + Colors.ANSI_RED + error + Colors.ANSI_RESET);
 	}
-	public void display(List<List<String>> board, int boardHeight, int boardWidth, List<String> actionHistory, int playerX, int playerY, char playerDir, String equippedItem) {
+	public void display(List<List<String>> board, int boardHeight, int boardWidth, List<String> actionHistory, int playerX, int playerY, char playerDir, String equippedItem, int turnNumber) {
 		String croppedBoard = cropBoard(board, boardWidth, boardHeight, displayWidth, displayHeight-4,playerX,playerY, true);
-		String ui = makeUi(displayWidth, actionHistory, playerX, playerY, playerDir, equippedItem);
+		String ui = makeUi(displayWidth, actionHistory, playerX, playerY, playerDir, equippedItem, turnNumber);
 
 		last_frame[0] = croppedBoard;
 		last_frame[1] = ui;
@@ -200,10 +200,10 @@ public class Ihm {
 		}
 		return output.toString();
 	}
-	private String makeUi(int targetWidth, List<String> actionHistory, int playerX, int playerY, char playerDir, String equippedItem) {
+	private String makeUi(int targetWidth, List<String> actionHistory, int playerX, int playerY, char playerDir, String equippedItem, int turnNumber) {
 		Queue<String> actionHistoryCopy = new ArrayDeque<>(actionHistory);
-		return 	"│ x: " + String.format("%-4S", playerX) +"y: " + String.format("%-4S", playerY) +"       │ " + actionHistoryCopy.remove() + '\n' +
-				"│ Dir : (" + asArrow(playerDir) +")            │ " + Colors.ANSI_LIGHT_BLACK + actionHistoryCopy.remove() + Colors.ANSI_RESET + '\n' +
+		return 	"│ tour n°"+ String.format("%-3S", turnNumber) +"           │ " + actionHistoryCopy.remove() + '\n' +
+				"│ [" + String.format("%03d", playerX) + ","+ String.format("%03d", playerY) +"]        (" + asArrow(playerDir) +") │ " + Colors.ANSI_LIGHT_BLACK + actionHistoryCopy.remove() + Colors.ANSI_RESET + '\n' +
 				"│ >> " + String.format("%-18s", equippedItem) + "│ " + Colors.ANSI_DARK_BLACK + actionHistoryCopy.remove() + Colors.ANSI_RESET + '\n' +
 				Colors.ANSI_WHITE_BACKGROUND + Colors.ANSI_BLACK + String.format(("%-"+(targetWidth-1)+"s"), " ZQSD : Bouger   OKLM : Regarder   I : Inventaire   E : Interagir   J : Jeter");
 //		| x: 14  y: 36   | Player move up

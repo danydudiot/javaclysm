@@ -79,10 +79,10 @@ public class Inventory {
         int y = board.getPlayer().getPosition()[1];
         board.fillCase(x,y,board.getPlayer().getOrientation(), (Entity) items.get(id));
         items.remove(id);
+        if (equippedItemId == id) {
+            equippedItemId = -1;
+        }
     }
-
-
-
 
     public List<String> getItemsStrings() {
         List<String> out = new ArrayList<>();

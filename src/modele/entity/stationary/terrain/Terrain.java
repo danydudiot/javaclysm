@@ -22,6 +22,10 @@ public abstract class  Terrain extends StaticEntity {
         return entityOnCase;
     }
 
+    public boolean isEmpty() {
+        return entityOnCase == null;
+    }
+
 
 
     @Override
