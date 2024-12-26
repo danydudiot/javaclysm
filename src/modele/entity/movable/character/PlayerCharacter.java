@@ -1,6 +1,7 @@
 package modele.entity.movable.character;
 
 import modele.Board;
+import modele.Colors;
 
 public class PlayerCharacter extends Character{
     protected char orientation;
@@ -75,7 +76,7 @@ public class PlayerCharacter extends Character{
 
     @Override
     public String toString() {
-        return ANSI_YELLOW_BACKGROUND + ANSI_BLACK + representation + ANSI_RESET;
+        return Colors.ANSI_YELLOW_BACKGROUND + Colors.ANSI_BLACK + representation + Colors.ANSI_RESET;
     }
 
     @Override

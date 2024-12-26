@@ -11,8 +11,8 @@ import modele.entity.stationary.terrain.low.Rock;
 
 public class BoardFactoryGeneratorJungle extends BoardFactoryGenerator{
 	Terrain[][] board;
-	public BoardFactoryGeneratorJungle(Clock clock, int height, int width) {
-		super(clock, height, width);
+	public BoardFactoryGeneratorJungle(int height, int width) {
+		super(height, width);
 	}
 
 	@Override
@@ -26,10 +26,10 @@ public class BoardFactoryGeneratorJungle extends BoardFactoryGenerator{
 	}
 
 	@Override
-	public Terrain generateAnimal(int x, int y, Clock clock) {
+	public Terrain generateAnimal(int x, int y) {
 		Terrain empty = generateEmpty(x,y);
 		Monkey npc = new Monkey(x,y);
-		clock.attacher(npc);
+		Clock.getInstance().attacher(npc);
 		empty.setEntityOnCase(npc);
 		return empty;
 	}

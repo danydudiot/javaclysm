@@ -23,18 +23,17 @@ import java.util.Scanner;
 
 public class BoardFactoryParser extends BoardFactory {
 	File mapFile;
-	public BoardFactoryParser(Clock clock)  {
+	public BoardFactoryParser()  {
 		mapFile = new File("carte.txt");
-		this.clock = clock;
 	}
 
 	@Override
-	public Board makeBoard() throws FileNotFoundException {
-		return parseBoard();
+	public void makeBoard() throws FileNotFoundException {
+		parseBoard();
 	}
 
-	public Board parseBoard() throws FileNotFoundException {
-
+	public void parseBoard() throws FileNotFoundException {
+		Clock clock = Clock.getInstance();
 		char theme;
 		int height;
 		int width;
@@ -103,6 +102,6 @@ public class BoardFactoryParser extends BoardFactory {
 			}
 			y++;
 		}
-		return new Board(clock, theme, height, width, board, player);
+		Board.buildBoard(theme, height, width, board, player);
 	}
 }

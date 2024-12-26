@@ -1,16 +1,11 @@
 package vue;
 
+import modele.Colors;
+
 import java.util.*;
 
 public class Ihm {
-	public static final String ANSI_RESET = "\u001B[0m";
-	public static final String ANSI_RED = "\u001B[31m";
-	public static final String ANSI_YELLOW = "\u001B[33m";
-	public static final String ANSI_BLACK = "\u001B[30m";
-	public static final String ANSI_WHITE_BACKGROUND = "\u001B[47m";
 
-	public static final String ANSI_DARK_BLACK = "\u001B[30m";
-	public static final String ANSI_LIGHT_BLACK = "\u001B[90m";
 
 	private String[] last_frame = new String[2];
 	private final int displayHeight;
@@ -29,7 +24,7 @@ public class Ihm {
 
 	public boolean askBoard() {
 		while (true) {
-			System.out.println("Voulez vous charger une carte au format "+ ANSI_YELLOW+".txt"+ANSI_RESET +" ? (y/n)");
+			System.out.println("Voulez vous charger une carte au format "+ Colors.ANSI_YELLOW+".txt"+Colors.ANSI_RESET +" ? (y/n)");
 //			String answer = sc.next(".");
 			String answer = sc.nextLine();
 			if (answer.equals("y") || answer.equals("Y")) {
@@ -37,7 +32,7 @@ public class Ihm {
 			} else if (answer.equals("n") || answer.equals("N")) {
 				return false;
 			} else {
-				System.out.println(ANSI_RED + "caractère non reconnu." + ANSI_RESET);
+				System.out.println(Colors.ANSI_RED + "caractère non reconnu." + Colors.ANSI_RESET);
 			}
 		}
 	}
@@ -51,7 +46,7 @@ public class Ihm {
 			if (answer.endsWith(".txt") || answer.endsWith(".TXT")) {
 				return answer;
 			} else {
-				System.out.println(ANSI_RED + "Merci d'entrer un fichier au format .txt" + ANSI_RESET);
+				System.out.println(Colors.ANSI_RED + "Merci d'entrer un fichier au format .txt" + Colors.ANSI_RESET);
 			}
 		}
 	}
@@ -67,7 +62,7 @@ public class Ihm {
 			} else if (input.equals("J")) {
 				return 'J';
 			} else {
-				System.out.println(ANSI_RED + "Merci d'entrer un theme valide" + ANSI_RESET);
+				System.out.println(Colors.ANSI_RED + "Merci d'entrer un theme valide" + Colors.ANSI_RESET);
 			}
 		}
 	}
@@ -81,10 +76,10 @@ public class Ihm {
 				if (input >= 10) {
 					return input;
 				} else {
-					System.out.println(ANSI_RED + "Merci d'entrer une taille >= 10" + ANSI_RESET);
+					System.out.println(Colors.ANSI_RED + "Merci d'entrer une taille >= 10" + Colors.ANSI_RESET);
 				}
 			} catch (NumberFormatException e) {
-				System.out.println(ANSI_RED + "Merci d'entrer une valeur numérique." + ANSI_RESET);
+				System.out.println(Colors.ANSI_RED + "Merci d'entrer une valeur numérique." + Colors.ANSI_RESET);
 			}
 		}
 	}
@@ -112,7 +107,7 @@ public class Ihm {
 	}
 	public void displayInteractions(List<String> interactions) {
 		String ui = makeInteractionUi(interactions);
-		System.out.println(ANSI_RESET);
+		System.out.println(Colors.ANSI_RESET);
 		System.out.println(last_frame[0].replace('├','└').replace('┬', '─'));
 		System.out.print(ui);
 		last_frame[1] = ui;
@@ -126,14 +121,14 @@ public class Ihm {
 	}
 	public void displayInventory(List<String> items, String equippedItem, int equippedItemId) {
 		String ui = makeInventoryUi(items, equippedItemId);
-		System.out.println(ANSI_RESET);
+		System.out.println(Colors.ANSI_RESET);
 		System.out.println(last_frame[0].replace('├','└').replace('┬', '─'));
 		System.out.print(ui);
 		last_frame[1] = ui;
 	}
 	public void displayError(String error) {
 		System.out.println(last_frame[0].replace('├','└').replace('┬', '─'));
-		System.out.println(ANSI_RESET + ANSI_RED + error + ANSI_RESET);
+		System.out.println(Colors.ANSI_RESET + Colors.ANSI_RED + error + Colors.ANSI_RESET);
 	}
 	public void display(List<List<String>> board, int boardHeight, int boardWidth, List<String> actionHistory, int playerX, int playerY, char playerDir, String equippedItem) {
 		String croppedBoard = cropBoard(board, boardWidth, boardHeight, displayWidth, displayHeight-4,playerX,playerY, true);
@@ -142,7 +137,7 @@ public class Ihm {
 		last_frame[0] = croppedBoard;
 		last_frame[1] = ui;
 
-		System.out.println(ANSI_RESET);
+		System.out.println(Colors.ANSI_RESET);
 		System.out.println(croppedBoard);
 		System.out.print(ui);
 	}
@@ -182,7 +177,7 @@ public class Ihm {
 			int start = clamp(playerX - (targetWidth / 2), 0,sourceWidth-targetWidth);
 //			output.append(lines[lineStart], start, start + targetWidth);
 			if (lineStart < 0 || lineStart >= lines.size()) {
-				output.append(ANSI_LIGHT_BLACK).append("#".repeat(targetWidth)).append(ANSI_RESET);
+				output.append(Colors.ANSI_LIGHT_BLACK).append("#".repeat(targetWidth)).append(Colors.ANSI_RESET);
 			} else {
 				if (start < 0) {
 					start /= 2;
@@ -191,7 +186,7 @@ public class Ihm {
 					try {
 						output.append(lines.get(lineStart).get(c));
 					} catch (IndexOutOfBoundsException e) {
-						output.append(ANSI_LIGHT_BLACK + "#" + ANSI_RESET);
+						output.append(Colors.ANSI_LIGHT_BLACK + "#" + Colors.ANSI_RESET);
 					}
 				}
 
@@ -208,9 +203,9 @@ public class Ihm {
 	private String makeUi(int targetWidth, List<String> actionHistory, int playerX, int playerY, char playerDir, String equippedItem) {
 		Queue<String> actionHistoryCopy = new ArrayDeque<>(actionHistory);
 		return 	"│ x: " + String.format("%-4S", playerX) +"y: " + String.format("%-4S", playerY) +"       │ " + actionHistoryCopy.remove() + '\n' +
-				"│ Dir : (" + asArrow(playerDir) +")            │ " + ANSI_LIGHT_BLACK + actionHistoryCopy.remove() + ANSI_RESET + '\n' +
-				"│ >> " + String.format("%-18s", equippedItem) + "│ " + ANSI_DARK_BLACK + actionHistoryCopy.remove() + ANSI_RESET + '\n' +
-				ANSI_WHITE_BACKGROUND + ANSI_BLACK + String.format(("%-"+(targetWidth-1)+"s"), " ZQSD : Bouger   OKLM : Regarder   I : Inventaire   E : Interagir   J : Jeter");
+				"│ Dir : (" + asArrow(playerDir) +")            │ " + Colors.ANSI_LIGHT_BLACK + actionHistoryCopy.remove() + Colors.ANSI_RESET + '\n' +
+				"│ >> " + String.format("%-18s", equippedItem) + "│ " + Colors.ANSI_DARK_BLACK + actionHistoryCopy.remove() + Colors.ANSI_RESET + '\n' +
+				Colors.ANSI_WHITE_BACKGROUND + Colors.ANSI_BLACK + String.format(("%-"+(targetWidth-1)+"s"), " ZQSD : Bouger   OKLM : Regarder   I : Inventaire   E : Interagir   J : Jeter");
 //		| x: 14  y: 36   | Player move up
 //		| Dir : (↓)      | Player look left
 //		| >> Ecureil     | Monkey is now friend w/ Player
@@ -227,8 +222,8 @@ public class Ihm {
 			else { out.append(String.format("%-19s", "...")); }
 		}
 		out.append("\n")
-				.append(ANSI_WHITE_BACKGROUND)
-				.append(ANSI_BLACK)
+				.append(Colors.ANSI_WHITE_BACKGROUND)
+				.append(Colors.ANSI_BLACK)
 				.append(String.format("%-"+(displayWidth -1)+"s","1-"+ interactions.size() +" : Choisir l'interaction    E : Fermer le menu"));
 		return out.toString();
 	}
@@ -240,7 +235,7 @@ public class Ihm {
 				out.append('\n');
 			}
 			if (i-1 == equippedItem) {
-				out.append(ANSI_WHITE_BACKGROUND + ANSI_BLACK);
+				out.append(Colors.ANSI_WHITE_BACKGROUND + Colors.ANSI_BLACK);
 			}
 
 			out.append("[").append(i).append("] : ");
@@ -251,12 +246,12 @@ public class Ihm {
 			}
 
 			if (i-1 == equippedItem) {
-				out.append(ANSI_RESET);
+				out.append(Colors.ANSI_RESET);
 			}
 		}
 		out.append("\n")
-				.append(ANSI_WHITE_BACKGROUND)
-				.append(ANSI_BLACK)
+				.append(Colors.ANSI_WHITE_BACKGROUND)
+				.append(Colors.ANSI_BLACK)
 				.append(String.format("%-"+(displayWidth -1)+"s","1-"+ items.size() +" : Selectionner l'objet à equiper    I : fermer le menu"));
 		return out.toString();
 	}

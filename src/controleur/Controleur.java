@@ -3,6 +3,7 @@ package controleur;
 import exception.InvalidActionException;
 import exception.MoveInvalidException;
 import modele.Board;
+import modele.Colors;
 import modele.boardFactory.BoardFactoryGeneratorForest;
 import modele.boardFactory.BoardFactoryGeneratorJungle;
 import modele.boardFactory.BoardFactoryParser;
@@ -21,22 +22,19 @@ import java.util.List;
 
 public class Controleur {
     protected Ihm ihm;
-    protected Board board;
     protected PlayerCharacter playerCharacter;
-    protected Clock clock;
     protected Inventory inventory;
 
     public Controleur() {
         this.ihm = new Ihm();
-        this.clock = new Clock();
         this.inventory = new Inventory();
     }
 
     public void startGame(){
-
+        Clock.getInstance().reset();
         if (ihm.askBoard()){
             try{
-                this.board = new BoardFactoryParser(clock).parseBoard();
+                new BoardFactoryParser().parseBoard();
             } catch (FileNotFoundException exception) {
                 ihm.displayError("Le fichier indiqué n'a pas été trouver.");
                 startGame();
@@ -49,20 +47,18 @@ public class Controleur {
         } else {
             char theme = ihm.askTheme();
             if (theme == 'F') {
-                this.board = new BoardFactoryGeneratorForest(
-                                clock,
-                                ihm.askDimension("hauteur"),
-                                ihm.askDimension("largeur")
-                        ).generateBoard();
+                new BoardFactoryGeneratorForest(
+                        ihm.askDimension("hauteur"),
+                        ihm.askDimension("largeur")
+                    ).generateBoard();
             } else {
-                this.board = new BoardFactoryGeneratorJungle(
-                        clock,
+                new BoardFactoryGeneratorJungle(
                         ihm.askDimension("hauteur"),
                         ihm.askDimension("largeur")
                 ).generateBoard();
             }
         }
-        playerCharacter = board.getPlayer();
+        playerCharacter = Board.getInstance().getPlayer();
         game();
     }
 
@@ -75,6 +71,8 @@ public class Controleur {
 
 
     private void tour(){
+        Clock clock = Clock.getInstance();
+        Board board = Board.getInstance();
         ihm.display(board.getBoardAsList(), board.getHeight(), board.getWidth(), board.peekAtLogs(3), playerCharacter.getPosition()[0], playerCharacter.getPosition()[1], playerCharacter.getOrientation(), inventory.getEquippedItemString());
         char action = ihm.askAction();
         try{
@@ -97,12 +95,13 @@ public class Controleur {
         } catch (InvalidActionException | MoveInvalidException e) {
             ihm.displayError(e.getMessage());
             tour();
-            return;
         }
     }
 
 
     private void manageInteraction(){
+        Clock clock = Clock.getInstance();
+        Board board = Board.getInstance();
         int[] position = playerCharacter.getTarget();
         Terrain terrain = board.getAt(position[0],position[1]);
         if (terrain != null) {
@@ -123,10 +122,10 @@ public class Controleur {
                     clock.notifierObservateur(board);
                 }
             } else {
-                board.logAction(Entity.ANSI_RED + "Pas d'interactions disponibles." + Entity.ANSI_RESET);
+                board.logAction(Colors.ANSI_RED + "Pas d'interactions disponibles." + Colors.ANSI_RESET);
             }
         } else {
-            board.logAction(Entity.ANSI_RED + "Pas d'interactions disponibles." + Entity.ANSI_RESET);
+            board.logAction(Colors.ANSI_RED + "Pas d'interactions disponibles." + Colors.ANSI_RESET);
         }
     }
 

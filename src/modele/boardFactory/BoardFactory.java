@@ -10,9 +10,7 @@ import java.io.FileNotFoundException;
 public abstract class BoardFactory {
 	Clock clock;
 
-	public Board makeBoard() throws FileNotFoundException {
-		return null;
-	}
+	public abstract void makeBoard() throws FileNotFoundException;
 
 
 }

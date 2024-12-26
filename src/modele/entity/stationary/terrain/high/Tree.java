@@ -1,10 +1,12 @@
 package modele.entity.stationary.terrain.high;
 
+import modele.Colors;
+
 public class Tree extends High {
 
     public Tree(int x, int y) {
         super(x, y);
-        this.representation = ANSI_GREEN + "A" + ANSI_RESET;
+        this.representation = Colors.ANSI_GREEN + "A" + Colors.ANSI_RESET;
         this.displayName = "Arbre";
     }
 
@@ -13,7 +15,7 @@ public class Tree extends High {
         if (entityOnCase == null) {
             return representation;
         } else {
-            return ANSI_GREEN_BACKGROUND + ANSI_BLACK + entityOnCase.toString() + ANSI_RESET;
+            return Colors.ANSI_GREEN_BACKGROUND + Colors.ANSI_BLACK + entityOnCase.toString() + Colors.ANSI_RESET;
         }
     }
 }

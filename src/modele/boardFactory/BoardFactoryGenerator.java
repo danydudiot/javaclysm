@@ -12,8 +12,7 @@ public abstract class BoardFactoryGenerator extends BoardFactory {
 	int width;
 	Terrain[][] board;
 
-	public BoardFactoryGenerator(Clock clock, int height, int width) {
-		this.clock = clock;
+	public BoardFactoryGenerator(int height, int width) {
 		this.height = height;
 		this.width = width;
 	}
@@ -22,11 +21,11 @@ public abstract class BoardFactoryGenerator extends BoardFactory {
 		return (int) Math.sqrt(Math.pow((x2 - x1), 2) + Math.pow((y2 - y1), 2));
 	}
 
-	public Board makeBoard() {
-		return generateBoard();
+	public void makeBoard() {
+		generateBoard();
 	}
 
-	public Board generateBoard() {
+	public void generateBoard() {
 		board = new Terrain[height][width];
 		int clusterAmount = Math.max(((height * width) / 400), 3);
 
@@ -81,7 +80,7 @@ public abstract class BoardFactoryGenerator extends BoardFactory {
 					} else {
 						// Generating an empty space
 						if (Math.random() <= .03) {
-							board[y][x] = generateAnimal(x, y, clock);
+							board[y][x] = generateAnimal(x, y);
 						} else {
 							board[y][x] = generateEmpty(x, y);
 						}
@@ -91,7 +90,7 @@ public abstract class BoardFactoryGenerator extends BoardFactory {
 		}
 		PlayerCharacter player = new PlayerCharacter(clusters[0][1], clusters[0][0]);
 		board[clusters[0][0]][clusters[0][1]].setEntityOnCase(player);
-		return new Board(clock, getTheme(), height, width, board, player);
+		Board.buildBoard(getTheme(), height, width, board, player);
 	}
 
 	public abstract Terrain generateHighTerrain(int x, int y);
@@ -102,7 +101,7 @@ public abstract class BoardFactoryGenerator extends BoardFactory {
 		return new Empty(x,y);
 	}
 
-	public abstract Terrain generateAnimal(int x, int y, Clock clock);
+	public abstract Terrain generateAnimal(int x, int y);
 
 	public abstract Terrain generateFood(int x, int y, boolean isMushroom);
 

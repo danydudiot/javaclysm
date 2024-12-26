@@ -17,6 +17,8 @@ import modele.entity.stationary.terrain.Terrain;
 import java.util.*;
 
 public class Board {
+
+    private static Board INSTANCE;
     private final Terrain[][] board;
     private final int height;
     private final int width;
@@ -25,12 +27,7 @@ public class Board {
 
     private List<String> logs;
 
-
-//    public Board(Clock clock) {
-//        logs = new ArrayList<>();
-//    }
-
-    public Board(Clock clock, char theme, int height, int width, Terrain[][] board, PlayerCharacter player) {
+    private Board(char theme, int height, int width, Terrain[][] board, PlayerCharacter player) {
         logs = new ArrayList<>();
         this.theme = theme;
         this.height = height;
@@ -38,6 +35,28 @@ public class Board {
         this.board = board;
         this.player = player;
     }
+
+    private Board() {
+        logs = new ArrayList<>();
+        this.theme = 0;
+        this.height = 0;
+        this.width = 0;
+        this.board = null;
+        this.player = null;
+    }
+
+    public static Board getInstance() {
+        if (INSTANCE == null) {
+            INSTANCE = new Board();
+        }
+        return INSTANCE;
+    }
+
+    public static void buildBoard(char theme, int height, int width, Terrain[][] board, PlayerCharacter player) {
+        INSTANCE = new Board(theme,height, width, board, player);
+    }
+
+
 
     public Terrain[][] getBoard() {
         return board;
@@ -115,14 +134,14 @@ public class Board {
                 throw new InvalidArgumentException("Déplacement inconnue");
             }
             if (new_x < 0 || new_x >= width || new_y < 0 || new_y >= height) {
-                logAction(Entity.ANSI_RED + "Le mouvement est en dehors de la carte." + Entity.ANSI_RESET);
+                logAction(Colors.ANSI_RED + "Le mouvement est en dehors de la carte." + Colors.ANSI_RESET);
                 return new int[]{x,y};
             }
             Entity entity = board[y][x].getEntityOnCase();
             if (entity.getClass() == PlayerCharacter.class) {
                 if (!(board[new_y][new_x].getClass() == Empty.class && board[new_y][new_x].getEntityOnCase() == null)) {
 //                    throw new MoveInvalidException("Le joueur ne peut pas aller sur cette case.");
-                    logAction(Entity.ANSI_RED + "Le joueur ne peut pas aller sur cette case" + Entity.ANSI_RESET);
+                    logAction(Colors.ANSI_RED + "Le joueur ne peut pas aller sur cette case" + Colors.ANSI_RESET);
                     return new int[]{x,y};
                 } else {
                     board[new_y][new_x].setEntityOnCase(entity);

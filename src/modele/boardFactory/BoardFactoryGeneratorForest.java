@@ -12,8 +12,8 @@ import modele.entity.stationary.terrain.low.Bush;
 public class BoardFactoryGeneratorForest extends BoardFactoryGenerator {
 	Terrain[][] board;
 
-	public BoardFactoryGeneratorForest(Clock clock, int height, int width) {
-		super(clock, height, width);
+	public BoardFactoryGeneratorForest(int height, int width) {
+		super(height, width);
 	}
 
 	@Override
@@ -27,10 +27,10 @@ public class BoardFactoryGeneratorForest extends BoardFactoryGenerator {
 	}
 
 	@Override
-	public Terrain generateAnimal(int x, int y, Clock clock) {
+	public Terrain generateAnimal(int x, int y) {
 		Terrain empty = generateEmpty(x,y);
 		Squirrel npc = new Squirrel(x,y);
-		clock.attacher(npc);
+		Clock.getInstance().attacher(npc);
 		empty.setEntityOnCase(npc);
 		return empty;
 	}

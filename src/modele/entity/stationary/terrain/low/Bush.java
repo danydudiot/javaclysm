@@ -1,9 +1,11 @@
 package modele.entity.stationary.terrain.low;
 
+import modele.Colors;
+
 public class Bush extends Low {
     public Bush(int x, int y) {
         super(x,y);
-        this.representation = ANSI_GREEN + "B" + ANSI_RESET;
+        this.representation = Colors.ANSI_GREEN + "B" + Colors.ANSI_RESET;
         this.displayName = "Buisson";
     }
 
@@ -12,8 +14,8 @@ public class Bush extends Low {
         if (entityOnCase == null) {
             return representation;
         } else {
-            return ANSI_YELLOW_BACKGROUND + ANSI_BLACK
-                    + entityOnCase.toString() + ANSI_RESET;
+            return Colors.ANSI_YELLOW_BACKGROUND + Colors.ANSI_BLACK
+                    + entityOnCase.toString() + Colors.ANSI_RESET;
         }
     }
 }
