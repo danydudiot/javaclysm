@@ -58,7 +58,6 @@ public class BoardFactoryParser extends BoardFactory {
 					if (player == null) {
 						Terrain e = new Empty(x, y);
 						player = new PlayerCharacter(x, y);
-//						System.out.println(Arrays.toString(player.getPosition()));
 						e.setEntityOnCase(player);
 						board[y][x] = e;
 					} else {
