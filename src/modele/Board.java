@@ -4,7 +4,6 @@ import exception.EntityNotFoundException;
 import exception.InvalidActionException;
 import exception.InvalidArgumentException;
 import exception.MoveInvalidException;
-import modele.clock.Clock;
 import modele.entity.Entity;
 import modele.entity.movable.character.PlayerCharacter;
 import modele.entity.movable.character.npc.Monkey;
@@ -240,5 +239,17 @@ public class Board {
             }
         }
         return out;
+    }
+
+    public List<Entity> getNear(int x, int y, int nbCases) {
+        List<Entity> listNear = new ArrayList<>();
+        for (int i = max(x-nbCases, 0); i < max(x+nbCases, width); i++) {
+            for (int j = max(y-nbCases, 0); j < max(y+nbCases, height); j++) {
+                if ((abs(x - i) + abs(y - j)) <= nbCases) {
+                    listNear.add(Terrain[j][i]);
+                }
+            }
+        }
+        return listNear;
     }
 }
