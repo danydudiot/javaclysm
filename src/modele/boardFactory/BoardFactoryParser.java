@@ -3,9 +3,9 @@ package modele.boardFactory;
 import modele.Board;
 import modele.clock.Clock;
 import modele.entity.movable.character.PlayerCharacter;
-import modele.entity.movable.character.npc.Monkey;
+import modele.entity.movable.character.npc.prey.Monkey;
 import modele.entity.movable.character.npc.NonPlayerCharacter;
-import modele.entity.movable.character.npc.Squirrel;
+import modele.entity.movable.character.npc.prey.Squirrel;
 import modele.entity.stationary.food.Acorn;
 import modele.entity.stationary.food.Banana;
 import modele.entity.stationary.food.Mushroom;
@@ -18,7 +18,6 @@ import modele.entity.stationary.terrain.low.Rock;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.Arrays;
 import java.util.Scanner;
 
 public class BoardFactoryParser extends BoardFactory {

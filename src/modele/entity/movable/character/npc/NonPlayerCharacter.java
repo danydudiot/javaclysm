@@ -13,18 +13,12 @@ import modele.interaction.Interactible;
 import modele.interaction.Interaction;
 
 public abstract class NonPlayerCharacter extends Character implements Interactible, Observateur {
-    public final int hungryCountBase;
-    protected int hungryCount;
-    protected Class<? extends Food> foodPreference;
+
     protected State currentState;
-    protected int friendLevel;
     protected Interaction[] interactionList;
 
-    public NonPlayerCharacter(int x, int y, int hungryCountBase) {
+    public NonPlayerCharacter(int x, int y) {
         super(x, y);
-        this.currentState = new NotHungryState(this);
-        this.hungryCountBase = hungryCountBase;
-        this.hungryCount = hungryCountBase;
         this.interactionList = new Interaction[1];
         this.interactionList[0]= new Hit();
     }
@@ -34,19 +28,10 @@ public abstract class NonPlayerCharacter extends Character implements Interactib
     }
 
     public void mettreAJour(){
-        Clock.getInstance().addCommandToTurn(new MoveNPCCommand(this, currentState.deplacement()));
+        currentState.deplacement();
         currentState.updateState();
     }
 
-    public boolean isFriendly () {
-        return friendLevel >= 1;
-    }
-    public int getFriendLevel() {
-        return friendLevel;
-    }
-    public void setFriendLevel(int value) {
-        friendLevel = value;
-    }
 
     public void setCurrentState(State currentState) {
         this.currentState = currentState;
@@ -55,33 +40,6 @@ public abstract class NonPlayerCharacter extends Character implements Interactib
         return currentState;
     }
 
-    public int getHungryCount() {
-        return hungryCount;
-    }
-    public void setHungryCount(int hungryCount) {
-        this.hungryCount = hungryCount;
-    }
-    public Class<? extends Food> getFoodPreference() {
-        return foodPreference;
-    }
-
-    public void eat(boolean isPlayerNearby, Board board) {
-        if (isPlayerNearby) {
-            if (! isFriendly()) {
-                friendLevel++;
-                if (isFriendly()) {
-                    board.logAction(displayName + " est maintenant un ami");
-                }
-            }
-        }
-        hungryCount = hungryCountBase;
-        currentState.updateState();
-    }
-
-    @Override
-    public void hit() {
-        friendLevel = 0;
-    }
 
     @Override
     public String toString() {

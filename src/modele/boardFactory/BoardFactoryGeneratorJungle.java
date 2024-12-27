@@ -1,7 +1,7 @@
 package modele.boardFactory;
 
 import modele.clock.Clock;
-import modele.entity.movable.character.npc.Monkey;
+import modele.entity.movable.character.npc.prey.Monkey;
 import modele.entity.stationary.food.Banana;
 import modele.entity.stationary.food.Mushroom;
 import modele.entity.stationary.terrain.Terrain;

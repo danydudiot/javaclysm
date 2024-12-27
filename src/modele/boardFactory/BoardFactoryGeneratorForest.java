@@ -1,7 +1,7 @@
 package modele.boardFactory;
 
 import modele.clock.Clock;
-import modele.entity.movable.character.npc.Squirrel;
+import modele.entity.movable.character.npc.prey.Squirrel;
 import modele.entity.stationary.food.Acorn;
 import modele.entity.stationary.food.Mushroom;
 import modele.entity.stationary.terrain.Terrain;

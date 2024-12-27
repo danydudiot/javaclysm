@@ -16,6 +16,7 @@ import modele.clock.commands.MovePlayerCommand;
 import modele.entity.Entity;
 import modele.entity.movable.character.PlayerCharacter;
 import modele.entity.movable.character.npc.NonPlayerCharacter;
+import modele.entity.movable.character.npc.prey.Prey;
 import modele.entity.stationary.terrain.Terrain;
 import modele.interaction.Grab;
 import modele.interaction.Hit;
@@ -131,7 +132,7 @@ public class Controleur {
                     if (interactions[numInteraction] instanceof Grab) {
                         clock.addCommandToTurn(new InteractionGrabCommand(playerCharacter, (Entity) interactible, inventory,(Grab) interactions[numInteraction]));
                     } else if (interactions[numInteraction] instanceof Hit) {
-                        clock.addCommandToTurn(new InteractionHitCommand(playerCharacter, (NonPlayerCharacter) entity, (Hit) interactions[numInteraction]));
+                        clock.addCommandToTurn(new InteractionHitCommand(playerCharacter, (Prey) entity, (Hit) interactions[numInteraction]));
                     }
                     clock.notifierObservateur();
                 }

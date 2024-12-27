@@ -6,9 +6,10 @@ import exception.InvalidArgumentException;
 import exception.MoveInvalidException;
 import modele.entity.Entity;
 import modele.entity.movable.character.PlayerCharacter;
-import modele.entity.movable.character.npc.Monkey;
+import modele.entity.movable.character.npc.prey.Monkey;
 import modele.entity.movable.character.npc.NonPlayerCharacter;
-import modele.entity.movable.character.npc.Squirrel;
+import modele.entity.movable.character.npc.prey.Prey;
+import modele.entity.movable.character.npc.prey.Squirrel;
 import modele.entity.stationary.food.Food;
 import modele.entity.stationary.terrain.Empty;
 import modele.entity.stationary.terrain.Terrain;
@@ -158,7 +159,7 @@ public class Board {
                             break;
                         }
                     }
-                    ((NonPlayerCharacter) entity).eat(isPlayerNearby, this);
+                    ((Prey) entity).eat(isPlayerNearby, this);
                 } else {
                     throw new MoveInvalidException("L'animal ne peut pas aller sur cette case.");
                 }
@@ -239,8 +240,8 @@ public class Board {
 
     public List<Entity> getNear(int x, int y, int nbCases) {
         List<Entity> listNear = new ArrayList<>();
-        for (int i = Math.max(x-nbCases, 0); i < Math.max(x+nbCases, width); i++) {
-            for (int j = Math.max(y-nbCases, 0); j < Math.max(y+nbCases, height); j++) {
+        for (int i = Math.max(x-nbCases, 0); i < Math.min(x+nbCases, width); i++) {
+            for (int j = Math.max(y-nbCases, 0); j < Math.min(y+nbCases, height); j++) {
                 if ((Math.abs(x - i) + Math.abs(y - j)) <= nbCases) {
                     listNear.add(board[j][i]);
                 }

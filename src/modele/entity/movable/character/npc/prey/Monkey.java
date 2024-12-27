@@ -1,9 +1,9 @@
-package modele.entity.movable.character.npc;
+package modele.entity.movable.character.npc.prey;
 
+import modele.entity.movable.character.npc.NonPlayerCharacter;
 import modele.entity.stationary.food.Banana;
 
-public class Monkey extends NonPlayerCharacter{
-
+public class Monkey extends Prey {
 
     public Monkey(int x, int y) {
         super(x, y, 3);

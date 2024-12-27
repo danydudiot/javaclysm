@@ -1,6 +1,7 @@
 package modele.entity.movable.character.npc.state;
 
 import modele.Board;
+import modele.Colors;
 import modele.clock.Clock;
 import modele.clock.commands.MoveNPCCommand;
 import modele.entity.movable.character.npc.NonPlayerCharacter;
@@ -10,15 +11,16 @@ import modele.entity.stationary.terrain.Terrain;
 
 import java.util.Map;
 
-public class NotHungryState implements State {
-
+public class SquirrelJunkieState extends JunkieState{
     private Prey npc;
-    public NotHungryState(Prey npc) {
+    public SquirrelJunkieState(Prey npc) {
         this.npc = npc;
         npc.setHungryCount(npc.hungryCountBase);
+
     }
 
-    public void updateState(){
+    @Override
+    public void updateState() {
         npc.setHungryCount(npc.getHungryCount()-1);
         if (npc.getHungryCount() <= 0){
             if (npc instanceof Squirrel){
@@ -27,37 +29,44 @@ public class NotHungryState implements State {
                 npc.setCurrentState(new MonkeyHungryState(npc));
             }
         }
+
     }
 
     @Override
     public void deplacement() {
-        char move = 'a';
+
+        char move1 = getDeplacementFrom(' ');
+        Clock.getInstance().addCommandToTurn(new MoveNPCCommand(npc, move1));
+        char move2 = getDeplacementFrom(npc.getInverseDirection(move1));
+        Clock.getInstance().addCommandToTurn(new MoveNPCCommand(npc, move2));
+    }
+
+    private char getDeplacementFrom(char disable){
         int[] position = npc.getPosition();
         Map<Character, Terrain> neighbours = Board.getInstance().getNeighbours(position[0], position[1]);
         String possibleOutcomes = "";
         for (char a : neighbours.keySet()) {
-            if (neighbours.get(a).getEntityOnCase() == null) {
+            if (neighbours.get(a).getEntityOnCase() == null && a != disable) {
                 possibleOutcomes += a;
             }
         }
         if (possibleOutcomes.isEmpty()) {
-            move = 'a';
+            return 'a';
         } else if (possibleOutcomes.length() == 1) {
-            move = possibleOutcomes.charAt(0);
+            return possibleOutcomes.charAt(0);
         } else {
-            move = possibleOutcomes.charAt((int) (Math.random() * possibleOutcomes.length()));
+            return possibleOutcomes.charAt((int) (Math.random() * possibleOutcomes.length()));
         }
-        Clock.getInstance().addCommandToTurn(new MoveNPCCommand(npc, move));
     }
 
     @Override
     public String applyColorModifier() {
         if (npc.isFriendly()) {
             // Light purple
-            return "\u001b[95m" + npc.getRepresentation() + "\u001b[0m";
+            return "\u001b[95m" + npc.getRepresentation() + Colors.ANSI_RESET;
         } else {
             // light white
-            return "\u001b[97m" + npc.getRepresentation() + "\u001b[0m";
+            return Colors.ANSI_RED + npc.getRepresentation() + Colors.ANSI_RESET;
         }
     }
 }
