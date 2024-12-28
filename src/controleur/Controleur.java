@@ -4,8 +4,7 @@ import exception.InvalidActionException;
 import exception.MoveInvalidException;
 import modele.Board;
 import modele.Colors;
-import modele.boardFactory.BoardFactoryGeneratorForest;
-import modele.boardFactory.BoardFactoryGeneratorJungle;
+import modele.boardFactory.BoardFactoryGenerator;
 import modele.boardFactory.BoardFactoryParser;
 import modele.Inventory;
 import modele.clock.Clock;
@@ -15,7 +14,6 @@ import modele.clock.commands.InteractionHitCommand;
 import modele.clock.commands.MovePlayerCommand;
 import modele.entity.Entity;
 import modele.entity.movable.character.PlayerCharacter;
-import modele.entity.movable.character.npc.NonPlayerCharacter;
 import modele.entity.movable.character.npc.prey.Prey;
 import modele.entity.stationary.terrain.Terrain;
 import modele.interaction.Grab;
@@ -54,17 +52,11 @@ public class Controleur {
             }
         } else {
             char theme = ihm.askTheme();
-            if (theme == 'F') {
-                new BoardFactoryGeneratorForest(
-                        ihm.askDimension("hauteur"),
-                        ihm.askDimension("largeur")
-                    ).generateBoard();
-            } else {
-                new BoardFactoryGeneratorJungle(
-                        ihm.askDimension("hauteur"),
-                        ihm.askDimension("largeur")
-                ).generateBoard();
-            }
+            new BoardFactoryGenerator(
+                    ihm.askDimension("hauteur"),
+                    ihm.askDimension("largeur"),
+                    theme
+            ).generateBoard();
         }
         playerCharacter = Board.getInstance().getPlayer();
         game();

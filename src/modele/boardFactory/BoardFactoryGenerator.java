@@ -2,21 +2,25 @@ package modele.boardFactory;
 
 import modele.Board;
 import modele.boardFactory.generator.Generator;
+import modele.boardFactory.generator.GeneratorForest;
+import modele.boardFactory.generator.GeneratorJungle;
 import modele.clock.Clock;
 import modele.entity.movable.character.PlayerCharacter;
 import modele.entity.stationary.terrain.Empty;
 import modele.entity.stationary.terrain.Terrain;
 
-public abstract class BoardFactoryGenerator extends BoardFactory {
+public class BoardFactoryGenerator extends BoardFactory {
 
 	int height;
 	int width;
 	Terrain[][] board;
 	Generator generator;
+	protected char theme;
 
-	public BoardFactoryGenerator(int height, int width) {
+	public BoardFactoryGenerator(int height, int width, char theme) {
 		this.height = height;
 		this.width = width;
+		this.theme = theme;
 	}
 
 	protected int distance(int x1, int y1, int x2, int y2) {
@@ -28,6 +32,15 @@ public abstract class BoardFactoryGenerator extends BoardFactory {
 	}
 
 	public void generateBoard() {
+		if (theme == 'F') {
+			this.generator = new GeneratorForest();
+		} else if (theme == 'J') {
+			this.generator = new GeneratorJungle();
+		} else {
+			throw new IllegalArgumentException();
+		}
+
+
 		board = new Terrain[height][width];
 		int clusterAmount = Math.max(((height * width) / 400), 3);
 
@@ -92,22 +105,7 @@ public abstract class BoardFactoryGenerator extends BoardFactory {
 		}
 		PlayerCharacter player = new PlayerCharacter(clusters[0][1], clusters[0][0]);
 		board[clusters[0][0]][clusters[0][1]].setEntityOnCase(player);
-		Board.buildBoard(getTheme(), height, width, board, player);
+		Board.buildBoard(theme, height, width, board, player);
 	}
-
-	/*public abstract Terrain generateHighTerrain(int x, int y);
-
-	public abstract Terrain generateLowTerrain(int x, int y);
-
-	public Terrain generateEmpty(int x, int y) {
-		return new Empty(x,y);
-	}
-
-	public abstract Terrain generateAnimal(int x, int y);
-
-	public abstract Terrain generateFood(int x, int y, boolean isMushroom);*/
-
-	public abstract char getTheme();
-
 
 }
