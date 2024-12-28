@@ -4,11 +4,12 @@ import modele.Board;
 import modele.Inventory;
 import modele.InventoryItem;
 import modele.entity.Entity;
+import modele.entity.movable.character.Character;
 
 public class Grab implements Interaction {
     private final String displayName = "Prendre";
 
-    public void interact(Inventory inventory,Entity entity){
+    public void interact(Inventory inventory, Entity entity, Character author){
         if (entity instanceof InventoryItem){
             Board board = Board.getInstance();
             try {

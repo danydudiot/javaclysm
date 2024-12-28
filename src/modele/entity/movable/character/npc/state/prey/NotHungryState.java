@@ -1,7 +1,7 @@
 package modele.entity.movable.character.npc.state.prey;
 
 import modele.clock.Clock;
-import modele.clock.commands.MoveNPCCommand;
+import modele.clock.commands.MovePreyCommand;
 import modele.entity.movable.character.npc.prey.Prey;
 import modele.entity.movable.character.npc.prey.Squirrel;
 
@@ -37,7 +37,7 @@ public class NotHungryState extends PreyState {
             }
         }
 
-        Clock.getInstance().addCommandToTurn(new MoveNPCCommand(prey, move));
+        Clock.getInstance().addCommandToTurn(new MovePreyCommand(prey, move));
     }
 
     @Override
