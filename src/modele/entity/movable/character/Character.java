@@ -8,6 +8,5 @@ public abstract class Character extends MovableEntity {
         super(x, y);
     }
 
-    public abstract void hit();
 
 }

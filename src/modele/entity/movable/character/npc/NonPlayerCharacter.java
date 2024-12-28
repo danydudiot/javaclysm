@@ -40,4 +40,7 @@ public abstract class NonPlayerCharacter extends Character implements Interactib
     public String toString() {
         return currentState.applyColorModifier();
     }
+
+    public abstract void hit(Character aggressor);
+
 }

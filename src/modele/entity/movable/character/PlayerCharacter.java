@@ -90,9 +90,4 @@ public class PlayerCharacter extends Character{
     public String toString() {
         return Colors.ANSI_YELLOW_BACKGROUND + Colors.ANSI_BLACK + representation + Colors.ANSI_RESET;
     }
-
-    @Override
-    public void hit() {
-        System.out.println("hit");
-    }
 }

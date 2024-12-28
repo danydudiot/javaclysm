@@ -98,7 +98,7 @@ public class Controleur {
             } else if ("e".indexOf(action) != -1) {
                 manageInteraction();
             } else if ("j".indexOf(action) != -1) {
-                clock.addCommandToTurn(new DropCommand(inventory, (Entity) inventory.getEquippedItem()));
+                clock.addCommandToTurn(new DropCommand(inventory, (Entity) inventory.getEquippedItem(), playerCharacter));
                 clock.notifierObservateur();
             } else if ("r".indexOf(action) != -1) {
                 clock.undoLastTurn();
@@ -132,9 +132,9 @@ public class Controleur {
                     return;
                 } else if (numInteraction < interactions.length){
                     if (interactions[numInteraction] instanceof Grab) {
-                        clock.addCommandToTurn(new InteractionGrabCommand(playerCharacter, (Entity) interactible, inventory,(Grab) interactions[numInteraction]));
+                        clock.addCommandToTurn(new InteractionGrabCommand(playerCharacter, (Entity) interactible, inventory,(Grab) interactions[numInteraction], playerCharacter));
                     } else if (interactions[numInteraction] instanceof Hit) {
-                        clock.addCommandToTurn(new InteractionHitCommand(playerCharacter, (Prey) entity, (Hit) interactions[numInteraction]));
+                        clock.addCommandToTurn(new InteractionHitCommand(playerCharacter, (Prey) entity, (Hit) interactions[numInteraction], playerCharacter));
                     }
                     clock.notifierObservateur();
                 }

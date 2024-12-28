@@ -6,4 +6,6 @@ public class Rock extends Low {
         this.representation = "R";
         this.displayName = "Rocher";
     }
+
+
 }
