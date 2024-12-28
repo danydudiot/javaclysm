@@ -69,7 +69,7 @@ public class BoardFactoryGenerator extends BoardFactory {
 							closestCluster = i;
 						}
 					}
-					closestDistance = 15 - closestDistance;
+					closestDistance = 12 - closestDistance;
 					if (Math.random() * 20 <= closestDistance) {
 						// Generating something
 						if (closestCluster % 2 == 0) {
@@ -79,7 +79,11 @@ public class BoardFactoryGenerator extends BoardFactory {
 							} else {
 								// Food Cluster
 								if (Math.random() <= .65) {
-									board[y][x] = generator.generateMushroom(x, y);
+									if (Math.random() <= .5) {
+										board[y][x] = generator.generateMushroom(x, y);
+									} else {
+										board[y][x] = generator.generateBadFood(x, y);
+									}
 								} else {
 									board[y][x] = generator.generateFood(x, y);
 								}
@@ -94,8 +98,21 @@ public class BoardFactoryGenerator extends BoardFactory {
 						}
 					} else {
 						// Generating an empty space
-						if (Math.random() <= .03) {
+						double roll = Math.random();
+						if (roll <= .03) {
 							board[y][x] = generator.generatePrey(x, y);
+						} else if (roll <= .04) {
+							if (Math.random() <= .5) {
+								board[y][x] = generator.generatePredator1(x,y);
+							} else {
+								board[y][x] = generator.generatePredator2(x,y);
+							}
+						} else if (roll <= .045) {
+							if (Math.random() <= .5) {
+								board[y][x] = generator.generateTimeStone(x, y, 2);
+							} else {
+								board[y][x] = generator.generateTimeStone(x, y, 3);
+							}
 						} else {
 							board[y][x] = generator.generateEmpty(x, y);
 						}

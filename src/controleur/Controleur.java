@@ -73,7 +73,17 @@ public class Controleur {
     private void tour(){
         Clock clock = Clock.getInstance();
         Board board = Board.getInstance();
-        ihm.display(board.getBoardAsList(), board.getHeight(), board.getWidth(), board.peekAtLogs(3), playerCharacter.getPosition()[0], playerCharacter.getPosition()[1], playerCharacter.getOrientation(), inventory.getEquippedItemString(), clock.getNbTour());
+        ihm.display(
+                board.getBoardAsList(),
+                board.getHeight(),
+                board.getWidth(),
+                board.peekAtLogs(3),
+                playerCharacter.getPosition()[0],
+                playerCharacter.getPosition()[1],
+                playerCharacter.getOrientation(),
+                inventory.getEquippedItemString(),
+                clock.getNbTour()
+        );
         char action = ihm.askAction();
         try {
             if ("zqsd".indexOf(action) != -1) {

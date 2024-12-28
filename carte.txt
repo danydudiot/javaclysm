@@ -10,10 +10,10 @@ A               C    M   MMMMMMG   MMMM                                         
            CCC     C  C CBBB MM MM   MG   M                                       A                A
 ABB                  MMMMMMMM                    BBBBBB             BBBBB A B   BB                 A
 A                           G           AA AA  BB BBB             AAA     B        AAAAAAAAAAAAAAAAA
-AA    BBB                                     MB B  B  AA        ABBB                    @          
+AA    BBB                                     MB B  B  AA        ABBB              2     @
 B                        E  E           B BB BBBBBB BB                   E         AAAAAAAAAAAAAAAAA
-A        BBB       E    E                       HAAAA                              B   BBB         A
-A                                               BBBBBBB B B                        B       BBB     B
+A        BBB       E    E                       HAAAA         3                    B   BBB         A
+A                                               BBBBBBB B B              2         B       BBB     B
 B                                                                                  BBBBB           A
 A                                                                                                  A
          A                                                       C            B B        BBB       A

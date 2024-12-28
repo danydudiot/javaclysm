@@ -19,7 +19,6 @@ public class Grab implements Interaction {
                 board.logAction(e.getMessage());
             }
         }
-
     }
 
     @Override

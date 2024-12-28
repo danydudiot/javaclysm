@@ -85,6 +85,10 @@ public class GeneratorForest extends Generator{
             return generatePredator1(x,y);
         } else if (content == 'H') {
             return generatePredator2(x,y);
+        } else if (content == '2') {
+            return generateTimeStone(x,y,2);
+        } else if (content == '3') {
+            return generateTimeStone(x,y,3);
         } else {
             throw new IllegalArgumentException("Le fichier est invalide. (Caractère inconnu)");
         }
