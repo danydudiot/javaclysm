@@ -1,6 +1,7 @@
 package modele.boardFactory;
 
 import modele.Board;
+import modele.boardFactory.generator.Generator;
 import modele.clock.Clock;
 import modele.entity.movable.character.PlayerCharacter;
 import modele.entity.stationary.terrain.Empty;
@@ -11,6 +12,7 @@ public abstract class BoardFactoryGenerator extends BoardFactory {
 	int height;
 	int width;
 	Terrain[][] board;
+	Generator generator;
 
 	public BoardFactoryGenerator(int height, int width) {
 		this.height = height;
@@ -40,9 +42,9 @@ public abstract class BoardFactoryGenerator extends BoardFactory {
 				// Create a wall of tree around the map
 				if (y == 0 || x == 0 || y == height - 1 || x == width - 1) {
 					if (Math.random() <= .95) {
-						board[y][x] = generateHighTerrain(x,y);
+						board[y][x] = generator.generateHighTerrain(x,y);
 					} else {
-						board[y][x] = generateLowTerrain(x,y);
+						board[y][x] = generator.generateLowTerrain(x,y);
 					}
 				} else {
 					int closestCluster = 0;
@@ -60,29 +62,29 @@ public abstract class BoardFactoryGenerator extends BoardFactory {
 						if (closestCluster % 2 == 0) {
 							if (closestCluster == 0) {
 								// Spawn Cluster
-								board[y][x] = generateEmpty(x, y);
+								board[y][x] = generator.generateEmpty(x, y);
 							} else {
 								// Food Cluster
 								if (Math.random() <= .65) {
-									board[y][x] = generateFood(x, y, true);
+									board[y][x] = generator.generateMushroom(x, y);
 								} else {
-									board[y][x] = generateFood(x, y, false);
+									board[y][x] = generator.generateFood(x, y);
 								}
 							}
 						} else {
 							// Tree Cluster
 							if (Math.random() <= .65) {
-								board[y][x] = generateHighTerrain(x, y);
+								board[y][x] = generator.generateHighTerrain(x, y);
 							} else {
-								board[y][x] = generateLowTerrain(x, y);
+								board[y][x] = generator.generateLowTerrain(x, y);
 							}
 						}
 					} else {
 						// Generating an empty space
 						if (Math.random() <= .03) {
-							board[y][x] = generateAnimal(x, y);
+							board[y][x] = generator.generatePrey(x, y);
 						} else {
-							board[y][x] = generateEmpty(x, y);
+							board[y][x] = generator.generateEmpty(x, y);
 						}
 					}
 				}
@@ -93,7 +95,7 @@ public abstract class BoardFactoryGenerator extends BoardFactory {
 		Board.buildBoard(getTheme(), height, width, board, player);
 	}
 
-	public abstract Terrain generateHighTerrain(int x, int y);
+	/*public abstract Terrain generateHighTerrain(int x, int y);
 
 	public abstract Terrain generateLowTerrain(int x, int y);
 
@@ -103,7 +105,7 @@ public abstract class BoardFactoryGenerator extends BoardFactory {
 
 	public abstract Terrain generateAnimal(int x, int y);
 
-	public abstract Terrain generateFood(int x, int y, boolean isMushroom);
+	public abstract Terrain generateFood(int x, int y, boolean isMushroom);*/
 
 	public abstract char getTheme();
 

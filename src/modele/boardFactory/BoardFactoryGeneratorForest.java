@@ -16,7 +16,9 @@ public class BoardFactoryGeneratorForest extends BoardFactoryGenerator {
 		super(height, width);
 	}
 
-	@Override
+
+
+	/*@Override
 	public Terrain generateHighTerrain(int x, int y) {
 		return new Tree(x,y);
 	}
@@ -44,7 +46,7 @@ public class BoardFactoryGeneratorForest extends BoardFactoryGenerator {
 			empty.setEntityOnCase(new Acorn(x,y));
 		}
 		return empty;
-	}
+	}*/
 
 	@Override
 	public char getTheme() {
