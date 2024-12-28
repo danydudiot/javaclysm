@@ -1,13 +1,11 @@
-package modele.entity.movable.character.npc.state;
+package modele.entity.movable.character.npc.state.prey;
 
 import modele.Board;
-import modele.clock.Clock;
-import modele.clock.commands.MoveNPCCommand;
 import modele.entity.Entity;
 import modele.entity.movable.character.PlayerCharacter;
-import modele.entity.movable.character.npc.NonPlayerCharacter;
 import modele.entity.movable.character.npc.predator.Predator;
 import modele.entity.movable.character.npc.prey.Prey;
+import modele.entity.movable.character.npc.state.State;
 import modele.entity.stationary.food.Food;
 import modele.entity.stationary.terrain.Terrain;
 import modele.entity.stationary.terrain.high.High;
@@ -18,53 +16,20 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public abstract class HungryState implements State {
-    protected Prey npc;
-    public HungryState(Prey npc) {
-        this.npc = npc;
+public abstract class PreyState implements State {
+    protected Prey prey;
 
+    public PreyState(Prey prey) {
+        this.prey = prey;
     }
 
-    @Override
-    public void deplacement() {
-        char move = 'a';
-        int[] position = npc.getPosition();
-        Map<Character, Terrain> neighbours = Board.getInstance().getNeighbours(position[0], position[1]);
-        String possibleOutcomes = "";
-        String preferedOutcomes = "";
-        for (char a : neighbours.keySet()) {
-            Entity entity = neighbours.get(a).getEntityOnCase();
-            if (entity == null) {
-                possibleOutcomes += a;
-            } else if (entity instanceof Food) {
-                if (entity.getClass() == npc.getFoodPreference()) {
-                    preferedOutcomes = a + preferedOutcomes;
-                } else {
-                    preferedOutcomes += a;
-                }
-            }
-        }
-        if (preferedOutcomes.isEmpty()) {
-            if (possibleOutcomes.isEmpty()) {
-                move = 'a';
-            } else if (possibleOutcomes.length() == 1) {
-                move = possibleOutcomes.charAt(0);
-            } else {
-                move = possibleOutcomes.charAt((int) (Math.random() * possibleOutcomes.length()));
-            }
-        } else {
-            move = preferedOutcomes.charAt(0);
-        }
-        Clock.getInstance().addCommandToTurn(new MoveNPCCommand(npc, move));
-    }
-
-    protected char getDefault(){
-        int[] position = npc.getPosition();
+    protected char getDefault(String allow){
+        int[] position = prey.getPosition();
         Map<Character, Terrain> neighbours = Board.getInstance().getNeighbours(position[0], position[1]);
         String direction = "";
         for (char a : neighbours.keySet()) {
             Entity entity = neighbours.get(a).getEntityOnCase();
-            if (entity == null) {
+            if (entity == null && allow.contains(direction)) {
                 direction += a;
             }
         }
@@ -77,14 +42,13 @@ public abstract class HungryState implements State {
     }
 
     protected char getFood(){
-        char move = 'a';
-        int[] position = npc.getPosition();
+        int[] position = prey.getPosition();
         Map<Character, Terrain> neighbours = Board.getInstance().getNeighbours(position[0], position[1]);
         String food = "";
         for (char a : neighbours.keySet()) {
             Entity entity = neighbours.get(a).getEntityOnCase();
             if (entity instanceof Food) {
-                if (entity.getClass() == npc.getFoodPreference()) {
+                if (entity.getClass() == prey.getFoodPreference()) {
                     food = a + food;
                 } else {
                     food += a;
@@ -100,7 +64,7 @@ public abstract class HungryState implements State {
 
 
     protected char getDanger(boolean playerAllow){
-        int[] position = npc.getPosition();
+        int[] position = prey.getPosition();
         List<Entity> around = Board.getInstance().getNear(position[0], position[1], 4);
         List<Entity> danger = new ArrayList<>();
         for (Entity entity : around){
@@ -113,7 +77,7 @@ public abstract class HungryState implements State {
             return 'a';
         }
 
-        Map<Character, Terrain> neighbours = Board.getInstance().getNeighbours(npc.getPosition()[0], npc.getPosition()[1]);
+        Map<Character, Terrain> neighbours = Board.getInstance().getNeighbours(prey.getPosition()[0], prey.getPosition()[1]);
         char player = ' ';
         String high = "";
         String low = "";
@@ -160,16 +124,16 @@ public abstract class HungryState implements State {
         float moyenne_x = somme_x / danger.size();
         float moyenne_y = somme_y / danger.size();
 
-        Map<Character, Terrain> neighbours = Board.getInstance().getNeighbours(npc.getPosition()[0], npc.getPosition()[1]);
+        Map<Character, Terrain> neighbours = Board.getInstance().getNeighbours(prey.getPosition()[0], prey.getPosition()[1]);
         Map<Character, Double> distance = new HashMap<>();
 
         distance.put('z' ,
-            Math.sqrt(
-                Math.pow(
-                        neighbours.get('z').getPosition()[0] - moyenne_x,2
-                ) + Math.pow(
-                        neighbours.get('z').getPosition()[1] - moyenne_y,2)
-            )
+                Math.sqrt(
+                        Math.pow(
+                                neighbours.get('z').getPosition()[0] - moyenne_x,2
+                        ) + Math.pow(
+                                neighbours.get('z').getPosition()[1] - moyenne_y,2)
+                )
         );
         distance.put('q' ,
                 Math.sqrt(
@@ -204,23 +168,4 @@ public abstract class HungryState implements State {
         }
         return maxi;
     }
-
-
-    @Override
-    public String applyColorModifier() {
-        if (npc.isFriendly()) {
-            // Dark purple
-            return "\u001b[35m" + npc.getRepresentation() + "\u001b[0m";
-        } else {
-            // Dark white
-            return "\u001b[37m" + npc.getRepresentation() + "\u001b[0m";
-        }
-    }
-
-    public void updateState(){
-        if (npc.getHungryCount() > 0){
-            npc.setCurrentState(new NotHungryState(npc));
-        }
-    }
-
 }

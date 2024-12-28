@@ -1,13 +1,8 @@
 package modele.entity.movable.character.npc;
 
-import modele.Board;
-import modele.clock.Clock;
 import modele.clock.Observateur;
-import modele.clock.commands.MoveNPCCommand;
 import modele.entity.movable.character.Character;
-import modele.entity.movable.character.npc.state.NotHungryState;
 import modele.entity.movable.character.npc.state.State;
-import modele.entity.stationary.food.Food;
 import modele.interaction.Hit;
 import modele.interaction.Interactible;
 import modele.interaction.Interaction;

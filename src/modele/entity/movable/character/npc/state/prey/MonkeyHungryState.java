@@ -1,12 +1,12 @@
-package modele.entity.movable.character.npc.state;
+package modele.entity.movable.character.npc.state.prey;
 
 import modele.clock.Clock;
 import modele.clock.commands.MoveNPCCommand;
 import modele.entity.movable.character.npc.prey.Prey;
 
 public class MonkeyHungryState extends HungryState {
-    public MonkeyHungryState(Prey npc) {
-        super(npc);
+    public MonkeyHungryState(Prey prey) {
+        super(prey);
     }
 
     @Override
@@ -23,13 +23,13 @@ public class MonkeyHungryState extends HungryState {
             }
         }
         if (move == 'a'){
-            char defaut = getDefault();
+            char defaut = getDefault("zqsd");
             if (defaut != 'a') {
                 move = defaut;
             }
         }
 
-        Clock.getInstance().addCommandToTurn(new MoveNPCCommand(npc, move));
+        Clock.getInstance().addCommandToTurn(new MoveNPCCommand(prey, move));
 
     }
 }

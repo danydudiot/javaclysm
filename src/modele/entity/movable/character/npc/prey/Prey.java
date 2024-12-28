@@ -2,7 +2,9 @@ package modele.entity.movable.character.npc.prey;
 
 import modele.Board;
 import modele.entity.movable.character.npc.NonPlayerCharacter;
-import modele.entity.movable.character.npc.state.NotHungryState;
+import modele.entity.movable.character.npc.state.prey.JunkieState;
+import modele.entity.movable.character.npc.state.prey.NotHungryState;
+import modele.entity.stationary.food.BadFood;
 import modele.entity.stationary.food.Food;
 
 public class Prey extends NonPlayerCharacter {
@@ -42,17 +44,22 @@ public class Prey extends NonPlayerCharacter {
     }
 
 
-    public void eat(boolean isPlayerNearby, Board board) {
+    public void eat(boolean isPlayerNearby, Food food) {
         if (isPlayerNearby) {
             if (! isFriendly()) {
                 friendLevel++;
                 if (isFriendly()) {
-                    board.logAction(displayName + " est maintenant un ami");
+                    Board.getInstance().logAction(displayName + " est maintenant un ami");
                 }
             }
         }
         hungryCount = hungryCountBase;
-        currentState.updateState();
+
+        if (food instanceof BadFood){
+            setCurrentState(new JunkieState(this));
+        } else {
+            currentState.updateState();
+        }
     }
 
     @Override

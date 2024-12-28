@@ -148,6 +148,7 @@ public class Board {
                     board[new_y][new_x].setEntityOnCase(entity);
                     board[y][x].clearEntityOnCase();
                 } else if (board[new_y][new_x].getEntityOnCase() instanceof Food) {
+                    Food food = (Food) board[new_y][new_x].getEntityOnCase();
                     board[new_y][new_x].setEntityOnCase(entity);
                     board[y][x].clearEntityOnCase();
                     Map<Character, Terrain> neighbours = getNeighbours(new_x, new_y);
@@ -159,7 +160,7 @@ public class Board {
                             break;
                         }
                     }
-                    ((Prey) entity).eat(isPlayerNearby, this);
+                    ((Prey) entity).eat(isPlayerNearby, food);
                 } else {
                     throw new MoveInvalidException("L'animal ne peut pas aller sur cette case.");
                 }
