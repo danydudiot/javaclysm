@@ -96,7 +96,7 @@ public abstract class PreyState implements State {
         }
 
 
-        if (playerAllow && player != ' '){
+        if (playerAllow && player != ' ' && prey.isFriendly()){
             return 'p'; // 'p' pour player
         } else if (!high.isEmpty()) {
             return high.charAt(0);
@@ -162,7 +162,7 @@ public abstract class PreyState implements State {
 
         char maxi = allow.charAt(0);
         for (char direction : distance.keySet()) {
-            if (distance.get(maxi) < distance.get(direction)) {
+            if (distance.get(maxi) < distance.get(direction) && allow.contains(String.valueOf(direction))) {
                 maxi = direction;
             }
         }
