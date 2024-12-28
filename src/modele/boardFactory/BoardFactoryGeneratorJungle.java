@@ -1,5 +1,7 @@
 package modele.boardFactory;
 
+import modele.boardFactory.generator.GeneratorForest;
+import modele.boardFactory.generator.GeneratorJungle;
 import modele.clock.Clock;
 import modele.entity.movable.character.npc.prey.Monkey;
 import modele.entity.stationary.food.Banana;
@@ -13,6 +15,7 @@ public class BoardFactoryGeneratorJungle extends BoardFactoryGenerator{
 	Terrain[][] board;
 	public BoardFactoryGeneratorJungle(int height, int width) {
 		super(height, width);
+		this.generator = new GeneratorJungle();
 	}
 
 	/*@Override

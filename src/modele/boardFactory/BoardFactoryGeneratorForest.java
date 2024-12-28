@@ -1,5 +1,6 @@
 package modele.boardFactory;
 
+import modele.boardFactory.generator.GeneratorForest;
 import modele.clock.Clock;
 import modele.entity.movable.character.npc.prey.Squirrel;
 import modele.entity.stationary.food.Acorn;
@@ -14,6 +15,7 @@ public class BoardFactoryGeneratorForest extends BoardFactoryGenerator {
 
 	public BoardFactoryGeneratorForest(int height, int width) {
 		super(height, width);
+		this.generator = new GeneratorForest();
 	}
 
 
