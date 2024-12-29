@@ -7,7 +7,8 @@ public class Snake extends Predator{
     public Snake(int x, int y) {
         super(x, y);
         this.currentState = new SnakeRaidState(this);
-
+        this.representation = "E";
+        this.displayName = "Serpent";
     }
 
     @Override

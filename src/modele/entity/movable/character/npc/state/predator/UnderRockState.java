@@ -18,9 +18,4 @@ public class UnderRockState extends PredatorState {
     public void deplacement() {
 
     }
-
-    @Override
-    public String applyColorModifier() {
-        return "";
-    }
 }

@@ -17,8 +17,4 @@ public class SnakeRaidState extends RaidState{
 
     }
 
-    @Override
-    public String applyColorModifier() {
-        return "";
-    }
 }

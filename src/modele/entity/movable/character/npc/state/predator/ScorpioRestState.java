@@ -8,11 +8,6 @@ public class ScorpioRestState extends RestState {
     }
 
 
-    @Override
-    public String applyColorModifier() {
-        return "";
-    }
-
     protected PredatorState getNextState(){
         return new ScorpioRestState(predator);
     }
