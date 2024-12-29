@@ -47,7 +47,11 @@ public class Monkey extends Prey {
 
             if (!high.isEmpty()) {
                 if (aggressor instanceof Snake){
-                    Clock.getInstance().addCommandToTurn(new MovePreyCommand(this, high.charAt(0)));
+                    if (high.contains("a")){
+                        Clock.getInstance().addCommandToTurn(new MovePreyCommand(this, 'a'));
+                    } else {
+                        Clock.getInstance().addCommandToTurn(new MovePreyCommand(this, high.charAt(0)));
+                    }
                 }
             } else {
                 Board.getInstance().getAt(x,y).clearEntityOnCase();
