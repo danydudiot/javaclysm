@@ -15,7 +15,7 @@ public class HallucinogenicMushroom extends BadFood {
      */
     public HallucinogenicMushroom(int x, int y) {
         super(x, y);
-        this.representation = Colors.BLUE + "C" + Colors.RESET;
+        this.representation = Colors.BLUE + "M" + Colors.RESET;
         this.displayName = "Champignon hallucinogène";
     }
 }

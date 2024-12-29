@@ -15,7 +15,7 @@ public class PoisonousMushroom extends BadFood {
      */
     public PoisonousMushroom(int x, int y) {
         super(x, y);
-        this.representation = Colors.BLUE + "C" + Colors.RESET;
+        this.representation = Colors.BLUE + "M" + Colors.RESET;
         this.displayName = "Champignon vénéneux";
     }
 }
