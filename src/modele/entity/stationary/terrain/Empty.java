@@ -15,5 +15,6 @@ public class Empty extends Terrain {
         super(x, y);
         this.representation = " ";
         this.displayName = "Vide";
+        this.highlightColor = "";
     }
 }

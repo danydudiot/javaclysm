@@ -3,7 +3,6 @@ package controleur;
 import exception.InvalidActionException;
 import exception.MoveInvalidException;
 import modele.Board;
-import modele.Colors;
 import modele.boardFactory.BoardFactoryGenerator;
 import modele.boardFactory.BoardFactoryParser;
 import modele.Inventory;

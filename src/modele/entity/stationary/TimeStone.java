@@ -2,13 +2,11 @@ package modele.entity.stationary;
 
 import modele.Board;
 import modele.Colors;
-import modele.InventoryItem;
 import modele.clock.Clock;
-import modele.interaction.GrabTimeStone;
-import modele.interaction.Interactible;
+import modele.InventoryItem;
 import modele.interaction.Interaction;
-
-import java.awt.*;
+import modele.interaction.Interactible;
+import modele.interaction.GrabTimeStone;
 
 /**
  * Classe représentant les pierres précieuses permettant de revenir en arrière.
@@ -20,7 +18,7 @@ public class TimeStone extends StaticEntity implements Interactible, InventoryIt
     private Interaction[] interactions;
 
     /**
-     * Le nombre de tours a annulé.
+     * Le nombre de tours a annuler.
      */
     private int turns;
 
@@ -54,8 +52,14 @@ public class TimeStone extends StaticEntity implements Interactible, InventoryIt
         isActive = active;
         if (isActive) {
             this.displayName = "Pierre Temporelle";
+            if (turns == 2) {
+                this.representation = Colors.CYAN + turns + Colors.RESET;
+            } else {
+                this.representation = Colors.BLUE + turns + Colors.RESET;
+            }
         } else {
             this.displayName = "Pierre Inutile";
+            this.representation = Colors.LIGHT_BLACK + turns + Colors.RESET;
         }
     }
 
@@ -70,13 +74,13 @@ public class TimeStone extends StaticEntity implements Interactible, InventoryIt
             }
             StringBuilder output = new StringBuilder();
             if (nbTours == 2) {
-                output.append(Colors.ANSI_CYAN);
+                output.append(Colors.CYAN);
             } else {
-                output.append(Colors.ANSI_BLUE);
+                output.append(Colors.BLUE);
             }
             output.append("Voyage dans le temps de ")
                     .append(nbTours).append(" tours.")
-                    .append(Colors.ANSI_RESET);
+                    .append(Colors.RESET);
             Board.getInstance().logAction(output.toString());
         }
     }
@@ -89,25 +93,5 @@ public class TimeStone extends StaticEntity implements Interactible, InventoryIt
     @Override
     public Interaction[] getInteractions() {
         return interactions;
-    }
-
-    /**
-     * Retourne une représentation stylisée de la pierre précieuse.
-     *
-     * @return Une représentation stylisée la pierre précieuse.
-     */
-    @Override
-    public String toString() {
-        StringBuilder output = new StringBuilder();
-        if (!isActive) {
-            output.append(Colors.ANSI_LIGHT_BLACK);
-        } else if (turns == 2) {
-            output.append(Colors.ANSI_CYAN);
-        } else {
-            output.append(Colors.ANSI_BLUE);
-        }
-        output.append(turns);
-        output.append(Colors.ANSI_RESET);
-        return output.toString();
     }
 }

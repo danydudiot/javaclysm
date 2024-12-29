@@ -1,5 +1,7 @@
 package modele.entity.stationary.terrain.low;
 
+import modele.Colors;
+
 /**
  * Classe représentant un rocher sur la carte.
  */
@@ -15,5 +17,6 @@ public class Rock extends Low {
         super(x, y);
         this.representation = "R";
         this.displayName = "Rocher";
+        this.highlightColor = Colors.WHITE_BACKGROUND + Colors.BLACK;
     }
 }

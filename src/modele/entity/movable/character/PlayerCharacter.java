@@ -9,7 +9,7 @@ public class PlayerCharacter extends Character{
     protected char orientation;
     public PlayerCharacter(int x, int y) {
         super(x, y);
-        this.representation = "@";
+        this.representation = Colors.YELLOW_BACKGROUND + Colors.BLACK + "@" + Colors.RESET;
         this.orientation = 'z';
         this.displayName = "Joueur";
     }
@@ -75,10 +75,5 @@ public class PlayerCharacter extends Character{
                 break;
 		}
         return target;
-    }
-
-    @Override
-    public String toString() {
-        return Colors.ANSI_YELLOW_BACKGROUND + Colors.ANSI_BLACK + representation + Colors.ANSI_RESET;
     }
 }

@@ -64,7 +64,7 @@ public final class Clock implements Observable{
             }
             nbTour--;
         } else {
-            Board.getInstance().logAction(Colors.ANSI_BLUE_BACKGROUND + "Je ne peut pas annuler le Big Bang chef..." + Colors.ANSI_RESET);
+            Board.getInstance().logAction(Colors.BLUE_BACKGROUND + "Je ne peut pas annuler le Big Bang chef..." + Colors.RESET);
         }
     }
 

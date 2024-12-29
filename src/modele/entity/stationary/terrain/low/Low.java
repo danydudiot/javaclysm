@@ -1,6 +1,5 @@
 package modele.entity.stationary.terrain.low;
 
-import modele.Colors;
 import modele.entity.stationary.terrain.Terrain;
 
 /**

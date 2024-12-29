@@ -39,10 +39,10 @@ public class JunkieState extends PreyState {
     public String applyColorModifier() {
         if (prey.isFriendly()) {
             // Light purple
-            return "\u001b[95m" + prey.getRepresentation() + Colors.ANSI_RESET;
+            return "\u001b[95m" + prey.getRepresentation() + Colors.RESET;
         } else {
             // light white
-            return Colors.ANSI_RED + prey.getRepresentation() + Colors.ANSI_RESET;
+            return Colors.RED + prey.getRepresentation() + Colors.RESET;
         }
     }
 }
