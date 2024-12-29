@@ -9,6 +9,7 @@ import modele.clock.commands.EatPreyCommand;
 import modele.entity.Entity;
 import modele.entity.movable.character.PlayerCharacter;
 import modele.entity.movable.character.npc.predator.Predator;
+import modele.entity.movable.character.npc.predator.Scorpio;
 import modele.entity.movable.character.npc.prey.Monkey;
 import modele.entity.movable.character.npc.NonPlayerCharacter;
 import modele.entity.movable.character.npc.prey.Prey;
@@ -16,6 +17,8 @@ import modele.entity.movable.character.npc.prey.Squirrel;
 import modele.entity.stationary.food.Food;
 import modele.entity.stationary.terrain.Empty;
 import modele.entity.stationary.terrain.Terrain;
+import modele.entity.stationary.terrain.high.ScorpioRock;
+import modele.entity.stationary.terrain.low.Rock;
 
 import java.util.*;
 
@@ -56,8 +59,9 @@ public class Board {
     }
 
     public static void buildBoard(char theme, int height, int width, Terrain[][] board, PlayerCharacter player) {
-        INSTANCE = new Board(theme,height, width, board, player);
+        INSTANCE = new Board(theme, height, width, board, player);
     }
+
     public Terrain[][] getBoard() {
         return board;
     }
@@ -75,7 +79,7 @@ public class Board {
     }
 
     public Terrain getAt(int x, int y) {
-        if (x < 0 || x > width-1 || y < 0 || y > height-1 ) {
+        if (x < 0 || x > width - 1 || y < 0 || y > height - 1) {
             return null;
         }
         return board[y][x];
@@ -83,14 +87,14 @@ public class Board {
 
     public Terrain getToward(int x, int y, char direction) {
         switch (direction) {
-            case 'z' :
-                return getAt(x, y-1);
+            case 'z':
+                return getAt(x, y - 1);
             case 's':
-                return getAt(x, y+1);
+                return getAt(x, y + 1);
             case 'q':
-                return getAt(x-1, y);
+                return getAt(x - 1, y);
             case 'd':
-                return getAt(x+1, y);
+                return getAt(x + 1, y);
             default:
                 System.out.println("unknown direction" + direction);
                 return null;
@@ -100,7 +104,7 @@ public class Board {
     public Map<Character, Terrain> getNeighbours(int x, int y) {
         Map<Character, Terrain> out = new HashMap<>();
         for (char c : new char[]{'z', 'q', 's', 'd'}) {
-            Terrain target = getToward(x,y,c);
+            Terrain target = getToward(x, y, c);
             if (target != null) {
                 out.put(c, target);
             }
@@ -110,7 +114,7 @@ public class Board {
 
     public int[] moveEntity(int x, int y, char direction) throws MoveInvalidException, EntityNotFoundException, InvalidArgumentException {
         if (board[y][x].getEntityOnCase() == null) {
-            throw new EntityNotFoundException("Entité non trouver. x=" + x + " y="+y);
+            throw new EntityNotFoundException("Entité non trouver. x=" + x + " y=" + y);
         } else {
             int new_x;
             int new_y;
@@ -128,29 +132,29 @@ public class Board {
                 new_y = y;
             } else if (direction == 'a') {
 //                NPC IS STUCK AND CANNOT MOVE
-                return new int[]{x,y};
+                return new int[]{x, y};
             } else {
                 throw new InvalidArgumentException("Déplacement inconnue");
             }
             if (new_x < 0 || new_x >= width || new_y < 0 || new_y >= height) {
                 logError("Le mouvement est en dehors de la carte.");
-                return new int[]{x,y};
+                return new int[]{x, y};
             }
-            return moveEntity(x,y,new_x, new_y);
+            return moveEntity(x, y, new_x, new_y);
         }
     }
 
 
     public int[] moveEntity(int x, int y, int new_x, int new_y) throws MoveInvalidException, EntityNotFoundException, InvalidArgumentException {
         if (board[y][x].getEntityOnCase() == null) {
-            throw new EntityNotFoundException("Entité non trouver. x=" + x + " y="+y);
+            throw new EntityNotFoundException("Entité non trouver. x=" + x + " y=" + y);
         }
         Entity entity = board[y][x].getEntityOnCase();
         if (entity instanceof PlayerCharacter) {
             if (!(board[new_y][new_x].getClass() == Empty.class && board[new_y][new_x].getEntityOnCase() == null)) {
 //                    throw new MoveInvalidException("Le joueur ne peut pas aller sur cette case.");
                 logError("Le joueur ne peut pas aller sur cette case");
-                return new int[]{x,y};
+                return new int[]{x, y};
             } else {
                 board[new_y][new_x].setEntityOnCase(entity);
                 board[y][x].clearEntityOnCase();
@@ -166,7 +170,7 @@ public class Board {
                 Map<Character, Terrain> neighbours = getNeighbours(new_x, new_y);
                 boolean isPlayerNearby = false;
                 Object[] neighbours_list = neighbours.keySet().toArray();
-                for (int i = 0; i<neighbours_list.length; ++i) {
+                for (int i = 0; i < neighbours_list.length; ++i) {
                     if (neighbours.get(neighbours_list[i]).getEntityOnCase() instanceof PlayerCharacter) {
                         isPlayerNearby = true;
                         break;
@@ -178,24 +182,42 @@ public class Board {
                 throw new MoveInvalidException("L'animal ne peut pas aller sur cette case.");
             }
         } else if (entity instanceof Predator) {
-            if (board[new_y][new_x].getEntityOnCase() == null) {
-                board[new_y][new_x].setEntityOnCase(entity);
-                board[y][x].clearEntityOnCase();
-            } else if (board[new_y][new_x].getEntityOnCase() instanceof Prey) {
-                Prey prey = (Prey) board[new_y][new_x].getEntityOnCase();
-                prey.hit((Predator) entity);
-                board[new_y][new_x].setEntityOnCase(entity);
-                board[y][x].clearEntityOnCase();
+            if (entity instanceof Scorpio) {
+                if (board[new_y][new_x].getEntityOnCase() instanceof Prey){
+                    Prey prey = (Prey) board[new_y][new_x].getEntityOnCase();
+                    prey.hit((Predator) entity);
+                }
+                if (board[y][x] instanceof ScorpioRock){
+                    Scorpio scorpio = ((ScorpioRock) board[y][x]).getScorpio();
+                    board[y][x] = new Rock(x,y);
+                    board[y][x].setEntityOnCase(scorpio);
+                }
+                if (board[new_y][new_x].getEntityOnCase() == null && board[new_y][new_x] instanceof Rock) {
+                    board[new_y][new_x] = new ScorpioRock(new_x, new_y, (Scorpio) entity);
+                    board[y][x].clearEntityOnCase();
+                } else if (board[new_y][new_x].getEntityOnCase() == null) {
+                    board[new_y][new_x].setEntityOnCase(entity);
+                    board[y][x].clearEntityOnCase();
+                } else {
+                    throw new MoveInvalidException("Le scorpion ne peut pas aller sur cette case.");
+                }
             } else {
-                throw new MoveInvalidException("Le prédateur ne peut pas aller sur cette case.");
+                if (board[new_y][new_x].getEntityOnCase() == null) {
+                    board[new_y][new_x].setEntityOnCase(entity);
+                    board[y][x].clearEntityOnCase();
+                } else if (board[new_y][new_x].getEntityOnCase() instanceof Prey) {
+                    Prey prey = (Prey) board[new_y][new_x].getEntityOnCase();
+                    prey.hit((Predator) entity);
+                    board[new_y][new_x].setEntityOnCase(entity);
+                    board[y][x].clearEntityOnCase();
+                } else {
+                    throw new MoveInvalidException("Le prédateur ne peut pas aller sur cette case.");
+                }
             }
         }
-        return new int[]{new_x,new_y};
+        return new int[]{new_x, new_y};
 
     }
-
-
-
 
 
     public void clearCase(int x, int y) throws EntityNotFoundException {
@@ -207,12 +229,12 @@ public class Board {
     }
 
 
-    public void fillCase(int x, int y, char direction , Entity entity) {
-        Terrain new_postion = getToward(x,y, getPlayer().getOrientation());
-        if (new_postion == null || new_postion.getEntityOnCase() != null){
+    public void fillCase(int x, int y, char direction, Entity entity) {
+        Terrain new_postion = getToward(x, y, getPlayer().getOrientation());
+        if (new_postion == null || new_postion.getEntityOnCase() != null) {
             throw new InvalidActionException("Vous ne pouvez pas jeter quelque chose sur un case non vide");
         }
-        entity.setPosition(new_postion.getPosition()[0],new_postion.getPosition()[1]);
+        entity.setPosition(new_postion.getPosition()[0], new_postion.getPosition()[1]);
         new_postion.setEntityOnCase(entity);
     }
 
@@ -223,26 +245,26 @@ public class Board {
 
     public List<List<String>> getBoardAsList() {
         List<List<String>> board_list = new ArrayList<>();
-		for (Terrain[] terrains : board) { //(Terrain[] line : board){
+        for (Terrain[] terrains : board) { //(Terrain[] line : board){
             List<String> line_list = new ArrayList<>();
-			for (Terrain terrain : terrains) {//(Terrain cell : line){
-				if (terrain == null) {
-					System.out.println("null");
-				} else {
+            for (Terrain terrain : terrains) {//(Terrain cell : line){
+                if (terrain == null) {
+                    System.out.println("null");
+                } else {
                     line_list.add(terrain.toString());
                 }
-			}
+            }
             board_list.add(line_list);
-		}
+        }
         return board_list;
     }
 
     @Override
     public String toString() {
         StringBuilder board_string = new StringBuilder();
-        for (int i=0;i< board.length;i++){ //(Terrain[] line : board){
-            for (int j = 0; j< board[i].length;j++){//(Terrain cell : line){
-                if (board[i][j] == null){
+        for (int i = 0; i < board.length; i++) { //(Terrain[] line : board){
+            for (int j = 0; j < board[i].length; j++) {//(Terrain cell : line){
+                if (board[i][j] == null) {
                     System.out.println("null");
                 }
                 board_string.append(board[i][j].toString());
@@ -255,6 +277,7 @@ public class Board {
     public void logAction(String log) {
         logs.add(log);
     }
+
     public void logError(String error) {
         logs.add(Colors.ANSI_RED + error + Colors.ANSI_RESET);
     }
@@ -263,7 +286,7 @@ public class Board {
         List<String> out = new LinkedList<>();
         for (int i = 0; i < amount; i++) {
             try {
-                out.add(logs.get(logs.size()-i-1));
+                out.add(logs.get(logs.size() - i - 1));
             } catch (IndexOutOfBoundsException e) {
                 out.add("");
             }
@@ -273,8 +296,8 @@ public class Board {
 
     public List<Terrain> getNear(int x, int y, int nbCases) {
         List<Terrain> listNear = new ArrayList<>();
-        for (int i = Math.max(x-nbCases, 0); i < Math.min(x+nbCases, width); i++) {
-            for (int j = Math.max(y-nbCases, 0); j < Math.min(y+nbCases, height); j++) {
+        for (int i = Math.max(x - nbCases, 0); i < Math.min(x + nbCases, width); i++) {
+            for (int j = Math.max(y - nbCases, 0); j < Math.min(y + nbCases, height); j++) {
                 if ((Math.abs(x - i) + Math.abs(y - j)) <= nbCases) {
                     listNear.add(board[j][i]);
                 }

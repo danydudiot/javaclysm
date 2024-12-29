@@ -1,0 +1,38 @@
+J
+35
+100
+PPPPPPPPPPPPPPPPPRPPRPPPPPPPPPPPPPPRPRPPPPPPPPPPPPPPPPPPPPPPRPPPPPPPPPPPRPPPPPPPPPPPPPPPPPPPRPRPPPPP
+P  C C        C S E                                                S       PP   R P   PR PP R2 S P R
+P   B  C   S B  C  C    S                            EE                       RP R RP RPP   RR     P
+PC     C  C          C                                                 S           P RRPPP S   P  EP
+PC CCBCCCBC  C C               C              S                              O    PR  S   P   PSS  P
+P C CCC C  B   CS   B       C  C S           O          P                           P  R   P  P    P
+P BBC  B  C   B        E     C  C     S               R     S                  P R      P P PP     P
+P   C CCC   CS   BC    B    B    C                   P    P                    PR   R RPSR         P
+PCCBC CC BC  C        B  B  B   C  CCC    SO             PPS S                    RPPRP   R  PP    P
+PCC B CCS B  CB      C C C  B BB   C                     P                    S   P     P  R  R  S P
+P  C CB     B CBCC        CBCB                   3    P  P                     PRS      P   P      P
+P CC     CCCB CC B B  C CBCC  C  B   BC      S      PRRP P             S     3               P    PP
+PCCBBO      CCBC B        CCC  BCCC CC  S 3        PP P P             S         P      P   R  RR   R
+RB C     EBBC BC       BC  B  BC BC              @ PRPP R R                           PR    PP    RP
+P     C  BBB 2BCCBB    CCB         B               RP R R RSS             S        PP     PR  P  RRP
+P     C   C B CC    C CC  BB  CCB C     S             P R     R    S           S     P R   RP  RP  P
+P        CCBCCC   C  CC C  CC    CC C S        E     R       P                        R P PR RO P  P
+P   S     CC B      C  CBS B  C   BS    R  R             SP  P                         RRP PPRRR  RP
+P      C O    C  B CC    CBBC C  C         R   P E           P S                    PP  RP   PPPP RP
+P         C C            BB C  CBB     PR   RPP      E    R S    S  2     S         PP   P  PR RRERP
+P         C C C       S S   C     C P     P R  R R    P    P          S     S    S    P    P R R P P
+P          B     C       CC CC      RR P  RRPRRP P                                  PP    P PP  P RP
+P          C B  O C      C C  C CCB  PEPRPP  P       R    P                                PP  R   P
+P          B      S     BC BC   C     P R             P       S                  S      R RPR P   RP
+P  S                           C        P  P PPPP P           O            S           P  P     RRPP
+P         2                             R  RR    R               O S     S         R  S  P      P  P
+P   S          S                 2R    P     RR   R  P                                   P    S    P
+P                                      RP   P RPR                 S          S          R   R  2   P
+P                          S           P P  P  P PR  P                3  S       O                 P
+P                                       R  S                  E                S  S                P
+P        O               E                    P    R     S          O      S                       P
+P                                      P  O    R  PP                                               P
+P           S           E               PP  R                                    S                 P
+P                                                                                       S          P
+PPPPPRPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPRPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP
