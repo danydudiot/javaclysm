@@ -8,6 +8,7 @@ import modele.entity.movable.character.Character;
 import modele.entity.movable.character.PlayerCharacter;
 import modele.entity.movable.character.npc.predator.Predator;
 import modele.entity.movable.character.npc.predator.Snake;
+import modele.entity.movable.character.npc.state.DeadState;
 import modele.entity.stationary.food.Banana;
 import modele.entity.stationary.terrain.Terrain;
 import modele.entity.stationary.terrain.high.High;
@@ -50,7 +51,9 @@ public class Monkey extends Prey {
                 }
             } else {
                 Board.getInstance().getAt(x,y).clearEntityOnCase();
+                this.setCurrentState(new DeadState(this));
                 ((Predator) aggressor).afterHit();
+
             }
 
         } else {

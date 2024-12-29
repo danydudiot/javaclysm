@@ -9,6 +9,7 @@ import modele.entity.movable.character.PlayerCharacter;
 import modele.entity.movable.character.npc.predator.Fox;
 import modele.entity.movable.character.npc.predator.Owl;
 import modele.entity.movable.character.npc.predator.Predator;
+import modele.entity.movable.character.npc.state.DeadState;
 import modele.entity.stationary.food.Acorn;
 import modele.entity.stationary.terrain.Terrain;
 import modele.entity.stationary.terrain.high.High;
@@ -57,6 +58,7 @@ public class Squirrel extends Prey {
                 }
             } else {
                 Board.getInstance().getAt(x,y).clearEntityOnCase();
+                this.setCurrentState(new DeadState(this));
                 ((Predator) aggressor).afterHit();
             }
 

@@ -17,8 +17,5 @@ public class OwlRaidState extends RaidState{
 
     }
 
-    @Override
-    public String applyColorModifier() {
-        return "";
-    }
+
 }

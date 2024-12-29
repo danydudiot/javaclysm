@@ -8,6 +8,8 @@ public class Scorpio extends Predator{
     public Scorpio(int x, int y) {
         super(x, y);
         this.currentState = new ScorpioRaidState(this);
+        this.representation = "O";
+        this.displayName = "Scorpion";
     }
 
     @Override

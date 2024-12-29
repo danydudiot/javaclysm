@@ -8,6 +8,7 @@ import modele.clock.Clock;
 import modele.clock.commands.EatPreyCommand;
 import modele.entity.Entity;
 import modele.entity.movable.character.PlayerCharacter;
+import modele.entity.movable.character.npc.predator.Predator;
 import modele.entity.movable.character.npc.prey.Monkey;
 import modele.entity.movable.character.npc.NonPlayerCharacter;
 import modele.entity.movable.character.npc.prey.Prey;
@@ -136,7 +137,7 @@ public class Board {
                 return new int[]{x,y};
             }
             Entity entity = board[y][x].getEntityOnCase();
-            if (entity.getClass() == PlayerCharacter.class) {
+            if (entity instanceof PlayerCharacter) {
                 if (!(board[new_y][new_x].getClass() == Empty.class && board[new_y][new_x].getEntityOnCase() == null)) {
 //                    throw new MoveInvalidException("Le joueur ne peut pas aller sur cette case.");
                     logError("Le joueur ne peut pas aller sur cette case");
@@ -145,7 +146,7 @@ public class Board {
                     board[new_y][new_x].setEntityOnCase(entity);
                     board[y][x].clearEntityOnCase();
                 }
-            } else if (entity.getClass() == Monkey.class || entity.getClass() == Squirrel.class) {
+            } else if (entity instanceof Prey) {
 				if (board[new_y][new_x].getEntityOnCase() == null) {
                     board[new_y][new_x].setEntityOnCase(entity);
                     board[y][x].clearEntityOnCase();
@@ -166,6 +167,18 @@ public class Board {
                     Clock.getInstance().addCommandToTurn(new EatPreyCommand((Prey) entity, food, isPlayerNearby));
                 } else {
                     throw new MoveInvalidException("L'animal ne peut pas aller sur cette case.");
+                }
+            } else if (entity instanceof Predator) {
+                if (board[new_y][new_x].getEntityOnCase() == null) {
+                    board[new_y][new_x].setEntityOnCase(entity);
+                    board[y][x].clearEntityOnCase();
+                } else if (board[new_y][new_x].getEntityOnCase() instanceof Prey) {
+                    Prey prey = (Prey) board[new_y][new_x].getEntityOnCase();
+                    prey.hit((Predator) entity);
+                    board[new_y][new_x].setEntityOnCase(entity);
+                    board[y][x].clearEntityOnCase();
+                } else {
+                    throw new MoveInvalidException("Le prédateur ne peut pas aller sur cette case.");
                 }
             }
             return new int[]{new_x,new_y};

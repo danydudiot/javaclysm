@@ -17,8 +17,4 @@ public class ScorpioRaidState extends RaidState{
 
     }
 
-    @Override
-    public String applyColorModifier() {
-        return "";
-    }
 }
