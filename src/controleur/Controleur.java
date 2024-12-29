@@ -90,6 +90,8 @@ public class Controleur {
                 if (playerCharacter.canMove(action)) {
                     clock.addCommandToTurn(new MovePlayerCommand(playerCharacter, action));
                     clock.notifierObservateur();
+                } else {
+                    Board.getInstance().logError("Déplacement impossible");
                 }
             } else if ("oklm".indexOf(action) != -1) {
                 playerCharacter.changeOrientation(action);
@@ -139,10 +141,10 @@ public class Controleur {
                     clock.notifierObservateur();
                 }
             } else {
-                board.logAction(Colors.ANSI_RED + "Pas d'interactions disponibles." + Colors.ANSI_RESET);
+                board.logError("Pas d'interactions disponibles.");
             }
         } else {
-            board.logAction(Colors.ANSI_RED + "Pas d'interactions disponibles." + Colors.ANSI_RESET);
+            board.logError("Pas d'interactions disponibles.");
         }
     }
 

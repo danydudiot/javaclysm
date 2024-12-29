@@ -20,19 +20,11 @@ public class PlayerCharacter extends Character{
 
 
     @Override
-    public boolean move(char direction) {
-        boolean b = super.move(direction);
-        if (b) {
-            Board.getInstance().logAction("Joueur bouge vers " + switch (direction) {
-                case 'z' -> "le haut";
-                case 's' -> "le bas";
-                case 'q' -> "la gauche";
-                case 'd' -> "la droite";
-                default -> "nulle part ???? ceci est une erreur ?";
-            });
+    public void move(char direction) {
+        if (canMove(direction)) {
+            super.move(direction);
             changeOrientation(direction);
         }
-        return b;
     }
 
     public boolean canMove(char direction) {
@@ -40,7 +32,6 @@ public class PlayerCharacter extends Character{
         if (target != null && target.isEmpty() && (target instanceof Empty)) {
             return true;
         } else {
-            Board.getInstance().logAction(Colors.ANSI_RED + "Déplacement impossible" + Colors.ANSI_RESET);
             return false;
         }
     }

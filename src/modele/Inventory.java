@@ -65,10 +65,10 @@ public class Inventory {
                 items.remove(equippedItemId);
                 this.equippedItemId = -1;
             } else {
-                board.logAction(Colors.ANSI_RED + "Impossible de jeter cela ici." + Colors.ANSI_RESET);
+                board.logError("Impossible de jeter cela ici.");
             }
         } else {
-            Board.getInstance().logAction(Colors.ANSI_RED + "Aucun objet équipé." + Colors.ANSI_RESET);
+            Board.getInstance().logError("Aucun objet équipé.");
         }
     }
 

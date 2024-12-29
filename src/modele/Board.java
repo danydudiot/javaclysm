@@ -132,14 +132,14 @@ public class Board {
                 throw new InvalidArgumentException("Déplacement inconnue");
             }
             if (new_x < 0 || new_x >= width || new_y < 0 || new_y >= height) {
-                logAction(Colors.ANSI_RED + "Le mouvement est en dehors de la carte." + Colors.ANSI_RESET);
+                logError("Le mouvement est en dehors de la carte.");
                 return new int[]{x,y};
             }
             Entity entity = board[y][x].getEntityOnCase();
             if (entity.getClass() == PlayerCharacter.class) {
                 if (!(board[new_y][new_x].getClass() == Empty.class && board[new_y][new_x].getEntityOnCase() == null)) {
 //                    throw new MoveInvalidException("Le joueur ne peut pas aller sur cette case.");
-                    logAction(Colors.ANSI_RED + "Le joueur ne peut pas aller sur cette case" + Colors.ANSI_RESET);
+                    logError("Le joueur ne peut pas aller sur cette case");
                     return new int[]{x,y};
                 } else {
                     board[new_y][new_x].setEntityOnCase(entity);
@@ -228,6 +228,9 @@ public class Board {
 
     public void logAction(String log) {
         logs.add(log);
+    }
+    public void logError(String error) {
+        logs.add(Colors.ANSI_RED + error + Colors.ANSI_RESET);
     }
 
     public List<String> peekAtLogs(int amount) {
