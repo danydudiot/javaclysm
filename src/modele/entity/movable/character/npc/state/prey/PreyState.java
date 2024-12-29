@@ -86,9 +86,9 @@ public abstract class PreyState implements State {
             Terrain terrain = neighbours.get(direction);
             if (terrain.getEntityOnCase() instanceof PlayerCharacter){
                 player = direction;
-            } else if (terrain instanceof High){
+            } else if (terrain instanceof High && terrain.getEntityOnCase() == null){
                 high += direction;
-            } else if (terrain instanceof Low){
+            } else if (terrain instanceof Low && terrain.getEntityOnCase() == null){
                 low += direction;
             } else if (terrain.getEntityOnCase() == null) {
                 free += direction;
