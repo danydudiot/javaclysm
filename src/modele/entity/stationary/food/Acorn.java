@@ -14,7 +14,7 @@ public class Acorn extends Food {
      */
     public Acorn(int x, int y) {
         super(x, y);
-        this.representation = Colors.RED + "G" + Colors.RESET;
+        this.representation = Colors.YELLOW + "G" + Colors.RESET;
         this.displayName = "Gland";
     }
 }

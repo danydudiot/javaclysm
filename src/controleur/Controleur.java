@@ -103,6 +103,9 @@ public class Controleur {
                 clock.notifierObservateur();
             } else if ("r".indexOf(action) != -1) {
                 clock.undoLastTurn();
+            } else if ("h".indexOf(action) != -1) {
+                ihm.printHelpPage(board.getTheme());
+                tour();
             } else {
                 throw new InvalidActionException("Action inconnue.");
             }

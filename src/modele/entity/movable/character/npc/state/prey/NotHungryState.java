@@ -1,5 +1,6 @@
 package modele.entity.movable.character.npc.state.prey;
 
+import modele.Colors;
 import modele.clock.Clock;
 import modele.clock.commands.MovePreyCommand;
 import modele.entity.movable.character.npc.prey.Prey;
@@ -43,11 +44,10 @@ public class NotHungryState extends PreyState {
     @Override
     public String applyColorModifier() {
         if (prey.isFriendly()) {
-            // Light purple
-            return "\u001b[95m" + prey.getRepresentation() + "\u001b[0m";
+            return Colors.LIGHT_PURPLE + prey.getRepresentation() + "\u001b[0m";
         } else {
             // light white
-            return "\u001b[97m" + prey.getRepresentation() + "\u001b[0m";
+            return Colors.LIGHT_WHITE + prey.getRepresentation() + "\u001b[0m";
         }
     }
 }

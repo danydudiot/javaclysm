@@ -1,6 +1,6 @@
 package modele;
 
-public class Colors {
+public final class Colors {
 
 	public static final String RESET = "\u001B[0m";
 	public static final String BLACK = "\u001B[30m";
@@ -20,6 +20,12 @@ public class Colors {
 	public static final String CYAN_BACKGROUND = "\u001B[46m";
 	public static final String WHITE_BACKGROUND = "\u001B[47m";
 
-	public static final String DARK_BLACK = "\u001B[30m";
 	public static final String LIGHT_BLACK = "\u001B[90m";
+	public static final String LIGHT_RED = "\u001B[91m";
+
+	public static final String LIGHT_PURPLE = "\u001b[95m";
+	public static final String LIGHT_WHITE = "\u001b[97m";
+
+	public static final String PLAYER = YELLOW_BACKGROUND + BLACK;
+	public static final String HIGHLIGHT = WHITE_BACKGROUND + BLACK;
 }

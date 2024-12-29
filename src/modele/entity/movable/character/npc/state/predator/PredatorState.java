@@ -40,10 +40,4 @@ public abstract class PredatorState implements State {
         }
 
     }
-
-    @Override
-    public String applyColorModifier() {
-        return predator.getRepresentation();
-    }
-
 }

@@ -39,6 +39,6 @@ public class TerrifyState extends PreyState {
 
     @Override
     public String applyColorModifier() {
-        return Colors.BLACK + prey.getRepresentation() + Colors.RESET;
+        return Colors.LIGHT_BLACK + prey.getRepresentation() + Colors.RESET;
     }
 }

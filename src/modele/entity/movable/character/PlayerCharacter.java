@@ -9,7 +9,7 @@ public class PlayerCharacter extends Character{
     protected char orientation;
     public PlayerCharacter(int x, int y) {
         super(x, y);
-        this.representation = Colors.YELLOW_BACKGROUND + Colors.BLACK + "@" + Colors.RESET;
+        this.representation = Colors.PLAYER + "@" + Colors.RESET;
         this.orientation = 'z';
         this.displayName = "Joueur";
     }

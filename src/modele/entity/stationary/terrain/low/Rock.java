@@ -15,7 +15,7 @@ public class Rock extends Low {
      */
     public Rock(int x, int y) {
         super(x, y);
-        this.representation = "R";
+        this.representation = Colors.WHITE + "R" + Colors.RESET;
         this.displayName = "Rocher";
         this.highlightColor = Colors.WHITE_BACKGROUND + Colors.BLACK;
     }

@@ -1,5 +1,6 @@
 package modele.entity.movable.character.npc.state.prey;
 
+import modele.Colors;
 import modele.entity.movable.character.npc.prey.Prey;
 
 public abstract class HungryState extends PreyState {
@@ -11,11 +12,9 @@ public abstract class HungryState extends PreyState {
     @Override
     public String applyColorModifier() {
         if (prey.isFriendly()) {
-            // Dark purple
-            return "\u001b[35m" + prey.getRepresentation() + "\u001b[0m";
+            return Colors.PURPLE + prey.getRepresentation() + Colors.RESET;
         } else {
-            // Dark white
-            return "\u001b[37m" + prey.getRepresentation() + "\u001b[0m";
+            return Colors.WHITE + prey.getRepresentation() + Colors.RESET;
         }
     }
 
