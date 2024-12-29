@@ -7,4 +7,9 @@ public class Fox extends Predator{
         super(x, y);
         this.currentState = new FoxRaidState(this);
     }
+
+    @Override
+    public void afterHit() {
+
+    }
 }

@@ -2,16 +2,19 @@ package modele.clock.commands;
 
 import modele.Inventory;
 import modele.entity.Entity;
+import modele.entity.movable.character.Character;
 import modele.interaction.Grab;
 
 public class DropCommand implements Command {
 
 	Inventory inventory;
 	Entity what;
+	Character author;
 
-	public DropCommand(Inventory inventory, Entity what) {
+	public DropCommand(Inventory inventory, Entity what, Character author) {
 		this.inventory = inventory;
 		this.what = what;
+		this.author = author;
 	}
 
 	@Override
@@ -22,6 +25,6 @@ public class DropCommand implements Command {
 	@Override
 	public void undoCommand() {
 		Grab grab = new Grab();
-		grab.interact(inventory, what);
+		grab.interact(inventory, what, author);
 	}
 }
