@@ -18,6 +18,15 @@ public abstract class MovableEntity extends Entity {
 		}
 	}
 
+	public void move(int new_x, int new_y) {
+		Board board = Board.getInstance();
+		int[] new_position = board.moveEntity(x, y, new_x, new_y );
+		if (this.x != new_position[0] || this.y != new_position[1]) {
+			this.x = new_position[0];
+			this.y = new_position[1];
+		}
+	}
+
     public char getInverseDirection(char direction) {
 		return switch (direction) {
 			case 'z' -> 's';

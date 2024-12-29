@@ -110,7 +110,7 @@ public class Board {
 
     public int[] moveEntity(int x, int y, char direction) throws MoveInvalidException, EntityNotFoundException, InvalidArgumentException {
         if (board[y][x].getEntityOnCase() == null) {
-            throw new EntityNotFoundException();
+            throw new EntityNotFoundException("Entité non trouver. x=" + x + " y="+y);
         } else {
             int new_x;
             int new_y;
@@ -136,54 +136,67 @@ public class Board {
                 logError("Le mouvement est en dehors de la carte.");
                 return new int[]{x,y};
             }
-            Entity entity = board[y][x].getEntityOnCase();
-            if (entity instanceof PlayerCharacter) {
-                if (!(board[new_y][new_x].getClass() == Empty.class && board[new_y][new_x].getEntityOnCase() == null)) {
-//                    throw new MoveInvalidException("Le joueur ne peut pas aller sur cette case.");
-                    logError("Le joueur ne peut pas aller sur cette case");
-                    return new int[]{x,y};
-                } else {
-                    board[new_y][new_x].setEntityOnCase(entity);
-                    board[y][x].clearEntityOnCase();
-                }
-            } else if (entity instanceof Prey) {
-				if (board[new_y][new_x].getEntityOnCase() == null) {
-                    board[new_y][new_x].setEntityOnCase(entity);
-                    board[y][x].clearEntityOnCase();
-                } else if (board[new_y][new_x].getEntityOnCase() instanceof Food) {
-                    Food food = (Food) board[new_y][new_x].getEntityOnCase();
-                    board[new_y][new_x].setEntityOnCase(entity);
-                    board[y][x].clearEntityOnCase();
-                    Map<Character, Terrain> neighbours = getNeighbours(new_x, new_y);
-                    boolean isPlayerNearby = false;
-                    Object[] neighbours_list = neighbours.keySet().toArray();
-                    for (int i = 0; i<neighbours_list.length; ++i) {
-                        if (neighbours.get(neighbours_list[i]).getEntityOnCase() instanceof PlayerCharacter) {
-                            isPlayerNearby = true;
-                            break;
-                        }
-                    }
-//                    ((Prey) entity).eat(isPlayerNearby, food);
-                    Clock.getInstance().addCommandToTurn(new EatPreyCommand((Prey) entity, food, isPlayerNearby));
-                } else {
-                    throw new MoveInvalidException("L'animal ne peut pas aller sur cette case.");
-                }
-            } else if (entity instanceof Predator) {
-                if (board[new_y][new_x].getEntityOnCase() == null) {
-                    board[new_y][new_x].setEntityOnCase(entity);
-                    board[y][x].clearEntityOnCase();
-                } else if (board[new_y][new_x].getEntityOnCase() instanceof Prey) {
-                    Prey prey = (Prey) board[new_y][new_x].getEntityOnCase();
-                    prey.hit((Predator) entity);
-                    board[new_y][new_x].setEntityOnCase(entity);
-                    board[y][x].clearEntityOnCase();
-                } else {
-                    throw new MoveInvalidException("Le prédateur ne peut pas aller sur cette case.");
-                }
-            }
-            return new int[]{new_x,new_y};
+            return moveEntity(x,y,new_x, new_y);
         }
     }
+
+
+    public int[] moveEntity(int x, int y, int new_x, int new_y) throws MoveInvalidException, EntityNotFoundException, InvalidArgumentException {
+        if (board[y][x].getEntityOnCase() == null) {
+            throw new EntityNotFoundException("Entité non trouver. x=" + x + " y="+y);
+        }
+        Entity entity = board[y][x].getEntityOnCase();
+        if (entity instanceof PlayerCharacter) {
+            if (!(board[new_y][new_x].getClass() == Empty.class && board[new_y][new_x].getEntityOnCase() == null)) {
+//                    throw new MoveInvalidException("Le joueur ne peut pas aller sur cette case.");
+                logError("Le joueur ne peut pas aller sur cette case");
+                return new int[]{x,y};
+            } else {
+                board[new_y][new_x].setEntityOnCase(entity);
+                board[y][x].clearEntityOnCase();
+            }
+        } else if (entity instanceof Prey) {
+            if (board[new_y][new_x].getEntityOnCase() == null) {
+                board[new_y][new_x].setEntityOnCase(entity);
+                board[y][x].clearEntityOnCase();
+            } else if (board[new_y][new_x].getEntityOnCase() instanceof Food) {
+                Food food = (Food) board[new_y][new_x].getEntityOnCase();
+                board[new_y][new_x].setEntityOnCase(entity);
+                board[y][x].clearEntityOnCase();
+                Map<Character, Terrain> neighbours = getNeighbours(new_x, new_y);
+                boolean isPlayerNearby = false;
+                Object[] neighbours_list = neighbours.keySet().toArray();
+                for (int i = 0; i<neighbours_list.length; ++i) {
+                    if (neighbours.get(neighbours_list[i]).getEntityOnCase() instanceof PlayerCharacter) {
+                        isPlayerNearby = true;
+                        break;
+                    }
+                }
+//                    ((Prey) entity).eat(isPlayerNearby, food);
+                Clock.getInstance().addCommandToTurn(new EatPreyCommand((Prey) entity, food, isPlayerNearby));
+            } else {
+                throw new MoveInvalidException("L'animal ne peut pas aller sur cette case.");
+            }
+        } else if (entity instanceof Predator) {
+            if (board[new_y][new_x].getEntityOnCase() == null) {
+                board[new_y][new_x].setEntityOnCase(entity);
+                board[y][x].clearEntityOnCase();
+            } else if (board[new_y][new_x].getEntityOnCase() instanceof Prey) {
+                Prey prey = (Prey) board[new_y][new_x].getEntityOnCase();
+                prey.hit((Predator) entity);
+                board[new_y][new_x].setEntityOnCase(entity);
+                board[y][x].clearEntityOnCase();
+            } else {
+                throw new MoveInvalidException("Le prédateur ne peut pas aller sur cette case.");
+            }
+        }
+        return new int[]{new_x,new_y};
+
+    }
+
+
+
+
 
     public void clearCase(int x, int y) throws EntityNotFoundException {
         if (board[y][x].getEntityOnCase() == null) {
@@ -258,8 +271,8 @@ public class Board {
         return out;
     }
 
-    public List<Entity> getNear(int x, int y, int nbCases) {
-        List<Entity> listNear = new ArrayList<>();
+    public List<Terrain> getNear(int x, int y, int nbCases) {
+        List<Terrain> listNear = new ArrayList<>();
         for (int i = Math.max(x-nbCases, 0); i < Math.min(x+nbCases, width); i++) {
             for (int j = Math.max(y-nbCases, 0); j < Math.min(y+nbCases, height); j++) {
                 if ((Math.abs(x - i) + Math.abs(y - j)) <= nbCases) {

@@ -31,6 +31,7 @@ public class Squirrel extends Prey {
             friendLevel = 0;
         } else if (aggressor instanceof Predator) {
             Map<java.lang.Character, Terrain> neighbours = Board.getInstance().getNeighbours(x, y);
+            neighbours.put('a', Board.getInstance().getAt(x,y));
             char player = ' ';
             String high = "";
             String low = "";
@@ -48,14 +49,19 @@ public class Squirrel extends Prey {
 
             if (player != ' ' && isFriendly()){
                 Clock.getInstance().addCommandToTurn(new MovePreyCommand(this, 'p'));
-            } else if (!high.isEmpty()) {
-                if (aggressor instanceof Fox){
+            } else if (!high.isEmpty() && aggressor instanceof Fox) {
+                if (high.contains("a")){
+                    Clock.getInstance().addCommandToTurn(new MovePreyCommand(this, 'a'));
+                } else {
                     Clock.getInstance().addCommandToTurn(new MovePreyCommand(this, high.charAt(0)));
                 }
-            } else if (!low.isEmpty()) {
-                if (aggressor instanceof Owl){
-                    Clock.getInstance().addCommandToTurn(new MovePreyCommand(this, low.charAt(0)));
-                }
+
+            } else if (!low.isEmpty() && aggressor instanceof Owl) {
+                    if (low.contains("a")){
+                        Clock.getInstance().addCommandToTurn(new MovePreyCommand(this, 'a'));
+                    } else {
+                        Clock.getInstance().addCommandToTurn(new MovePreyCommand(this, low.charAt(0)));
+                    }
             } else {
                 Board.getInstance().getAt(x,y).clearEntityOnCase();
                 this.setCurrentState(new DeadState(this));

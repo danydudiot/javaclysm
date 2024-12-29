@@ -17,20 +17,14 @@ public abstract class PredatorState implements State {
     }
 
 
-    protected char getDefault(String allow, boolean isLand){
+    protected char getDefault(String allow){
         int[] position = predator.getPosition();
         Map<Character, Terrain> neighbours = Board.getInstance().getNeighbours(position[0], position[1]);
         String direction = "";
         for (char a : neighbours.keySet()) {
-            Terrain terrain = neighbours.get(a);
-            if (isLand){
-                if (terrain instanceof Empty && allow.contains(direction)) {
-                    direction += a;
-                }
-            } else {
-                if (terrain.getEntityOnCase() == null && allow.contains(direction)) {
-                    direction += a;
-                }
+            Entity entity = neighbours.get(a).getEntityOnCase();
+            if (entity == null && allow.contains(direction)) {
+                direction += a;
             }
         }
         if (direction.isEmpty()){

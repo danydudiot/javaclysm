@@ -65,11 +65,11 @@ public abstract class PreyState implements State {
 
     protected char getDanger(boolean playerAllow){
         int[] position = prey.getPosition();
-        List<Entity> around = Board.getInstance().getNear(position[0], position[1], 4);
-        List<Entity> danger = new ArrayList<>();
-        for (Entity entity : around){
-            if (entity instanceof Predator){
-                danger.add(entity);
+        List<Terrain> around = Board.getInstance().getNear(position[0], position[1], 4);
+        List<Predator> danger = new ArrayList<>();
+        for (Terrain terrain : around){
+            if (terrain.getEntityOnCase() instanceof Predator){
+                danger.add((Predator) terrain.getEntityOnCase());
             }
         }
 
@@ -109,7 +109,7 @@ public abstract class PreyState implements State {
 
 
 
-    protected char getDirectionFromDanger(List<Entity> danger, String allow){
+    protected char getDirectionFromDanger(List<Predator> danger, String allow){
         if (allow.isEmpty()){
             return 'a';
         }
