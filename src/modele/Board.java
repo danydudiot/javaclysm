@@ -4,6 +4,8 @@ import exception.EntityNotFoundException;
 import exception.InvalidActionException;
 import exception.InvalidArgumentException;
 import exception.MoveInvalidException;
+import modele.clock.Clock;
+import modele.clock.commands.EatPreyCommand;
 import modele.entity.Entity;
 import modele.entity.movable.character.PlayerCharacter;
 import modele.entity.movable.character.npc.prey.Monkey;
@@ -160,7 +162,8 @@ public class Board {
                             break;
                         }
                     }
-                    ((Prey) entity).eat(isPlayerNearby, food);
+//                    ((Prey) entity).eat(isPlayerNearby, food);
+                    Clock.getInstance().addCommandToTurn(new EatPreyCommand((Prey) entity, food, isPlayerNearby));
                 } else {
                     throw new MoveInvalidException("L'animal ne peut pas aller sur cette case.");
                 }

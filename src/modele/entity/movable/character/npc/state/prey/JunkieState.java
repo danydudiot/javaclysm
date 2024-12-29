@@ -2,7 +2,7 @@ package modele.entity.movable.character.npc.state.prey;
 
 import modele.Colors;
 import modele.clock.Clock;
-import modele.clock.commands.MoveNPCCommand;
+import modele.clock.commands.MovePreyCommand;
 import modele.entity.movable.character.npc.prey.Prey;
 import modele.entity.movable.character.npc.prey.Squirrel;
 
@@ -28,9 +28,9 @@ public class JunkieState extends PreyState {
     @Override
     public void deplacement() {
         char move1 = getDefault("zqsd");
-        Clock.getInstance().addCommandToTurn(new MoveNPCCommand(prey, move1));
+        Clock.getInstance().addCommandToTurn(new MovePreyCommand(prey, move1));
         char move2 = getDefault("zqsd".replaceAll(String.valueOf(move1), ""));
-        Clock.getInstance().addCommandToTurn(new MoveNPCCommand(prey, move2));
+        Clock.getInstance().addCommandToTurn(new MovePreyCommand(prey, move2));
     }
 
 

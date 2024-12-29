@@ -2,7 +2,7 @@ package modele.entity.movable.character.npc.state.prey;
 
 import modele.Colors;
 import modele.clock.Clock;
-import modele.clock.commands.MoveNPCCommand;
+import modele.clock.commands.MovePreyCommand;
 import modele.entity.movable.character.npc.prey.Prey;
 import modele.entity.movable.character.npc.prey.Squirrel;
 
@@ -34,7 +34,7 @@ public class TerrifyState extends PreyState {
 
     @Override
     public void deplacement() {
-        Clock.getInstance().addCommandToTurn(new MoveNPCCommand(prey, 'a'));
+        Clock.getInstance().addCommandToTurn(new MovePreyCommand(prey, 'a'));
     }
 
     @Override
