@@ -3,7 +3,6 @@ package controleur;
 import exception.InvalidActionException;
 import exception.MoveInvalidException;
 import modele.Board;
-import modele.Colors;
 import modele.boardFactory.BoardFactoryGenerator;
 import modele.boardFactory.BoardFactoryParser;
 import modele.Inventory;
@@ -104,6 +103,9 @@ public class Controleur {
                 clock.notifierObservateur();
             } else if ("r".indexOf(action) != -1) {
                 clock.undoLastTurn();
+            } else if ("h".indexOf(action) != -1) {
+                ihm.printHelpPage(board.getTheme());
+                tour();
             } else {
                 throw new InvalidActionException("Action inconnue.");
             }

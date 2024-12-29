@@ -3,7 +3,6 @@ package modele.entity.movable.character.npc.state.predator;
 import modele.Colors;
 import modele.clock.Clock;
 import modele.clock.commands.MovePredatorCommand;
-import modele.clock.commands.MovePreyCommand;
 import modele.entity.movable.character.npc.predator.Predator;
 
 
@@ -31,7 +30,7 @@ public abstract class RestState extends PredatorState {
 
     @Override
     public String applyColorModifier() {
-        return Colors.ANSI_BLACK + predator.getRepresentation() + Colors.ANSI_RESET;
+        return Colors.RED + predator.getRepresentation() + Colors.RESET;
     }
 
     protected abstract PredatorState getNextState();

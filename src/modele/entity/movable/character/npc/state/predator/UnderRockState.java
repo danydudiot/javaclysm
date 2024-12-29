@@ -1,6 +1,7 @@
 package modele.entity.movable.character.npc.state.predator;
 
 
+import modele.Colors;
 import modele.entity.movable.character.npc.predator.Predator;
 
 public class UnderRockState extends PredatorState {
@@ -17,5 +18,10 @@ public class UnderRockState extends PredatorState {
     @Override
     public void deplacement() {
 
+    }
+
+    @Override
+    public String applyColorModifier() {
+        return Colors.WHITE_BACKGROUND + predator.getRepresentation() + Colors.RESET;
     }
 }

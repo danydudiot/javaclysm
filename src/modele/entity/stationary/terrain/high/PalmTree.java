@@ -15,16 +15,8 @@ public class PalmTree extends High {
      */
     public PalmTree(int x, int y) {
         super(x, y);
-        this.representation = Colors.ANSI_CYAN + "P" + Colors.ANSI_RESET;
+        this.representation = Colors.CYAN + "P" + Colors.RESET;
         this.displayName = "Cocotier";
-    }
-
-    @Override
-    public String toString() {
-        if (entityOnCase == null) {
-            return representation;
-        } else {
-            return Colors.ANSI_CYAN_BACKGROUND + Colors.ANSI_BLACK + entityOnCase.toString() + Colors.ANSI_RESET;
-        }
+        this.highlightColor = Colors.CYAN_BACKGROUND + Colors.BLACK;
     }
 }

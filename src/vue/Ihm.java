@@ -24,15 +24,14 @@ public class Ihm {
 
 	public boolean askBoard() {
 		while (true) {
-			System.out.println("Voulez vous charger une carte au format "+ Colors.ANSI_YELLOW+".txt"+Colors.ANSI_RESET +" ? (y/n)");
-//			String answer = sc.next(".");
+			System.out.println("Voulez vous charger une carte au format "+ Colors.YELLOW +".txt"+ Colors.RESET +" ? (y/n)");
 			String answer = sc.nextLine();
 			if (answer.equals("y") || answer.equals("Y")) {
 				return true;
 			} else if (answer.equals("n") || answer.equals("N")) {
 				return false;
 			} else {
-				System.out.println(Colors.ANSI_RED + "caractère non reconnu." + Colors.ANSI_RESET);
+				System.out.println(Colors.RED + "caractère non reconnu." + Colors.RESET);
 			}
 		}
 	}
@@ -46,7 +45,7 @@ public class Ihm {
 			if (answer.endsWith(".txt") || answer.endsWith(".TXT")) {
 				return answer;
 			} else {
-				System.out.println(Colors.ANSI_RED + "Merci d'entrer un fichier au format .txt" + Colors.ANSI_RESET);
+				System.out.println(Colors.RED + "Merci d'entrer un fichier au format .txt" + Colors.RESET);
 			}
 		}
 	}
@@ -62,7 +61,7 @@ public class Ihm {
 			} else if (input.equals("J")) {
 				return 'J';
 			} else {
-				System.out.println(Colors.ANSI_RED + "Merci d'entrer un theme valide" + Colors.ANSI_RESET);
+				System.out.println(Colors.RED + "Merci d'entrer un theme valide" + Colors.RESET);
 			}
 		}
 	}
@@ -76,10 +75,10 @@ public class Ihm {
 				if (input >= 10) {
 					return input;
 				} else {
-					System.out.println(Colors.ANSI_RED + "Merci d'entrer une taille >= 10" + Colors.ANSI_RESET);
+					System.out.println(Colors.RED + "Merci d'entrer une taille >= 10" + Colors.RESET);
 				}
 			} catch (NumberFormatException e) {
-				System.out.println(Colors.ANSI_RED + "Merci d'entrer une valeur numérique." + Colors.ANSI_RESET);
+				System.out.println(Colors.RED + "Merci d'entrer une valeur numérique." + Colors.RESET);
 			}
 		}
 	}
@@ -89,7 +88,7 @@ public class Ihm {
 			String scannerInput = sc.nextLine();
 			if (! scannerInput.isEmpty()) {
 				char input = scannerInput.toLowerCase().charAt(0);
-				if ("zqsdoklmeijr ".indexOf(input) != -1) {
+				if ("zqsdoklmeijrh ".indexOf(input) != -1) {
 					return input;
 				}
 			}
@@ -107,7 +106,7 @@ public class Ihm {
 	}
 	public void displayInteractions(List<String> interactions) {
 		String ui = makeInteractionUi(interactions);
-		System.out.println(Colors.ANSI_RESET);
+		System.out.println(Colors.RESET);
 		System.out.println(last_frame[0].replace('├','└').replace('┬', '─'));
 		System.out.print(ui);
 		last_frame[1] = ui;
@@ -121,14 +120,14 @@ public class Ihm {
 	}
 	public void displayInventory(List<String> items, String equippedItem, int equippedItemId) {
 		String ui = makeInventoryUi(items, equippedItemId);
-		System.out.println(Colors.ANSI_RESET);
+		System.out.println(Colors.RESET);
 		System.out.println(last_frame[0].replace('├','└').replace('┬', '─'));
 		System.out.print(ui);
 		last_frame[1] = ui;
 	}
 	public void displayError(String error) {
 		System.out.println(last_frame[0].replace('├','└').replace('┬', '─'));
-		System.out.println(Colors.ANSI_RESET + Colors.ANSI_RED + error + Colors.ANSI_RESET);
+		System.out.println(Colors.RESET + Colors.RED + error + Colors.RESET);
 	}
 	public void display(List<List<String>> board, int boardHeight, int boardWidth, List<String> actionHistory, int playerX, int playerY, char playerDir, String equippedItem, int turnNumber) {
 		String croppedBoard = cropBoard(board, boardWidth, boardHeight, displayWidth, displayHeight-4,playerX,playerY, true);
@@ -137,7 +136,7 @@ public class Ihm {
 		last_frame[0] = croppedBoard;
 		last_frame[1] = ui;
 
-		System.out.println(Colors.ANSI_RESET);
+		System.out.println(Colors.RESET);
 		System.out.println(croppedBoard);
 		System.out.print(ui);
 	}
@@ -177,7 +176,7 @@ public class Ihm {
 			int start = clamp(playerX - (targetWidth / 2), 0,sourceWidth-targetWidth);
 //			output.append(lines[lineStart], start, start + targetWidth);
 			if (lineStart < 0 || lineStart >= lines.size()) {
-				output.append(Colors.ANSI_LIGHT_BLACK).append("#".repeat(targetWidth)).append(Colors.ANSI_RESET);
+				output.append(Colors.LIGHT_BLACK).append("#".repeat(targetWidth)).append(Colors.RESET);
 			} else {
 				if (start < 0) {
 					start /= 2;
@@ -186,7 +185,7 @@ public class Ihm {
 					try {
 						output.append(lines.get(lineStart).get(c));
 					} catch (IndexOutOfBoundsException e) {
-						output.append(Colors.ANSI_LIGHT_BLACK + "#" + Colors.ANSI_RESET);
+						output.append(Colors.LIGHT_BLACK + "#" + Colors.RESET);
 					}
 				}
 
@@ -202,10 +201,10 @@ public class Ihm {
 	}
 	private String makeUi(int targetWidth, List<String> actionHistory, int playerX, int playerY, char playerDir, String equippedItem, int turnNumber) {
 		Queue<String> actionHistoryCopy = new ArrayDeque<>(actionHistory);
-		return 	"│ tour n°"+ String.format("%-3S", turnNumber) +"           │ " + actionHistoryCopy.remove() + '\n' +
-				"│ [" + String.format("%03d", playerX) + ","+ String.format("%03d", playerY) +"]        (" + asArrow(playerDir) +") │ " + Colors.ANSI_LIGHT_BLACK + actionHistoryCopy.remove() + Colors.ANSI_RESET + '\n' +
-				"│ >> " + String.format("%-18s", equippedItem) + "│ " + Colors.ANSI_DARK_BLACK + actionHistoryCopy.remove() + Colors.ANSI_RESET + '\n' +
-				Colors.ANSI_WHITE_BACKGROUND + Colors.ANSI_BLACK + String.format(("%-"+(targetWidth-1)+"s"), " ZQSD : Bouger   OKLM : Regarder   I : Inventaire   E : Interagir   J : Jeter");
+		return 	"│ tour n°"+ String.format("%-3S", turnNumber) +"           │ " + Colors.LIGHT_WHITE + actionHistoryCopy.remove() + Colors.RESET + '\n' +
+				"│ [" + String.format("%03d", playerX) + ","+ String.format("%03d", playerY) +"]        (" + asArrow(playerDir) +") │ " + Colors.WHITE + actionHistoryCopy.remove() + Colors.RESET + '\n' +
+				"│ >> " + String.format("%-18s", equippedItem) + "│ " + Colors.LIGHT_BLACK + actionHistoryCopy.remove() + Colors.RESET + '\n' +
+				Colors.HIGHLIGHT + String.format(("%-"+(targetWidth-1)+"s"), " ZQSD : Bouger   OKLM : Regarder   I : Inventaire   E : Interagir   J : Jeter");
 //		| x: 14  y: 36   | Player move up
 //		| Dir : (↓)      | Player look left
 //		| >> Ecureil     | Monkey is now friend w/ Player
@@ -222,8 +221,7 @@ public class Ihm {
 			else { out.append(String.format("%-19s", "...")); }
 		}
 		out.append("\n")
-				.append(Colors.ANSI_WHITE_BACKGROUND)
-				.append(Colors.ANSI_BLACK)
+				.append(Colors.HIGHLIGHT)
 				.append(String.format("%-"+(displayWidth -1)+"s","1-"+ interactions.size() +" : Choisir l'interaction    E : Fermer le menu"));
 		return out.toString();
 	}
@@ -235,7 +233,7 @@ public class Ihm {
 				out.append('\n');
 			}
 			if (i-1 == equippedItem) {
-				out.append(Colors.ANSI_WHITE_BACKGROUND + Colors.ANSI_BLACK);
+				out.append(Colors.HIGHLIGHT);
 			}
 
 			out.append("[").append(i).append("] : ");
@@ -246,15 +244,68 @@ public class Ihm {
 			}
 
 			if (i-1 == equippedItem) {
-				out.append(Colors.ANSI_RESET);
+				out.append(Colors.RESET);
 			}
 		}
 		out.append("\n")
-				.append(Colors.ANSI_WHITE_BACKGROUND)
-				.append(Colors.ANSI_BLACK)
+				.append(Colors.HIGHLIGHT)
 				.append(String.format("%-"+(displayWidth -1)+"s","1-"+ items.size() +" : Selectionner l'objet à equiper    I : fermer le menu"));
 		return out.toString();
 	}
 
+	public void printHelpPage(char theme) {
+		String[] elements;
+
+		if (theme == 'F') {
+			elements = new String[] {
+					Colors.GREEN 		+ "A" + Colors.RESET + ": Arbre",
+					Colors.GREEN 		+ "B" + Colors.RESET + ": Buisson",
+					Colors.PURPLE 		+ "C" + Colors.RESET + ": Champignon Normal",
+					Colors.LIGHT_WHITE 	+ "E" + Colors.RESET + ": Ecureil Rassasié",
+					Colors.WHITE 		+ "E" + Colors.RESET + ": Ecureil Affamé",
+					Colors.LIGHT_PURPLE	+ "E" + Colors.RESET + ": Ecureil Ami Rassasié",
+					Colors.PURPLE	 	+ "E" + Colors.RESET + ": Ecureil Ami Affamé",
+					Colors.RED		 	+ "E" + Colors.RESET + ": Ecureil Junkie",
+					Colors.YELLOW 		+ "G" + Colors.RESET + ": Gland",
+					Colors.LIGHT_RED	+ "H" + Colors.RESET + ": Hibou en vol",
+					Colors.RED			+ "H" + Colors.RESET + ": Hibou au sol",
+					Colors.BLUE 		+ "M" + Colors.RESET + ": Champignon Vénéneux",
+					Colors.LIGHT_RED	+ "R" + Colors.RESET + ": Renard en chasse",
+					Colors.RED			+ "R" + Colors.RESET + ": Renard au repos",
+					Colors.CYAN 		+ "2" + Colors.RESET + ": Pierre temporelle active (2 tours)",
+					Colors.LIGHT_BLACK	+ "2" + Colors.RESET + ": Pierre temporelle inactive (2 tours)",
+					Colors.BLUE 		+ "3" + Colors.RESET + ": Pierre temporelle active (3 tours)",
+					Colors.LIGHT_BLACK	+ "3" + Colors.RESET + ": Pierre temporelle inactive (3 tours)",
+					Colors.PLAYER		+ "@" + Colors.RESET + ": Joueur"
+			};
+		} else {
+			elements = new String[] {
+					Colors.YELLOW		+ "B" + Colors.RESET + ": Banane",
+					Colors.PURPLE 		+ "C" + Colors.RESET + ": Champignon Normal",
+					Colors.LIGHT_RED 	+ "E" + Colors.RESET + ": Serpent en chasse",
+					Colors.RED 			+ "E" + Colors.RESET + ": Serpent en repos",
+					Colors.BLUE 		+ "M" + Colors.RESET + ": Champignon Hallucinogène",
+					Colors.LIGHT_RED 	+ "O" + Colors.RESET + ": Scorpion en déplacement",
+					Colors.HIGHLIGHT 	+ "O" + Colors.RESET + ": Scorpion sous un rocher",
+					Colors.CYAN			+ "P" + Colors.RESET + ": Palmier",
+					Colors.WHITE		+ "R" + Colors.RESET + ": Rocher",
+					Colors.LIGHT_WHITE 	+ "S" + Colors.RESET + ": Singe Rassasié",
+					Colors.WHITE 		+ "S" + Colors.RESET + ": Singe Affamé",
+					Colors.LIGHT_PURPLE	+ "S" + Colors.RESET + ": Singe Ami Rassasié",
+					Colors.PURPLE	 	+ "S" + Colors.RESET + ": Singe Ami Affamé",
+					Colors.RED		 	+ "S" + Colors.RESET + ": Singe Junkie",
+					Colors.CYAN 		+ "2" + Colors.RESET + ": Pierre temporelle active (2 tours)",
+					Colors.LIGHT_BLACK	+ "2" + Colors.RESET + ": Pierre temporelle inactive (2 tours)",
+					Colors.BLUE 		+ "3" + Colors.RESET + ": Pierre temporelle active (3 tours)",
+					Colors.LIGHT_BLACK	+ "3" + Colors.RESET + ": Pierre temporelle inactive (3 tours)",
+					Colors.PLAYER		+ "@" + Colors.RESET + ": Joueur"
+
+			};
+		}
+		System.out.println(Colors.RESET + "\n" + Colors.HIGHLIGHT + "           LEGENDE DES ICONES           " + Colors.RESET);
+		for (String element : elements) {
+			System.out.println(element);
+		}
+	}
 
 }

@@ -14,7 +14,7 @@ public class Banana extends Food {
      */
     public Banana(int x, int y) {
         super(x, y);
-        this.representation = Colors.ANSI_YELLOW + "B" + Colors.ANSI_RESET;
+        this.representation = Colors.YELLOW + "B" + Colors.RESET;
         this.displayName = "Banane";
     }
 }

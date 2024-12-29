@@ -13,6 +13,7 @@ public abstract class Terrain extends StaticEntity {
      * Potentielle entité sur cette case (null si vide)
      */
     protected Entity entityOnCase;
+    protected String highlightColor;
 
 
     /**
@@ -71,7 +72,9 @@ public abstract class Terrain extends StaticEntity {
         if (entityOnCase == null) {
             return representation;
         } else {
-            return entityOnCase.toString();
+            return highlightColor +
+                    entityOnCase.toString() +
+                    Colors.RESET;
         }
     }
 }

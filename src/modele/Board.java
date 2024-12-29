@@ -13,7 +13,6 @@ import modele.entity.movable.character.npc.predator.Scorpio;
 import modele.entity.movable.character.npc.prey.Monkey;
 import modele.entity.movable.character.npc.NonPlayerCharacter;
 import modele.entity.movable.character.npc.prey.Prey;
-import modele.entity.movable.character.npc.prey.Squirrel;
 import modele.entity.stationary.food.Food;
 import modele.entity.stationary.terrain.Empty;
 import modele.entity.stationary.terrain.Terrain;
@@ -279,7 +278,7 @@ public class Board {
     }
 
     public void logError(String error) {
-        logs.add(Colors.ANSI_RED + error + Colors.ANSI_RESET);
+        logs.add(Colors.RED + error + Colors.RESET);
     }
 
     public List<String> peekAtLogs(int amount) {

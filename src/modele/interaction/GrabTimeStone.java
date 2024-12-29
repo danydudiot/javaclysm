@@ -19,7 +19,7 @@ public class GrabTimeStone extends Grab {
 			inventory.add((InventoryItem) stone);
 			board.clearCase(stone.getPosition()[0], stone.getPosition()[1]);
 		} catch (Exception e) {
-			board.logAction(e.getMessage());
+			board.logError(e.getMessage());
 		}
 	}
 

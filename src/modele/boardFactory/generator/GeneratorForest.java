@@ -90,7 +90,7 @@ public class GeneratorForest extends Generator{
         } else if (content == '3') {
             return generateTimeStone(x,y,3);
         } else {
-            throw new IllegalArgumentException("Le fichier est invalide. (Caractère inconnu)");
+            throw new IllegalArgumentException("Le fichier est invalide. (Caractère inconnu)" + content);
         }
     }
 }
