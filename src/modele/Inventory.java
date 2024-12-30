@@ -56,8 +56,8 @@ public class Inventory {
     public void dropItem(){
         if (equippedItemId != -1) {
             Board board = Board.getInstance();
-            int x = board.getPlayer().getPosition()[0];
-            int y = board.getPlayer().getPosition()[1];
+            int x = board.getPlayer().getX();
+            int y = board.getPlayer().getY();
             Terrain target = board.getToward(x,y,board.getPlayer().getOrientation());
             if (target != null && (target instanceof Empty) && (target.getEntityOnCase() == null)) {
                 board.fillCase(x,y,board.getPlayer().getOrientation(), ((Entity) getEquippedItem()));
@@ -75,8 +75,8 @@ public class Inventory {
     public void dropSpecificItem(Entity what) {
         int id = items.indexOf(what);
         Board board = Board.getInstance();
-        int x = board.getPlayer().getPosition()[0];
-        int y = board.getPlayer().getPosition()[1];
+        int x = board.getPlayer().getX();
+        int y = board.getPlayer().getY();
         board.fillCase(x,y,board.getPlayer().getOrientation(), (Entity) items.get(id));
         items.remove(id);
         if (equippedItemId == id) {

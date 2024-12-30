@@ -27,6 +27,10 @@ public abstract class NonPlayerCharacter extends Character implements Interactib
         currentState.updateState();
     }
 
+    @Override
+    public boolean canMove(char direction) {
+        return currentState.canMove(direction);
+    }
 
     public void setCurrentState(State currentState) {
         this.currentState = currentState;

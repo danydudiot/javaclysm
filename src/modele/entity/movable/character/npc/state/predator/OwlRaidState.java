@@ -24,7 +24,7 @@ public class OwlRaidState extends RaidState {
 
     @Override
     public void deplacement() {
-        List<Terrain> around = Board.getInstance().getNear(predator.getPosition()[0], predator.getPosition()[1], 3);
+        List<Terrain> around = Board.getInstance().getNear(predator.getX(), predator.getY(), 3);
         List<Prey> prey = new ArrayList<>();
         for (Terrain entity : around) {
             if (entity.getEntityOnCase() instanceof Prey) {

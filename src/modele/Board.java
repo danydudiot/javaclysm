@@ -230,12 +230,12 @@ public class Board {
 
 
     public void fillCase(int x, int y, char direction, Entity entity) {
-        Terrain new_postion = getToward(x, y, getPlayer().getOrientation());
-        if (new_postion == null || new_postion.getEntityOnCase() != null) {
+        Terrain new_position = getToward(x, y, getPlayer().getOrientation());
+        if (new_position == null || new_position.getEntityOnCase() != null) {
             throw new InvalidActionException("Vous ne pouvez pas jeter quelque chose sur un case non vide");
         }
-        entity.setPosition(new_postion.getPosition()[0], new_postion.getPosition()[1]);
-        new_postion.setEntityOnCase(entity);
+        entity.setPosition(new_position.getX(), new_position.getY());
+        new_position.setEntityOnCase(entity);
     }
 
 

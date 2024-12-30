@@ -77,8 +77,8 @@ public class Controleur {
                 board.getHeight(),
                 board.getWidth(),
                 board.peekAtLogs(3),
-                playerCharacter.getPosition()[0],
-                playerCharacter.getPosition()[1],
+                playerCharacter.getX(),
+                playerCharacter.getY(),
                 playerCharacter.getOrientation(),
                 inventory.getEquippedItemString(),
                 clock.getNbTour()

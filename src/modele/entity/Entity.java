@@ -82,4 +82,11 @@ public abstract class Entity {
     public String getDisplayName() {
         return displayName;
     }
+
+    public int getX() {
+        return x;
+    }
+    public int getY() {
+        return y;
+    }
 }

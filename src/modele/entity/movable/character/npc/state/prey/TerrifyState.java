@@ -1,10 +1,12 @@
 package modele.entity.movable.character.npc.state.prey;
 
+import modele.Board;
 import modele.Colors;
 import modele.clock.Clock;
 import modele.clock.commands.MovePreyCommand;
 import modele.entity.movable.character.npc.prey.Prey;
 import modele.entity.movable.character.npc.prey.Squirrel;
+import modele.entity.stationary.terrain.Terrain;
 
 public class TerrifyState extends PreyState {
     private int fearLevel;
@@ -12,6 +14,11 @@ public class TerrifyState extends PreyState {
         super(prey);
         this.fearLevel = 3;
 
+    }
+
+    @Override
+    public boolean canMove(char direction) {
+        return direction == 'a';
     }
 
     @Override

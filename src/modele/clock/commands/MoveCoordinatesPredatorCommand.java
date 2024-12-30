@@ -12,11 +12,11 @@ public class MoveCoordinatesPredatorCommand implements Command {
 	State old_state;
 
 	public MoveCoordinatesPredatorCommand(Predator predator, int new_x, int new_y) {
-		this.predator = predator;
-		this.x 	= predator.getPosition()[0];
-		this.y 	= predator.getPosition()[1];
-		this.new_x = new_x;
-		this.new_y = new_y;
+		this.predator 	= predator;
+		this.x 			= predator.getX();
+		this.y 			= predator.getY();
+		this.new_x		= new_x;
+		this.new_y 	  	= new_y;
 		this.old_state 	= predator.getCurrentState();
 	}
 

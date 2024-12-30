@@ -39,15 +39,6 @@ public class PlayerCharacter extends Character{
         }
     }
 
-    public boolean canMove(char direction) {
-        Terrain target = Board.getInstance().getToward(x,y,direction);
-        if (target != null && target.isEmpty() && (target instanceof Empty)) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
     public void changeOrientation(char orientation){
         if ("oklm".indexOf(orientation) != -1){
             this.orientation = switch (orientation) {
