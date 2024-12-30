@@ -13,12 +13,12 @@ public class EatPreyCommand implements Command {
 	int old_y;
 	boolean isPlayerNearby;
 	Prey prey;
-	public EatPreyCommand(Prey prey, Food food, boolean isPlayerNearby) {
+	public EatPreyCommand(Prey prey, Food food) {
 		this.prey 				= prey;
 		this.food 				= food;
 		this.old_x 				= food.getX();
 		this.old_y				= food.getY();
-		this.isPlayerNearby 	= isPlayerNearby;
+		this.isPlayerNearby 	= food.isPlayerNearby();
 		this.old_hungryCount 	= prey.getHungryCount();
 		this.old_friendlyLevel 	= prey.getFriendLevel();
 	}

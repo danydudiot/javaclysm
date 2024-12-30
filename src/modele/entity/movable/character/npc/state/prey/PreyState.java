@@ -1,6 +1,9 @@
 package modele.entity.movable.character.npc.state.prey;
 
 import modele.Board;
+import modele.clock.Clock;
+import modele.clock.commands.EatPreyCommand;
+import modele.clock.commands.MovePreyCommand;
 import modele.entity.Entity;
 import modele.entity.movable.character.PlayerCharacter;
 import modele.entity.movable.character.npc.predator.Predator;
@@ -23,6 +26,12 @@ public abstract class PreyState implements State {
         this.prey = prey;
     }
 
+    @Override
+    public boolean canMove(char direction) {
+        Terrain target = Board.getInstance().getToward(prey.getX(), prey.getY(), direction);
+        return target != null && target.isEmpty();
+    }
+
     protected char getDefault(String allow){
         int[] position = prey.getPosition();
         Map<Character, Terrain> neighbours = Board.getInstance().getNeighbours(position[0], position[1]);
@@ -36,12 +45,14 @@ public abstract class PreyState implements State {
         if (direction.isEmpty()){
             return 'a';
         } else {
-            return direction.charAt((int) (Math.random() * direction.length()));
+            char move = direction.charAt((int) (Math.random() * direction.length()));
+            Clock.getInstance().addCommandToTurn(new MovePreyCommand(prey, move));
+            return move;
         }
 
     }
 
-    protected char getFood(){
+    protected boolean getFood(){
         int[] position = prey.getPosition();
         Map<Character, Terrain> neighbours = Board.getInstance().getNeighbours(position[0], position[1]);
         String food = "";
@@ -56,14 +67,16 @@ public abstract class PreyState implements State {
             }
         }
         if (food.isEmpty()) {
-            return 'a';
+            return false;
         } else {
-            return food.charAt(0);
+            Food foodEntity = (Food) neighbours.get(food.charAt(0)).getEntityOnCase();
+            Clock.getInstance().addCommandToTurn(new EatPreyCommand(prey, foodEntity));
+            return true;
         }
     }
 
 
-    protected char getDanger(boolean playerAllow){
+    protected boolean getDanger(boolean playerAllow){
         int[] position = prey.getPosition();
         List<Terrain> around = Board.getInstance().getNear(position[0], position[1], 4);
         List<Predator> danger = new ArrayList<>();
@@ -74,10 +87,10 @@ public abstract class PreyState implements State {
         }
 
         if (danger.isEmpty()){
-            return 'a';
+            return false;
         }
 
-        Map<Character, Terrain> neighbours = Board.getInstance().getNeighbours(prey.getPosition()[0], prey.getPosition()[1]);
+        Map<Character, Terrain> neighbours = Board.getInstance().getNeighbours(prey.getX(), prey.getY());
         char player = ' ';
         String high = "";
         String low = "";
@@ -97,14 +110,15 @@ public abstract class PreyState implements State {
 
 
         if (playerAllow && player != ' ' && prey.isFriendly()){
-            return 'p'; // 'p' pour player
+            Clock.getInstance().addCommandToTurn(new MovePreyCommand(prey, 'a')); // TODO : Faire dans la poche.
         } else if (!high.isEmpty()) {
-            return high.charAt(0);
+            Clock.getInstance().addCommandToTurn(new MovePreyCommand(prey, high.charAt(0)));
         } else if (!low.isEmpty()) {
-            return low.charAt(0);
+            Clock.getInstance().addCommandToTurn(new MovePreyCommand(prey, low.charAt(0)));
         } else {
-            return getDirectionFromDanger(danger, free);
+            Clock.getInstance().addCommandToTurn(new MovePreyCommand(prey, getDirectionFromDanger(danger, free)));
         }
+        return true;
     }
 
 
@@ -124,39 +138,39 @@ public abstract class PreyState implements State {
         float moyenne_x = somme_x / danger.size();
         float moyenne_y = somme_y / danger.size();
 
-        Map<Character, Terrain> neighbours = Board.getInstance().getNeighbours(prey.getPosition()[0], prey.getPosition()[1]);
+        Map<Character, Terrain> neighbours = Board.getInstance().getNeighbours(prey.getX(), prey.getY());
         Map<Character, Double> distance = new HashMap<>();
 
         distance.put('z' ,
                 Math.sqrt(
                         Math.pow(
-                                neighbours.get('z').getPosition()[0] - moyenne_x,2
+                                neighbours.get('z').getX() - moyenne_x,2
                         ) + Math.pow(
-                                neighbours.get('z').getPosition()[1] - moyenne_y,2)
+                                neighbours.get('z').getY() - moyenne_y,2)
                 )
         );
         distance.put('q' ,
                 Math.sqrt(
                         Math.pow(
-                                neighbours.get('q').getPosition()[0] - moyenne_x,2
+                                neighbours.get('q').getX() - moyenne_x,2
                         ) + Math.pow(
-                                neighbours.get('q').getPosition()[1] - moyenne_y,2)
+                                neighbours.get('q').getY() - moyenne_y,2)
                 )
         );
         distance.put('s' ,
                 Math.sqrt(
                         Math.pow(
-                                neighbours.get('s').getPosition()[0] - moyenne_x,2
+                                neighbours.get('s').getX() - moyenne_x,2
                         ) + Math.pow(
-                                neighbours.get('s').getPosition()[1] - moyenne_y,2)
+                                neighbours.get('s').getY() - moyenne_y,2)
                 )
         );
         distance.put('d' ,
                 Math.sqrt(
                         Math.pow(
-                                neighbours.get('d').getPosition()[0] - moyenne_x,2
+                                neighbours.get('d').getX() - moyenne_x,2
                         ) + Math.pow(
-                                neighbours.get('d').getPosition()[1] - moyenne_y,2)
+                                neighbours.get('d').getY() - moyenne_y,2)
                 )
         );
 

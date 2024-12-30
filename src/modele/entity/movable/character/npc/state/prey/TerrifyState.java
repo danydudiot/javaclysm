@@ -34,7 +34,11 @@ public class TerrifyState extends PreyState {
                     prey.setCurrentState(new MonkeyHungryState(prey));
                 }
             } else {
-                prey.setCurrentState(new NotHungryState(prey));
+                if (prey instanceof Squirrel){
+                    prey.setCurrentState(new SquirrelNotHungryState(prey));
+                } else {
+                    prey.setCurrentState(new MonkeyNotHungryState(prey));
+                }
             }
         }
     }

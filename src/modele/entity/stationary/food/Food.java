@@ -1,10 +1,15 @@
 package modele.entity.stationary.food;
 
+import modele.Board;
 import modele.InventoryItem;
+import modele.entity.movable.character.PlayerCharacter;
 import modele.entity.stationary.StaticEntity;
+import modele.entity.stationary.terrain.Terrain;
 import modele.interaction.Grab;
 import modele.interaction.Interactible;
 import modele.interaction.Interaction;
+
+import java.util.Map;
 
 
 /**
@@ -24,6 +29,16 @@ public abstract class Food extends StaticEntity implements Interactible, Invento
         super(x, y);
         this.interactionList = new Interaction[1];
         interactionList[0] = new Grab();
+    }
+
+    public boolean isPlayerNearby() {
+        Map<Character, Terrain> neighbours = Board.getInstance().getNeighbours(x, y);
+		for (char direction : neighbours.keySet()) {
+			if (neighbours.get(direction).getEntityOnCase() instanceof PlayerCharacter) {
+				return true;
+			}
+		}
+        return false;
     }
 
     /**

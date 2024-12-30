@@ -10,6 +10,8 @@ import modele.entity.movable.character.npc.predator.Fox;
 import modele.entity.movable.character.npc.predator.Owl;
 import modele.entity.movable.character.npc.predator.Predator;
 import modele.entity.movable.character.npc.state.DeadState;
+import modele.entity.movable.character.npc.state.prey.SquirrelNotHungryState;
+import modele.entity.movable.character.npc.state.prey.TerrifyState;
 import modele.entity.stationary.food.Acorn;
 import modele.entity.stationary.terrain.Terrain;
 import modele.entity.stationary.terrain.high.High;
@@ -23,6 +25,7 @@ public class Squirrel extends Prey {
         this.representation = "E";
         this.displayName = "Écureuil";
         this.foodPreference = Acorn.class;
+        this.setCurrentState(new SquirrelNotHungryState(this));
     }
 
     @Override
@@ -52,15 +55,19 @@ public class Squirrel extends Prey {
             } else if (!high.isEmpty() && aggressor instanceof Fox) {
                 if (high.contains("a")){
                     Clock.getInstance().addCommandToTurn(new MovePreyCommand(this, 'a'));
+                    setCurrentState(new TerrifyState(this));
                 } else {
                     Clock.getInstance().addCommandToTurn(new MovePreyCommand(this, high.charAt(0)));
+                    setCurrentState(new TerrifyState(this));
                 }
 
             } else if (!low.isEmpty() && aggressor instanceof Owl) {
                     if (low.contains("a")){
                         Clock.getInstance().addCommandToTurn(new MovePreyCommand(this, 'a'));
+                        setCurrentState(new TerrifyState(this));
                     } else {
                         Clock.getInstance().addCommandToTurn(new MovePreyCommand(this, low.charAt(0)));
+                        setCurrentState(new TerrifyState(this));
                     }
             } else {
                 Board.getInstance().getAt(x,y).clearEntityOnCase();

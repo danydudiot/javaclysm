@@ -9,6 +9,8 @@ import modele.entity.movable.character.PlayerCharacter;
 import modele.entity.movable.character.npc.predator.Predator;
 import modele.entity.movable.character.npc.predator.Snake;
 import modele.entity.movable.character.npc.state.DeadState;
+import modele.entity.movable.character.npc.state.prey.MonkeyNotHungryState;
+import modele.entity.movable.character.npc.state.prey.TerrifyState;
 import modele.entity.stationary.food.Banana;
 import modele.entity.stationary.terrain.Terrain;
 import modele.entity.stationary.terrain.high.High;
@@ -22,6 +24,7 @@ public class Monkey extends Prey {
         this.representation = "S";
         this.displayName = "Singe";
         this.foodPreference = Banana.class;
+        this.setCurrentState(new MonkeyNotHungryState(this));
     }
 
     @Override
@@ -49,8 +52,10 @@ public class Monkey extends Prey {
                 if (aggressor instanceof Snake){
                     if (high.contains("a")){
                         Clock.getInstance().addCommandToTurn(new MovePreyCommand(this, 'a'));
+                        setCurrentState(new TerrifyState(this));
                     } else {
                         Clock.getInstance().addCommandToTurn(new MovePreyCommand(this, high.charAt(0)));
+                        setCurrentState(new TerrifyState(this));
                     }
                 }
             } else {

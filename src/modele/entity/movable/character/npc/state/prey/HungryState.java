@@ -15,7 +15,7 @@ public abstract class HungryState extends PreyState {
     @Override
     public boolean canMove(char direction) {
         Terrain target = Board.getInstance().getToward(prey.getX(), prey.getY(), direction);
-        return target != null && (target.getEntityOnCase() instanceof Food || target.getEntityOnCase() == null);
+        return target != null && (target.getEntityOnCase() instanceof Food || target.isEmpty());
     }
 
     @Override
@@ -24,12 +24,6 @@ public abstract class HungryState extends PreyState {
             return Colors.PURPLE + prey.getRepresentation() + Colors.RESET;
         } else {
             return Colors.WHITE + prey.getRepresentation() + Colors.RESET;
-        }
-    }
-
-    public void updateState(){
-        if (prey.getHungryCount() > 0){
-            prey.setCurrentState(new NotHungryState(prey));
         }
     }
 

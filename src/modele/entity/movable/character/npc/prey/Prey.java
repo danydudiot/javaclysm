@@ -23,7 +23,6 @@ public abstract class Prey extends NonPlayerCharacter {
 
     public Prey(int x, int y, int hungryCountBase) {
         super(x, y);
-        this.currentState = new NotHungryState(this);
         this.hungryCountBase = hungryCountBase;
         this.hungryCount = hungryCountBase;
     }

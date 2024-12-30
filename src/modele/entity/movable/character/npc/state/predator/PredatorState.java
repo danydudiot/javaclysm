@@ -3,8 +3,8 @@ package modele.entity.movable.character.npc.state.predator;
 import modele.Board;
 import modele.entity.Entity;
 import modele.entity.movable.character.npc.predator.Predator;
+import modele.entity.movable.character.npc.prey.Prey;
 import modele.entity.movable.character.npc.state.State;
-import modele.entity.stationary.terrain.Empty;
 import modele.entity.stationary.terrain.Terrain;
 
 import java.util.Map;
@@ -16,10 +16,15 @@ public abstract class PredatorState implements State {
         this.predator = predator;
     }
 
+    @Override
+    public boolean canMove(char direction) {
+        Terrain target = Board.getInstance().getToward(predator.getX(), predator.getY(), direction);
+        return target != null && (target.isEmpty() || target.getEntityOnCase() instanceof Prey);
+    }
 
     protected char getDefault(String allow){
         int[] position = predator.getPosition();
-        Map<Character, Terrain> neighbours = Board.getInstance().getNeighbours(position[0], position[1]);
+        final Map<Character, Terrain> neighbours = Board.getInstance().getNeighbours(position[0], position[1]);
         String direction = "";
         for (char a : neighbours.keySet()) {
             Entity entity = neighbours.get(a).getEntityOnCase();

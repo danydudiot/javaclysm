@@ -11,25 +11,12 @@ public class MonkeyHungryState extends HungryState {
 
     @Override
     public void deplacement() {
-        char move = 'a';
-        char danger = getDanger(false);
-        if (danger != 'a') {
-            move = danger;
-        }
-        if (move == 'a'){
-            char food = getFood();
-            if (food != 'a') {
-                move = food;
-            }
-        }
-        if (move == 'a'){
-            char defaut = getDefault("zqsd");
-            if (defaut != 'a') {
-                move = defaut;
-            }
-        }
+        final boolean move = getDanger(false) || getFood() || getDefault("zqsd") != 'a';
+    }
 
-        Clock.getInstance().addCommandToTurn(new MovePreyCommand(prey, move));
-
+    public void updateState(){
+        if (prey.getHungryCount() > 0){
+            prey.setCurrentState(new MonkeyHungryState(prey));
+        }
     }
 }
