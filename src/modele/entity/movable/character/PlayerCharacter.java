@@ -1,5 +1,7 @@
 package modele.entity.movable.character;
 
+import exception.EntityNotFoundException;
+import exception.MoveInvalidException;
 import modele.Board;
 import modele.Colors;
 import modele.entity.stationary.terrain.Empty;
@@ -22,7 +24,17 @@ public class PlayerCharacter extends Character{
     @Override
     public void move(char direction) {
         if (canMove(direction)) {
-            super.move(direction);
+            Board board = Board.getInstance();
+            Terrain currentCase = board.getAt(x, y);
+            Terrain nextCase = board.getToward(x, y, direction);
+            if (!(nextCase instanceof Empty && nextCase.isEmpty())) {
+//                    throw new MoveInvalidException("Le joueur ne peut pas aller sur cette case.");
+                board.logError("Le joueur ne peut pas aller sur cette case");
+            } else {
+                board.getToward(x, y, direction).setEntityOnCase(this);
+                currentCase.clearEntityOnCase();
+                
+            }
             changeOrientation(direction);
         }
     }

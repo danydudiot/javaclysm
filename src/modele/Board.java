@@ -95,8 +95,7 @@ public class Board {
             case 'd':
                 return getAt(x + 1, y);
             default:
-                System.out.println("unknown direction" + direction);
-                return null;
+                return getAt(x, y);
         }
     }
 
@@ -110,6 +109,8 @@ public class Board {
         }
         return out;
     }
+
+
 
     public int[] moveEntity(int x, int y, char direction) throws MoveInvalidException, EntityNotFoundException, InvalidArgumentException {
         if (board[y][x].getEntityOnCase() == null) {
