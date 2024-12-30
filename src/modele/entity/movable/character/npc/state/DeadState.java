@@ -1,8 +1,6 @@
 package modele.entity.movable.character.npc.state;
 
-import modele.Board;
 import modele.entity.movable.character.npc.NonPlayerCharacter;
-import modele.entity.stationary.terrain.Terrain;
 
 public class DeadState implements State {
     protected NonPlayerCharacter npc;

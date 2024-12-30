@@ -1,12 +1,10 @@
 package modele.entity.movable.character.npc.state.prey;
 
-import modele.Board;
 import modele.Colors;
 import modele.clock.Clock;
-import modele.clock.commands.MovePreyCommand;
+import modele.clock.commands.PreyMoveCommand;
 import modele.entity.movable.character.npc.prey.Prey;
 import modele.entity.movable.character.npc.prey.Squirrel;
-import modele.entity.stationary.terrain.Terrain;
 
 public class TerrifyState extends PreyState {
     private int fearLevel;
@@ -45,11 +43,11 @@ public class TerrifyState extends PreyState {
 
     @Override
     public void deplacement() {
-        Clock.getInstance().addCommandToTurn(new MovePreyCommand(prey, 'a'));
+        Clock.getInstance().addCommandToTurn(new PreyMoveCommand(prey, 'a'));
     }
 
     @Override
     public String applyColorModifier() {
-        return Colors.LIGHT_BLACK + prey.getRepresentation() + Colors.RESET;
+        return Colors.BLUE_BACKGROUND + prey.getRepresentation() + Colors.RESET;
     }
 }

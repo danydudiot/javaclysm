@@ -2,6 +2,7 @@ package modele.entity.stationary.terrain;
 
 import modele.Colors;
 import modele.entity.Entity;
+import modele.entity.movable.character.npc.predator.Owl;
 import modele.entity.stationary.StaticEntity;
 
 
@@ -34,6 +35,7 @@ public abstract class Terrain extends StaticEntity {
      */
     public void setEntityOnCase(Entity entity) {
         this.entityOnCase = entity;
+        entity.setPosition(this.getX(), this.getY());
     }
 
     /**

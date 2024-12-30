@@ -40,7 +40,7 @@ public class Ihm {
 			System.out.println("Veuillez entrer un path valide vers votre carte: ");
 			String answer = sc.nextLine();
 			if (answer.equals("c")) {
-				return "carte.txt";
+				return "carteIT2.txt";
 			}
 			if (answer.endsWith(".txt") || answer.endsWith(".TXT")) {
 				return answer;

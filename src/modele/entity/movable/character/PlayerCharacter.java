@@ -24,18 +24,10 @@ public class PlayerCharacter extends Character{
     @Override
     public void move(char direction) {
         if (canMove(direction)) {
-            Board board = Board.getInstance();
-            Terrain currentCase = board.getAt(x, y);
-            Terrain nextCase = board.getToward(x, y, direction);
-            if (!(nextCase instanceof Empty && nextCase.isEmpty())) {
-//                    throw new MoveInvalidException("Le joueur ne peut pas aller sur cette case.");
-                board.logError("Le joueur ne peut pas aller sur cette case");
-            } else {
-                board.getToward(x, y, direction).setEntityOnCase(this);
-                currentCase.clearEntityOnCase();
-                
-            }
+            Board.getInstance().moveToward(this, direction);
             changeOrientation(direction);
+        } else {
+            Board.getInstance().logError("Déplacement impossible");
         }
     }
 

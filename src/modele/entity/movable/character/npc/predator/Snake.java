@@ -12,7 +12,9 @@ public class Snake extends Predator{
     }
 
     @Override
-    public void afterHit() {
-        setCurrentState(new SnakeRestState(this));
+    public void afterHit(boolean killed) {
+        if (killed) {
+            setCurrentState(new SnakeRestState(this));
+        }
     }
 }

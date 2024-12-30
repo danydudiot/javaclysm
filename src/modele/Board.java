@@ -2,20 +2,10 @@ package modele;
 
 import exception.EntityNotFoundException;
 import exception.InvalidActionException;
-import exception.InvalidArgumentException;
-import exception.MoveInvalidException;
-import modele.clock.Clock;
-import modele.clock.commands.EatPreyCommand;
 import modele.entity.Entity;
+import modele.entity.movable.MovableEntity;
 import modele.entity.movable.character.PlayerCharacter;
-import modele.entity.movable.character.npc.predator.Predator;
-import modele.entity.movable.character.npc.predator.Scorpio;
-import modele.entity.movable.character.npc.prey.Prey;
-import modele.entity.stationary.food.Food;
-import modele.entity.stationary.terrain.Empty;
 import modele.entity.stationary.terrain.Terrain;
-import modele.entity.stationary.terrain.high.ScorpioRock;
-import modele.entity.stationary.terrain.low.Rock;
 
 import java.util.*;
 
@@ -163,7 +153,7 @@ public class Board {
 //                Food food = (Food) board[new_y][new_x].getEntityOnCase();
 //                board[new_y][new_x].setEntityOnCase(entity);
 //                board[y][x].clearEntityOnCase();
-//                Clock.getInstance().addCommandToTurn(new EatPreyCommand((Prey) entity, food));
+//                Clock.getInstance().addCommandToTurn(new PreyEatCommand((Prey) entity, food));
 //            } else {
 //                throw new MoveInvalidException("L'animal ne peut pas aller sur cette case.");
 //            }
@@ -204,6 +194,20 @@ public class Board {
 //        return new int[]{new_x, new_y};
 //
 //    }
+
+    public void moveToward(MovableEntity entity, char direction) {
+        // On part du principe que le déplacement est toujours valide (testé en amont)
+        Terrain target = getToward(entity.getX(), entity.getY(), direction);
+        clearCase(entity.getX(), entity.getY());
+        target.setEntityOnCase(entity);
+    }
+
+    public void moveTo(MovableEntity entity, int x, int y) {
+        // On part du principe que le déplacement est toujours valide (testé en amont)
+        Terrain target = getAt(x,y);
+        clearCase(entity.getX(), entity.getY());
+        target.setEntityOnCase(entity);
+    }
 
 
     public void clearCase(int x, int y) throws EntityNotFoundException {

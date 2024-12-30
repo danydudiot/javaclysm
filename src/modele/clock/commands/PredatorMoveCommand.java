@@ -3,12 +3,12 @@ package modele.clock.commands;
 import modele.entity.movable.character.npc.predator.Predator;
 import modele.entity.movable.character.npc.state.State;
 
-public class MovePredatorCommand implements Command {
+public class PredatorMoveCommand implements Command {
 	Predator predator;
 	char direction;
 	State old_state;
 
-	public MovePredatorCommand(Predator predator, char direction) {
+	public PredatorMoveCommand(Predator predator, char direction) {
 		this.predator = predator;
 		this.direction 	= direction;
 		this.old_state 	= predator.getCurrentState();

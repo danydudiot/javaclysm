@@ -3,13 +3,13 @@ package modele.clock.commands;
 import modele.entity.movable.character.npc.prey.Prey;
 import modele.entity.movable.character.npc.state.State;
 
-public class MovePreyCommand implements Command {
+public class PreyMoveCommand implements Command {
 	Prey prey;
 	char direction;
 	int old_hunger;
 	State old_state;
 
-	public MovePreyCommand(Prey prey, char direction) {
+	public PreyMoveCommand(Prey prey, char direction) {
 		this.prey = prey;
 		this.direction 	= direction;
 		this.old_hunger = prey.getHungryCount();

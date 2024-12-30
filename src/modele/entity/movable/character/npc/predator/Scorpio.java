@@ -15,7 +15,7 @@ public class Scorpio extends Predator{
     }
 
     @Override
-    public void afterHit() {
+    public void afterHit(boolean killed) {
         canAttack = 2;
     }
 

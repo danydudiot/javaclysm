@@ -5,13 +5,13 @@ import modele.entity.Entity;
 import modele.entity.movable.character.Character;
 import modele.interaction.Grab;
 
-public class DropCommand implements Command {
+public class PlayerDropCommand implements Command {
 
 	Inventory inventory;
 	Entity what;
 	Character author;
 
-	public DropCommand(Inventory inventory, Entity what, Character author) {
+	public PlayerDropCommand(Inventory inventory, Entity what, Character author) {
 		this.inventory = inventory;
 		this.what = what;
 		this.author = author;

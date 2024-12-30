@@ -1,7 +1,5 @@
 package modele.entity.movable.character.npc.state.prey;
 
-import modele.clock.Clock;
-import modele.clock.commands.MovePreyCommand;
 import modele.entity.movable.character.npc.prey.Prey;
 
 public class SquirrelHungryState extends HungryState {
@@ -16,7 +14,7 @@ public class SquirrelHungryState extends HungryState {
 
     public void updateState(){
         if (prey.getHungryCount() > 0){
-            prey.setCurrentState(new SquirrelHungryState(prey));
+            prey.setCurrentState(new SquirrelNotHungryState(prey));
         }
     }
 }

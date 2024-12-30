@@ -7,18 +7,15 @@ import modele.boardFactory.BoardFactoryGenerator;
 import modele.boardFactory.BoardFactoryParser;
 import modele.Inventory;
 import modele.clock.Clock;
-import modele.clock.commands.DropCommand;
+import modele.clock.commands.PlayerDropCommand;
 import modele.clock.commands.InteractionGrabCommand;
 import modele.clock.commands.InteractionHitCommand;
-import modele.clock.commands.MovePlayerCommand;
+import modele.clock.commands.PlayerMoveCommand;
 import modele.entity.Entity;
 import modele.entity.movable.character.PlayerCharacter;
 import modele.entity.movable.character.npc.prey.Prey;
 import modele.entity.stationary.terrain.Terrain;
-import modele.interaction.Grab;
-import modele.interaction.Hit;
-import modele.interaction.Interactible;
-import modele.interaction.Interaction;
+import modele.interaction.*;
 import vue.Ihm;
 
 import java.io.FileNotFoundException;
@@ -87,7 +84,7 @@ public class Controleur {
         try {
             if ("zqsd".indexOf(action) != -1) {
                 if (playerCharacter.canMove(action)) {
-                    clock.addCommandToTurn(new MovePlayerCommand(playerCharacter, action));
+                    clock.addCommandToTurn(new PlayerMoveCommand(playerCharacter, action));
                     clock.notifierObservateur();
                 } else {
                     Board.getInstance().logError("Déplacement impossible");
@@ -99,7 +96,7 @@ public class Controleur {
             } else if ("e".indexOf(action) != -1) {
                 manageInteraction();
             } else if ("j".indexOf(action) != -1) {
-                clock.addCommandToTurn(new DropCommand(inventory, (Entity) inventory.getEquippedItem(), playerCharacter));
+                clock.addCommandToTurn(new PlayerDropCommand(inventory, (Entity) inventory.getEquippedItem(), playerCharacter));
                 clock.notifierObservateur();
             } else if ("r".indexOf(action) != -1) {
                 clock.undoLastTurn();
@@ -136,11 +133,14 @@ public class Controleur {
                     return;
                 } else if (numInteraction < interactions.length){
                     if (interactions[numInteraction] instanceof Grab) {
+
                         clock.addCommandToTurn(new InteractionGrabCommand(playerCharacter, (Entity) interactible, inventory,(Grab) interactions[numInteraction], playerCharacter));
                     } else if (interactions[numInteraction] instanceof Hit) {
                         clock.addCommandToTurn(new InteractionHitCommand(playerCharacter, (Prey) entity, (Hit) interactions[numInteraction], playerCharacter));
                     }
-                    clock.notifierObservateur();
+                    if (! (interactions[numInteraction] instanceof GrabTimeStone)) {
+                        clock.notifierObservateur();
+                    }
                 }
             } else {
                 board.logError("Pas d'interactions disponibles.");

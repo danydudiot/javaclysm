@@ -2,8 +2,8 @@ package modele.entity.movable.character.npc.state.prey;
 
 import modele.Board;
 import modele.clock.Clock;
-import modele.clock.commands.EatPreyCommand;
-import modele.clock.commands.MovePreyCommand;
+import modele.clock.commands.PreyEatCommand;
+import modele.clock.commands.PreyMoveCommand;
 import modele.entity.Entity;
 import modele.entity.movable.character.PlayerCharacter;
 import modele.entity.movable.character.npc.predator.Predator;
@@ -35,18 +35,19 @@ public abstract class PreyState implements State {
     protected char getDefault(String allow){
         int[] position = prey.getPosition();
         Map<Character, Terrain> neighbours = Board.getInstance().getNeighbours(position[0], position[1]);
-        String direction = "";
-        for (char a : neighbours.keySet()) {
-            Entity entity = neighbours.get(a).getEntityOnCase();
-            if (entity == null && allow.contains(direction)) {
-                direction += a;
+        String directionPossible = "";
+        for (char direction : neighbours.keySet()) {
+            Entity entity = neighbours.get(direction).getEntityOnCase();
+            if (entity == null && allow.contains(String.valueOf(direction))) {
+                directionPossible += direction;
             }
         }
-        if (direction.isEmpty()){
+        if (directionPossible.isEmpty()){
+            Clock.getInstance().addCommandToTurn(new PreyMoveCommand(prey, 'a'));
             return 'a';
         } else {
-            char move = direction.charAt((int) (Math.random() * direction.length()));
-            Clock.getInstance().addCommandToTurn(new MovePreyCommand(prey, move));
+            char move = directionPossible.charAt((int) (Math.random() * directionPossible.length()));
+            Clock.getInstance().addCommandToTurn(new PreyMoveCommand(prey, move));
             return move;
         }
 
@@ -70,7 +71,7 @@ public abstract class PreyState implements State {
             return false;
         } else {
             Food foodEntity = (Food) neighbours.get(food.charAt(0)).getEntityOnCase();
-            Clock.getInstance().addCommandToTurn(new EatPreyCommand(prey, foodEntity));
+            Clock.getInstance().addCommandToTurn(new PreyEatCommand(prey, foodEntity));
             return true;
         }
     }
@@ -91,6 +92,7 @@ public abstract class PreyState implements State {
         }
 
         Map<Character, Terrain> neighbours = Board.getInstance().getNeighbours(prey.getX(), prey.getY());
+        //neighbours.put('a', Board.getInstance().getAt(prey.getX(), prey.getY()));
         char player = ' ';
         String high = "";
         String low = "";
@@ -110,13 +112,13 @@ public abstract class PreyState implements State {
 
 
         if (playerAllow && player != ' ' && prey.isFriendly()){
-            Clock.getInstance().addCommandToTurn(new MovePreyCommand(prey, 'a')); // TODO : Faire dans la poche.
+            Clock.getInstance().addCommandToTurn(new PreyMoveCommand(prey, 'a')); // TODO : Faire dans la poche.
         } else if (!high.isEmpty()) {
-            Clock.getInstance().addCommandToTurn(new MovePreyCommand(prey, high.charAt(0)));
+            Clock.getInstance().addCommandToTurn(new PreyMoveCommand(prey, high.charAt(0)));
         } else if (!low.isEmpty()) {
-            Clock.getInstance().addCommandToTurn(new MovePreyCommand(prey, low.charAt(0)));
+            Clock.getInstance().addCommandToTurn(new PreyMoveCommand(prey, low.charAt(0)));
         } else {
-            Clock.getInstance().addCommandToTurn(new MovePreyCommand(prey, getDirectionFromDanger(danger, free)));
+            Clock.getInstance().addCommandToTurn(new PreyMoveCommand(prey, getDirectionFromDanger(danger, free)));
         }
         return true;
     }

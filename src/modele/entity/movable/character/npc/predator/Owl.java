@@ -12,7 +12,7 @@ public class Owl extends Predator{
     }
 
     @Override
-    public void afterHit() {
+    public void afterHit(boolean killed) {
         setCurrentState(new OwlRestState(this));
     }
 }

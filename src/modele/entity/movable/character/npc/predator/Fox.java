@@ -11,7 +11,7 @@ public class Fox extends Predator{
     }
 
     @Override
-    public void afterHit() {
+    public void afterHit(boolean killed) {
 
     }
 }

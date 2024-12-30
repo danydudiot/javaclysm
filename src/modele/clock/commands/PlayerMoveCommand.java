@@ -3,12 +3,12 @@ package modele.clock.commands;
 import modele.Board;
 import modele.entity.movable.character.PlayerCharacter;
 
-public class MovePlayerCommand implements Command{
+public class PlayerMoveCommand implements Command{
 	PlayerCharacter playerCharacter;
-	char direction;
-	char old_orientation;
+	final char direction;
+	final char old_orientation;
 
-	public MovePlayerCommand(PlayerCharacter p, char direction) {
+	public PlayerMoveCommand(PlayerCharacter p, char direction) {
 		this.direction 		 = direction;
 		this.playerCharacter = p;
 		this.old_orientation = p.getOrientation();

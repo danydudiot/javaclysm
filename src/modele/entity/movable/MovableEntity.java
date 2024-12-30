@@ -15,22 +15,9 @@ public abstract class MovableEntity extends Entity {
 		Terrain target = Board.getInstance().getToward(x,y,direction);
 		return target != null && target.isEmpty() && (target instanceof Empty);
 	}
-
-    public void move(char direction) {
-		Board board = Board.getInstance();
-		int[] new_position = board.moveEntity(x, y, direction);
-		if (this.x != new_position[0] || this.y != new_position[1]) {
-			this.x = new_position[0];
-			this.y = new_position[1];
-		}
-	}
-
-	public void move(int new_x, int new_y) {
-		Board board = Board.getInstance();
-		int[] new_position = board.moveEntity(x, y, new_x, new_y );
-		if (this.x != new_position[0] || this.y != new_position[1]) {
-			this.x = new_position[0];
-			this.y = new_position[1];
+	public void move(char direction) {
+		if (canMove(direction)) {
+			Board.getInstance().moveToward(this, direction);
 		}
 	}
 

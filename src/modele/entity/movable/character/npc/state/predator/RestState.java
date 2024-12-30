@@ -1,12 +1,9 @@
 package modele.entity.movable.character.npc.state.predator;
 
-import modele.Board;
 import modele.Colors;
 import modele.clock.Clock;
-import modele.clock.commands.MovePredatorCommand;
+import modele.clock.commands.PredatorMoveCommand;
 import modele.entity.movable.character.npc.predator.Predator;
-import modele.entity.movable.character.npc.prey.Prey;
-import modele.entity.stationary.terrain.Terrain;
 
 
 public abstract class RestState extends PredatorState {
@@ -33,7 +30,7 @@ public abstract class RestState extends PredatorState {
 
     @Override
     public void deplacement() {
-        Clock.getInstance().addCommandToTurn(new MovePredatorCommand(predator, 'a'));
+        Clock.getInstance().addCommandToTurn(new PredatorMoveCommand(predator, 'a'));
     }
 
     @Override

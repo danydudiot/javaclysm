@@ -22,7 +22,7 @@ public final class Colors {
 
 	public static final String LIGHT_BLACK = "\u001B[90m";
 	public static final String LIGHT_RED = "\u001B[91m";
-
+	public static final String LIGHT_BLUE = "\u001B[95m";
 	public static final String LIGHT_PURPLE = "\u001b[95m";
 	public static final String LIGHT_WHITE = "\u001b[97m";
 
