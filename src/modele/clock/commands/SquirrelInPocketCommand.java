@@ -23,6 +23,7 @@ public class SquirrelInPocketCommand implements Command {
 			Board.getInstance().getAt(squirrel.getX(), squirrel.getY()).clearEntityOnCase();
 			hasGrabbed = true;
 			Board.getInstance().logAction(squirrel.getDisplayName() + " est rentré dans la poche");
+			squirrel.setHasMoved(true);
 		} catch (Exception exception){
 			hasGrabbed = false;
 			Board.getInstance().logError(squirrel.getDisplayName() + " tente de rentrer dans la poche, mais l'inventaire est plein");

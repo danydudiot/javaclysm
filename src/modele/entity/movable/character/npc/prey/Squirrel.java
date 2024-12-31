@@ -2,9 +2,11 @@ package modele.entity.movable.character.npc.prey;
 
 import exception.InvalidActionException;
 import modele.Board;
+import modele.Inventory;
 import modele.InventoryItem;
 import modele.clock.Clock;
 import modele.clock.commands.PreyMoveCommand;
+import modele.clock.commands.SquirrelInPocketCommand;
 import modele.entity.movable.character.Character;
 import modele.entity.movable.character.PlayerCharacter;
 import modele.entity.movable.character.npc.predator.Fox;
@@ -55,8 +57,8 @@ public class Squirrel extends Prey implements InventoryItem {
             }
 
 
-            if (player != ' ' && isFriendly()){
-                Clock.getInstance().addCommandToTurn(new PreyMoveCommand(this, 'p'));
+            if (player != ' ' && isFriendly() && !Inventory.getInstance().isFull()){
+                Clock.getInstance().addCommandToTurn(new SquirrelInPocketCommand(this));
             } else if (!high.isEmpty() && aggressor instanceof Fox) {
                 if (high.contains("a")){
                     Clock.getInstance().addCommandToTurn(new PreyMoveCommand(this, 'a'));
@@ -69,15 +71,15 @@ public class Squirrel extends Prey implements InventoryItem {
                 return false;
 
             } else if (!low.isEmpty() && aggressor instanceof Owl) {
-                    if (low.contains("a")){
-                        Clock.getInstance().addCommandToTurn(new PreyMoveCommand(this, 'a'));
-                        setCurrentState(new TerrifyState(this));
-                    } else {
-                        Clock.getInstance().addCommandToTurn(new PreyMoveCommand(this, low.charAt(0)));
-                        setCurrentState(new TerrifyState(this));
-                    }
-                    ((Predator) aggressor).afterHit(false);
-                    return false;
+                if (low.contains("a")){
+                    Clock.getInstance().addCommandToTurn(new PreyMoveCommand(this, 'a'));
+                    setCurrentState(new TerrifyState(this));
+                } else {
+                    Clock.getInstance().addCommandToTurn(new PreyMoveCommand(this, low.charAt(0)));
+                    setCurrentState(new TerrifyState(this));
+                }
+                ((Predator) aggressor).afterHit(false);
+                return false;
 
             } else {
                 Board.getInstance().getAt(x,y).clearEntityOnCase();

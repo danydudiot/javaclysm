@@ -31,6 +31,7 @@ public class PreyEatCommand implements Command {
 		prey.eat(isPlayerNearby, food);
 		Board.getInstance().clearCase(food.getX(), food.getY());
 		Board.getInstance().moveTo(prey, food.getX(), food.getY());
+		prey.setHasMoved(true);
 	}
 
 	@Override

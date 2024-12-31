@@ -3,6 +3,7 @@ package modele.clock;
 import modele.Board;
 import modele.Colors;
 import modele.clock.commands.Command;
+import modele.entity.movable.character.npc.predator.Predator;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,7 +40,13 @@ public final class Clock implements Observable{
 
     @Override
     public void attacher(Observateur observateur) {
-        observateurs.add(observateur);
+        // Make the predator act first.
+        if (observateur instanceof Predator){
+            observateurs.add(0,observateur);
+        } else {
+            observateurs.add(observateur);
+
+        }
     }
 
     @Override

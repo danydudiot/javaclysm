@@ -43,8 +43,7 @@ public class SquirrellOutPocketCommand implements Command {
 		} else {
 			squirrel.setCurrentState(new SquirrelNotHungryState(squirrel));
 		}
-
-
+		squirrel.setHasMoved(true);
 	}
 
 	@Override

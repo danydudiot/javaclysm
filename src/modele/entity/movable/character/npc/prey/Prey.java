@@ -20,15 +20,23 @@ public abstract class Prey extends NonPlayerCharacter {
     protected Class<? extends Food> foodPreference;
     protected int friendLevel;
 
+    protected boolean hasMoved;
+
 
     public Prey(int x, int y, int hungryCountBase) {
         super(x, y);
         this.hungryCountBase = hungryCountBase;
         this.hungryCount = hungryCountBase;
+        this.hasMoved = false;
     }
 
 
-
+    public boolean isHasMoved() {
+        return hasMoved;
+    }
+    public void setHasMoved(boolean hasMoved) {
+        this.hasMoved = hasMoved;
+    }
     public boolean isFriendly () {
         return friendLevel >= 1;
     }
@@ -75,5 +83,14 @@ public abstract class Prey extends NonPlayerCharacter {
         } else {
             return displayName;
         }
+    }
+
+    @Override
+    public void mettreAJour(){
+        if (!hasMoved){
+            currentState.deplacement();
+            currentState.updateState();
+        }
+        hasMoved = false;
     }
 }

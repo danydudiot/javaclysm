@@ -34,6 +34,7 @@ public class PredatorAttackCommand implements Command{
 		if (wasKilled) {
 			Board.getInstance().logAction(predator.getDisplayName() + " à tué " + prey.getDisplayName());
 		}
+		prey.setHasMoved(true);
 	}
 
 	@Override

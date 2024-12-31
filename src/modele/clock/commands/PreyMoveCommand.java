@@ -19,6 +19,7 @@ public class PreyMoveCommand implements Command {
 	@Override
 	public void doCommand() {
 		prey.move(direction);
+		prey.setHasMoved(true);
 	}
 
 	@Override
