@@ -10,15 +10,37 @@ import java.util.List;
 public class Inventory {
     private List<InventoryItem> items;
 
+    private static Inventory INSTANCE;
+
     private final int MAX_INVENTORY_SIZE = 9;
     private int equippedItemId;
-    public Inventory() {
+    private Inventory() {
         this.items = new ArrayList<>();
         this.equippedItemId = -1;
     }
 
+    public static Inventory getInstance() {
+        if (INSTANCE == null) {
+            INSTANCE = new Inventory();
+        }
+        return INSTANCE;
+    }
+
     public void setItems(List<InventoryItem> items) {
         this.items = items;
+    }
+
+    public boolean hasItem(InventoryItem item) {
+        for (InventoryItem i : items) {
+            if (item.equals(i)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean isFull() {
+        return (items.size() >= MAX_INVENTORY_SIZE);
     }
 
     public void setEquippedItem(InventoryItem equippedItem) {
@@ -101,6 +123,13 @@ public class Inventory {
         } else {
             throw new Exception("l'Inventaire est plein");
         }
+    }
+
+    public void remove(InventoryItem inventoryItem) {
+        if ((equippedItemId != -1) && (items.get(equippedItemId) == inventoryItem)) {
+            equippedItemId = -1;
+        }
+        items.remove(inventoryItem);
     }
 
     public int getInventorySize() {

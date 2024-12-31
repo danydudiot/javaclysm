@@ -14,7 +14,6 @@ import modele.clock.commands.PlayerMoveCommand;
 import modele.entity.Entity;
 import modele.entity.movable.character.PlayerCharacter;
 import modele.entity.movable.character.npc.NonPlayerCharacter;
-import modele.entity.movable.character.npc.prey.Prey;
 import modele.entity.stationary.terrain.Terrain;
 import modele.interaction.*;
 import vue.Ihm;
@@ -26,11 +25,11 @@ import java.util.List;
 public class Controleur {
     protected Ihm ihm;
     protected PlayerCharacter playerCharacter;
-    protected Inventory inventory;
 
     public Controleur() {
         this.ihm = new Ihm();
-        this.inventory = new Inventory();
+        // Init of the inventory
+        Inventory.getInstance();
     }
 
     public void startGame(){
@@ -78,7 +77,7 @@ public class Controleur {
                 playerCharacter.getX(),
                 playerCharacter.getY(),
                 playerCharacter.getOrientation(),
-                inventory.getEquippedItemString(),
+                Inventory.getInstance().getEquippedItemString(),
                 clock.getNbTour()
         );
         char action = ihm.askAction();
@@ -92,18 +91,21 @@ public class Controleur {
                 }
             } else if ("oklm".indexOf(action) != -1) {
                 playerCharacter.changeOrientation(action);
-            } else if ("i".indexOf(action) != -1) {
+            } else if (action == 'i') {
                 manageInventory();
-            } else if ("e".indexOf(action) != -1) {
+            } else if (action == 'e') {
                 manageInteraction();
-            } else if ("j".indexOf(action) != -1) {
-                clock.addCommandToTurn(new PlayerDropCommand(inventory, (Entity) inventory.getEquippedItem(), playerCharacter));
+            } else if (action == 'j') {
+                clock.addCommandToTurn(new PlayerDropCommand((Entity) Inventory.getInstance().getEquippedItem()));
                 clock.notifierObservateur();
-            } else if ("r".indexOf(action) != -1) {
+            } else if (action == 'r') {
                 clock.undoLastTurn();
-            } else if ("h".indexOf(action) != -1) {
+            } else if (action == 'h') {
                 ihm.printHelpPage(board.getTheme());
                 tour();
+            } else if (action == 'x') {
+                Board.getInstance().logAction("Passage de tour");
+                clock.notifierObservateur();
             } else {
                 throw new InvalidActionException("Action inconnue.");
             }
@@ -135,9 +137,9 @@ public class Controleur {
                 } else if (numInteraction < interactions.length){
                     if (interactions[numInteraction] instanceof Grab) {
 
-                        clock.addCommandToTurn(new InteractionGrabCommand(playerCharacter, (Entity) interactible, inventory,(Grab) interactions[numInteraction], playerCharacter));
+                        clock.addCommandToTurn(new InteractionGrabCommand((Entity) interactible,(Grab) interactions[numInteraction]));
                     } else if (interactions[numInteraction] instanceof Hit) {
-                        clock.addCommandToTurn(new InteractionHitCommand(playerCharacter, (NonPlayerCharacter) entity, (Hit) interactions[numInteraction]));
+                        clock.addCommandToTurn(new InteractionHitCommand((NonPlayerCharacter) entity, (Hit) interactions[numInteraction]));
                     }
                     if (! (interactions[numInteraction] instanceof GrabTimeStone)) {
                         clock.notifierObservateur();
@@ -152,12 +154,12 @@ public class Controleur {
     }
 
     private void manageInventory(){
-        ihm.displayInventory(inventory.getItemsStrings(), inventory.getEquippedItemString(), inventory.getEquippedItemId());
+        ihm.displayInventory(Inventory.getInstance().getItemsStrings(), Inventory.getInstance().getEquippedItemString(), Inventory.getInstance().getEquippedItemId());
         int numSelection = ihm.askInventory();
         if (numSelection == -1) {
             return;
-        } else if (numSelection < inventory.getInventorySize()) {
-            inventory.setEquippedItem(numSelection);
+        } else if (numSelection < Inventory.getInstance().getInventorySize()) {
+            Inventory.getInstance().setEquippedItem(numSelection);
             manageInventory();
         }
     }

@@ -31,6 +31,9 @@ public class PredatorAttackCommand implements Command{
 	@Override
 	public void doCommand() {
 		this.wasKilled = prey.hit(predator);
+		if (wasKilled) {
+			Board.getInstance().logAction(predator.getDisplayName() + " à tué " + prey.getDisplayName());
+		}
 	}
 
 	@Override

@@ -4,16 +4,15 @@ import modele.Board;
 import modele.Inventory;
 import modele.InventoryItem;
 import modele.entity.Entity;
-import modele.entity.movable.character.Character;
 
 public class Grab implements Interaction {
     private final String displayName = "Prendre";
 
-    public void interact(Inventory inventory, Entity entity, Character author){
+    public void interact(Entity entity){
         if (entity instanceof InventoryItem){
             Board board = Board.getInstance();
             try {
-                inventory.add((InventoryItem) entity);
+                Inventory.getInstance().add((InventoryItem) entity);
                 board.clearCase(entity.getX(), entity.getY());
                 board.logAction(((InventoryItem) entity).getDisplayName() + " ramassé");
             } catch (Exception e) {

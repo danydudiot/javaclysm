@@ -67,4 +67,13 @@ public abstract class Prey extends NonPlayerCharacter {
             currentState.updateState();
         }
     }
+
+    @Override
+    public String getDisplayName() {
+        if (isFriendly()) {
+            return displayName + " (Ami)";
+        } else {
+            return displayName;
+        }
+    }
 }

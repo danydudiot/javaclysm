@@ -1,23 +1,19 @@
 package modele.clock.commands;
 
 import modele.Board;
-import modele.entity.movable.character.Character;
-import modele.entity.movable.character.PlayerCharacter;
 import modele.entity.movable.character.npc.NonPlayerCharacter;
 import modele.entity.movable.character.npc.prey.Prey;
 import modele.entity.movable.character.npc.state.State;
 import modele.interaction.Hit;
 
 public class InteractionHitCommand implements Command {
-	PlayerCharacter playerCharacter;
 	NonPlayerCharacter target;
 	State old_state;
 	int old_friendLevel;
 	Hit interaction;
 
 
-	public InteractionHitCommand(PlayerCharacter playerCharacter, NonPlayerCharacter target, Hit interaction) {
-		this.playerCharacter= playerCharacter;
+	public InteractionHitCommand(NonPlayerCharacter target, Hit interaction) {
 		this.target			= target;
 		this.interaction 	= interaction;
 		this.old_state		= target.getCurrentState();
@@ -28,7 +24,7 @@ public class InteractionHitCommand implements Command {
 
 	@Override
 	public void doCommand() {
-		this.interaction.interact(null, target, playerCharacter);
+		this.interaction.interact(target);
 	}
 
 	@Override

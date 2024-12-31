@@ -2,6 +2,7 @@ package modele.entity.movable.character.npc.prey;
 
 import exception.InvalidActionException;
 import modele.Board;
+import modele.InventoryItem;
 import modele.clock.Clock;
 import modele.clock.commands.PreyMoveCommand;
 import modele.entity.movable.character.Character;
@@ -16,10 +17,13 @@ import modele.entity.stationary.food.Acorn;
 import modele.entity.stationary.terrain.Terrain;
 import modele.entity.stationary.terrain.high.High;
 import modele.entity.stationary.terrain.low.Low;
+import modele.interaction.Grab;
+import modele.interaction.Hit;
+import modele.interaction.Interaction;
 
 import java.util.Map;
 
-public class Squirrel extends Prey {
+public class Squirrel extends Prey implements InventoryItem {
     public Squirrel(int x, int y) {
         super(x, y, 5);
         this.representation = "E";
@@ -87,5 +91,4 @@ public class Squirrel extends Prey {
         }
         return false;
     }
-
 }

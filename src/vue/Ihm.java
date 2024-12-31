@@ -89,7 +89,7 @@ public class Ihm {
 			String scannerInput = sc.nextLine();
 			if (! scannerInput.isEmpty()) {
 				char input = scannerInput.toLowerCase().charAt(0);
-				if ("zqsdoklmeijrh ".indexOf(input) != -1) {
+				if ("zqsdoklmeijrhx".indexOf(input) != -1) {
 					return input;
 				}
 			}
@@ -256,7 +256,7 @@ public class Ihm {
 
 	public void printHelpPage(char theme) {
 		String[] elements;
-
+		// TODO : réorganiser dans un ordre plus logique.
 		if (theme == 'F') {
 			elements = new String[] {
 					Colors.GREEN 		+ "A" + Colors.RESET + ": Arbre",
@@ -267,6 +267,7 @@ public class Ihm {
 					Colors.LIGHT_PURPLE	+ "E" + Colors.RESET + ": Ecureil Ami Rassasié",
 					Colors.PURPLE	 	+ "E" + Colors.RESET + ": Ecureil Ami Affamé",
 					Colors.RED		 	+ "E" + Colors.RESET + ": Ecureil Junkie",
+					Colors.BLUE_BACKGROUND + "E" + Colors.RESET + ": Ecureil Terrifié",
 					Colors.YELLOW 		+ "G" + Colors.RESET + ": Gland",
 					Colors.LIGHT_RED	+ "H" + Colors.RESET + ": Hibou en vol",
 					Colors.LIGHT_BLACK	+ "H" + Colors.RESET + ": Hibou au sol",

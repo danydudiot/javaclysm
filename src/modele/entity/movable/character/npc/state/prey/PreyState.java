@@ -1,13 +1,16 @@
 package modele.entity.movable.character.npc.state.prey;
 
 import modele.Board;
+import modele.Inventory;
 import modele.clock.Clock;
 import modele.clock.commands.PreyEatCommand;
 import modele.clock.commands.PreyMoveCommand;
+import modele.clock.commands.SquirrelInPocketCommand;
 import modele.entity.Entity;
 import modele.entity.movable.character.PlayerCharacter;
 import modele.entity.movable.character.npc.predator.Predator;
 import modele.entity.movable.character.npc.prey.Prey;
+import modele.entity.movable.character.npc.prey.Squirrel;
 import modele.entity.movable.character.npc.state.State;
 import modele.entity.stationary.food.Food;
 import modele.entity.stationary.terrain.Terrain;
@@ -92,7 +95,6 @@ public abstract class PreyState implements State {
         }
 
         Map<Character, Terrain> neighbours = Board.getInstance().getNeighbours(prey.getX(), prey.getY());
-        //neighbours.put('a', Board.getInstance().getAt(prey.getX(), prey.getY()));
         char player = ' ';
         String high = "";
         String low = "";
@@ -111,8 +113,8 @@ public abstract class PreyState implements State {
         }
 
 
-        if (playerAllow && player != ' ' && prey.isFriendly()){
-            Clock.getInstance().addCommandToTurn(new PreyMoveCommand(prey, 'a')); // TODO : Faire dans la poche.
+        if (playerAllow && player != ' ' && prey.isFriendly() && !Inventory.getInstance().isFull()){
+            Clock.getInstance().addCommandToTurn(new SquirrelInPocketCommand((Squirrel) prey));
         } else if (!high.isEmpty()) {
             Clock.getInstance().addCommandToTurn(new PreyMoveCommand(prey, high.charAt(0)));
         } else if (!low.isEmpty()) {
