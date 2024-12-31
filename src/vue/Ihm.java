@@ -89,7 +89,7 @@ public class Ihm {
 			String scannerInput = sc.nextLine();
 			if (! scannerInput.isEmpty()) {
 				char input = scannerInput.toLowerCase().charAt(0);
-				if ("zqsdoklmeijrhx".indexOf(input) != -1) {
+				if (("zqsdoklmeijrhx".indexOf(input) != -1) || (Character.isDigit(input)) ) {
 					return input;
 				}
 			}

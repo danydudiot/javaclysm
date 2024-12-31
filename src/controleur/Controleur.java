@@ -82,33 +82,39 @@ public class Controleur {
         );
         char action = ihm.askAction();
         try {
-            if ("zqsd".indexOf(action) != -1) {
-                if (playerCharacter.canMove(action)) {
-                    clock.addCommandToTurn(new PlayerMoveCommand(playerCharacter, action));
-                    clock.notifierObservateur();
-                } else {
-                    Board.getInstance().logError("Déplacement impossible");
-                }
-            } else if ("oklm".indexOf(action) != -1) {
-                playerCharacter.changeOrientation(action);
-            } else if (action == 'i') {
-                manageInventory();
-            } else if (action == 'e') {
-                manageInteraction();
-            } else if (action == 'j') {
-                clock.addCommandToTurn(new PlayerDropCommand((Entity) Inventory.getInstance().getEquippedItem()));
-                clock.notifierObservateur();
-            } else if (action == 'r') {
-                clock.undoLastTurn();
-            } else if (action == 'h') {
-                ihm.printHelpPage(board.getTheme());
-                tour();
-            } else if (action == 'x') {
-                Board.getInstance().logAction("Passage de tour");
-                clock.notifierObservateur();
+			if ("zqsd".indexOf(action) != -1) {
+				if (playerCharacter.canMove(action)) {
+					clock.addCommandToTurn(new PlayerMoveCommand(playerCharacter, action));
+					clock.notifierObservateur();
+				} else {
+					Board.getInstance().logError("Déplacement impossible");
+				}
+			} else if ("oklm".indexOf(action) != -1) {
+				playerCharacter.changeOrientation(action);
+			} else if (action == 'i') {
+				manageInventory();
+			} else if (action == 'e') {
+				manageInteraction();
+			} else if (action == 'j') {
+				clock.addCommandToTurn(new PlayerDropCommand((Entity) Inventory.getInstance().getEquippedItem()));
+				clock.notifierObservateur();
+			} else if (action == 'r') {
+				clock.undoLastTurn();
+			} else if (action == 'h') {
+				ihm.printHelpPage(board.getTheme());
+				tour();
+			} else if (action == 'x') {
+				Board.getInstance().logAction("Passage de tour");
+				clock.notifierObservateur();
+			} else if (Character.isDigit(action)) {
+				int amount = Integer.parseInt(String.valueOf(action));
+				for (int i = 0; i < amount; i++) {
+				    clock.notifierObservateur();
+			    }
+			    Board.getInstance().logAction("Passage de " + amount + " tour(s)");
             } else {
-                throw new InvalidActionException("Action inconnue.");
-            }
+                    throw new InvalidActionException("Action inconnue.");
+                }
         } catch (InvalidActionException | MoveInvalidException e) {
             ihm.displayError(e.getMessage());
             tour();

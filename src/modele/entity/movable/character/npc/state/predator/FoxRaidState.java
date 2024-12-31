@@ -29,28 +29,4 @@ public class FoxRaidState extends RaidState {
 
     @Override
     public void updateState() {}
-
-    @Override
-    public void deplacement() {
-        final int[] position = predator.getPosition();
-        Map<Character, Terrain> neighbours = Board.getInstance().getNeighbours(position[0], position[1]);
-        String directionLand = "";
-        List<Prey> preyList = new ArrayList<>();
-        for (char a : neighbours.keySet()) {
-            Terrain terrain = neighbours.get(a);
-            if ((terrain.getEntityOnCase() instanceof Prey) && !(terrain instanceof Tree)) {
-                preyList.add((Prey) terrain.getEntityOnCase());
-            } else if (terrain instanceof Empty && terrain.getEntityOnCase() == null) {
-                directionLand += a;
-            }
-
-        }
-        if (!preyList.isEmpty()) {
-            Clock.getInstance().addCommandToTurn(new PredatorAttackCommand(predator, preyList.get(0)));
-        } else if (!directionLand.isEmpty()) {
-            Clock.getInstance().addCommandToTurn(new PredatorMoveCommand(predator, directionLand.charAt((int) (Math.random() * directionLand.length()))));
-        } else {
-            Clock.getInstance().addCommandToTurn(new PredatorMoveCommand(predator, 'a'));
-        }
-    }
 }

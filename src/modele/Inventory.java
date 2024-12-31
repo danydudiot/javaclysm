@@ -1,6 +1,7 @@
 package modele;
 
 import modele.entity.Entity;
+import modele.entity.movable.character.npc.prey.Prey;
 import modele.entity.stationary.terrain.Empty;
 import modele.entity.stationary.terrain.Terrain;
 
@@ -76,7 +77,7 @@ public class Inventory {
     }
 
     public void dropItem(){
-        if (equippedItemId != -1) {
+        if (equippedItemId != -1 && !(getEquippedItem() instanceof Prey)) {
             Board board = Board.getInstance();
             int x = board.getPlayer().getX();
             int y = board.getPlayer().getY();
@@ -90,7 +91,12 @@ public class Inventory {
                 board.logError("Impossible de jeter cela ici.");
             }
         } else {
-            Board.getInstance().logError("Aucun objet équipé.");
+            if (equippedItemId == -1) {
+                Board.getInstance().logError("Aucun objet équipé.");
+            } else {
+                Board.getInstance().logError("Espece de monstre sans coeur.");
+                Board.getInstance().logError("Vous n'allez quand même pas faire ça ?");
+            }
         }
     }
 

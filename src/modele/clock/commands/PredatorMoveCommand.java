@@ -21,8 +21,8 @@ public class PredatorMoveCommand implements Command {
 
 	@Override
 	public void undoCommand() {
-		predator.move(predator.getInverseDirection(direction));
 		predator.setCurrentState(old_state);
+		predator.move(predator.getInverseDirection(direction));
 	}
 
 

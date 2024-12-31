@@ -3,33 +3,44 @@ package modele.entity.movable.character.npc.state.predator;
 
 import modele.Board;
 import modele.Colors;
+import modele.clock.Clock;
+import modele.clock.commands.PredatorMoveCommand;
 import modele.entity.movable.character.npc.predator.Predator;
+import modele.entity.movable.character.npc.predator.Scorpio;
 import modele.entity.movable.character.npc.prey.Prey;
 import modele.entity.stationary.terrain.Terrain;
 
 public class UnderRockState extends PredatorState {
-
+    protected int time;
     public UnderRockState(Predator predator) {
         super(predator);
+        this.time = 5;
     }
 
 
     @Override
     public boolean canMove(char direction) {
-        return false;
+        return direction == 'a';
     }
     @Override
     public void updateState() {
-
+        if (time <= 0){
+            predator.setCurrentState(new ScorpioRaidState(predator));
+        }
+        time--;
     }
 
     @Override
     public void deplacement() {
-
+        Clock.getInstance().addCommandToTurn(new PredatorMoveCommand(predator, 'a'));
     }
 
     @Override
     public String applyColorModifier() {
-        return Colors.WHITE_BACKGROUND + predator.getRepresentation() + Colors.RESET;
+        if (((Scorpio) predator).canAttack()) {
+            return Colors.WHITE_BACKGROUND + Colors.RED + predator.getRepresentation() + Colors.RESET;
+        } else {
+            return Colors.WHITE_BACKGROUND + Colors.LIGHT_BLACK + predator.getRepresentation() + Colors.RESET;
+        }
     }
 }

@@ -1,8 +1,12 @@
 package modele.entity.movable.character.npc.state.prey;
 
+import modele.Board;
 import modele.Colors;
+import modele.entity.movable.character.npc.predator.Scorpio;
 import modele.entity.movable.character.npc.prey.Prey;
 import modele.entity.movable.character.npc.prey.Squirrel;
+import modele.entity.stationary.terrain.Terrain;
+import modele.entity.stationary.terrain.low.Rock;
 
 public class JunkieState extends PreyState {
     public JunkieState(Prey prey) {
@@ -29,7 +33,11 @@ public class JunkieState extends PreyState {
         char move2 = getDefault("zqsd".replaceAll(String.valueOf(prey.getInverseDirection(move1)), ""));
     }
 
-
+    @Override
+    public boolean canMove(char direction) {
+        Terrain target = Board.getInstance().getToward(prey.getX(), prey.getY(), direction);
+        return super.canMove(direction) || (target instanceof Rock && target.getEntityOnCase() instanceof Scorpio);
+    }
 
     @Override
     public String applyColorModifier() {

@@ -3,6 +3,7 @@ package modele.clock.commands;
 import modele.Board;
 import modele.entity.movable.character.npc.prey.Prey;
 import modele.entity.movable.character.npc.state.State;
+import modele.entity.movable.character.npc.state.prey.FriendInInventoryState;
 import modele.entity.stationary.food.Food;
 
 public class PreyEatCommand implements Command {
@@ -30,7 +31,11 @@ public class PreyEatCommand implements Command {
 	public void doCommand() {
 		prey.eat(isPlayerNearby, food);
 		Board.getInstance().clearCase(food.getX(), food.getY());
-		Board.getInstance().moveTo(prey, food.getX(), food.getY());
+		if (!(prey.getCurrentState() instanceof FriendInInventoryState)){
+			Board.getInstance().moveTo(prey, food.getX(), food.getY());
+		} else {
+			prey.setPosition(food.getX(), food.getY());
+		}
 		prey.setHasMoved(true);
 	}
 
@@ -38,8 +43,11 @@ public class PreyEatCommand implements Command {
 	public void undoCommand() {
 		prey.setFriendLevel(old_friendlyLevel);
 		prey.setHungryCount(old_hungryCount);
-		prey.setCurrentState(old_state);
+		if (prey.getCurrentState() instanceof FriendInInventoryState) {
+			Board.getInstance().getAt(food.getX(), food.getY()).setEntityOnCase(prey);
+		}
 		Board.getInstance().moveTo(prey, old_x, old_y);
+		prey.setCurrentState(old_state);
 		Board.getInstance().getAt(food.getX(), food.getY()).setEntityOnCase(food);
 	}
 }

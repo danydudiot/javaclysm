@@ -1,8 +1,7 @@
 package modele.entity.movable.character.npc.predator;
 
-import modele.entity.movable.character.npc.state.predator.OwlRaidState;
 import modele.entity.movable.character.npc.state.predator.ScorpioRaidState;
-import modele.entity.movable.character.npc.state.predator.ScorpioRestState;
+import modele.interaction.Interaction;
 
 public class Scorpio extends Predator{
     protected int canAttack;
@@ -12,6 +11,7 @@ public class Scorpio extends Predator{
         this.representation = "O";
         this.displayName = "Scorpion";
         this.canAttack = 0;
+        this.interactionList = new Interaction[0];
     }
 
     @Override
@@ -23,9 +23,19 @@ public class Scorpio extends Predator{
         return canAttack <= 0;
     }
 
+    public int getCanAttack() {
+        return canAttack;
+    }
+
+    public void setCanAttack(int canAttack) {
+        this.canAttack = canAttack;
+    }
+
     @Override
     public void mettreAJour() {
         canAttack--;
         super.mettreAJour();
     }
+
+
 }

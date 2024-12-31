@@ -10,6 +10,15 @@ public abstract class RaidState extends PredatorState {
     }
 
     @Override
+    public void deplacement() {
+        char move = getPrey();
+        if (move == 'a'){
+            getDefault("zqsd");
+        }
+    }
+
+
+    @Override
     public String applyColorModifier() {
         return Colors.LIGHT_RED + predator.getRepresentation() + Colors.RESET;
     }

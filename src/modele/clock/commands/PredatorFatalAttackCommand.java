@@ -4,9 +4,10 @@ import modele.Board;
 import modele.entity.movable.character.npc.predator.Predator;
 import modele.entity.movable.character.npc.predator.Scorpio;
 import modele.entity.movable.character.npc.prey.Prey;
+import modele.entity.movable.character.npc.state.DeadState;
 import modele.entity.movable.character.npc.state.State;
 
-public class PredatorAttackCommand implements Command{
+public class PredatorFatalAttackCommand implements Command{
 
 	Predator predator;
 	State old_predatorState;
@@ -19,7 +20,7 @@ public class PredatorAttackCommand implements Command{
 	boolean wasKilled;
 	int canAttack;
 
-	public PredatorAttackCommand(Predator predator, Prey prey) {
+	public PredatorFatalAttackCommand(Predator predator, Prey prey) {
 		this.predator 			= predator;
 		this.old_predatorState 	= predator.getCurrentState();
 		this.old_predatorX 		= predator.getX();
@@ -35,21 +36,17 @@ public class PredatorAttackCommand implements Command{
 
 	@Override
 	public void doCommand() {
-		this.wasKilled = prey.hit(predator);
-		if (wasKilled) {
-			Board.getInstance().logAction(predator.getDisplayName() + " à tué " + prey.getDisplayName());
-		}
-		prey.setHasMoved(true);
+		Board.getInstance().getAt(prey.getX(), prey.getY()).clearEntityOnCase();
+		prey.setCurrentState(new DeadState(prey));
+		predator.afterHit(true);
+		Board.getInstance().logAction(predator.getDisplayName() + " à tué " + prey.getDisplayName());
 	}
 
 	@Override
 	public void undoCommand() {
-		predator.setCurrentState(old_predatorState);
-		Board.getInstance().moveTo(predator, old_predatorX, old_predatorY);
-		if (wasKilled) {
-			Board.getInstance().getAt(old_preyX, old_preyY).setEntityOnCase(prey);
-		}
+		Board.getInstance().getAt(old_preyX, old_preyY).setEntityOnCase(prey);
 		prey.setCurrentState(old_preyState);
+		predator.setCurrentState(old_predatorState);
 		if (predator instanceof Scorpio scorpio){
 			scorpio.setCanAttack(canAttack);
 		}

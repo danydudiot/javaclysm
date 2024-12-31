@@ -80,6 +80,11 @@ public final class Clock implements Observable{
         currentTurn.add(cmd);
     }
 
+    public void addCommandToTurnBefore(Command cmd) {
+        currentTurn.add(cmd);
+        cmd.doCommand();
+    }
+
     public void historizeTurn() {
         allTurns.add(new ArrayList<>(currentTurn));
         currentTurn = new ArrayList<>();

@@ -32,13 +32,13 @@ public class OwlRaidState extends RaidState {
             }
         }
 
-        if (preyList.isEmpty()) {
+        if (!preyList.isEmpty()) {
+            Clock.getInstance().addCommandToTurn(new PredatorAttackCommand(predator, preyList.get(0)));
+        } else {
             char move1 = getDefault("zqsd");
             Clock.getInstance().addCommandToTurn(new PredatorMoveCommand(predator, move1));
             char move2 = getDefault("zqsd".replaceAll(String.valueOf(move1), ""));
             Clock.getInstance().addCommandToTurn(new PredatorMoveCommand(predator, move2));
-        } else {
-            Clock.getInstance().addCommandToTurn(new PredatorAttackCommand(predator, preyList.get(0)));
         }
 
     }

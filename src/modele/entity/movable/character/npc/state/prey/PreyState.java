@@ -5,10 +5,11 @@ import modele.Inventory;
 import modele.clock.Clock;
 import modele.clock.commands.PreyEatCommand;
 import modele.clock.commands.PreyMoveCommand;
-import modele.clock.commands.SquirrelInPocketCommand;
+import modele.clock.commands.FriendInInventoryCommand;
 import modele.entity.Entity;
 import modele.entity.movable.character.PlayerCharacter;
 import modele.entity.movable.character.npc.predator.Predator;
+import modele.entity.movable.character.npc.predator.Scorpio;
 import modele.entity.movable.character.npc.prey.Prey;
 import modele.entity.movable.character.npc.prey.Squirrel;
 import modele.entity.movable.character.npc.state.State;
@@ -16,6 +17,7 @@ import modele.entity.stationary.food.Food;
 import modele.entity.stationary.terrain.Terrain;
 import modele.entity.stationary.terrain.high.High;
 import modele.entity.stationary.terrain.low.Low;
+import modele.entity.stationary.terrain.low.Rock;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -40,8 +42,7 @@ public abstract class PreyState implements State {
         Map<Character, Terrain> neighbours = Board.getInstance().getNeighbours(position[0], position[1]);
         String directionPossible = "";
         for (char direction : neighbours.keySet()) {
-            Entity entity = neighbours.get(direction).getEntityOnCase();
-            if (entity == null && allow.contains(String.valueOf(direction))) {
+            if (canMove(direction) && allow.contains(String.valueOf(direction))) {
                 directionPossible += direction;
             }
         }
@@ -74,7 +75,7 @@ public abstract class PreyState implements State {
             return false;
         } else {
             Food foodEntity = (Food) neighbours.get(food.charAt(0)).getEntityOnCase();
-            Clock.getInstance().addCommandToTurn(new PreyEatCommand(prey, foodEntity));
+            Clock.getInstance().addCommandToTurnBefore(new PreyEatCommand(prey, foodEntity));
             return true;
         }
     }
@@ -85,7 +86,7 @@ public abstract class PreyState implements State {
         List<Terrain> around = Board.getInstance().getNear(position[0], position[1], 4);
         List<Predator> danger = new ArrayList<>();
         for (Terrain terrain : around){
-            if (terrain.getEntityOnCase() instanceof Predator){
+            if (terrain.getEntityOnCase() instanceof Predator && !(terrain instanceof Rock && terrain.getEntityOnCase() instanceof Scorpio)){
                 danger.add((Predator) terrain.getEntityOnCase());
             }
         }
@@ -114,7 +115,7 @@ public abstract class PreyState implements State {
 
 
         if (playerAllow && player != ' ' && prey.isFriendly() && !Inventory.getInstance().isFull()){
-            Clock.getInstance().addCommandToTurn(new SquirrelInPocketCommand((Squirrel) prey));
+            Clock.getInstance().addCommandToTurn(new FriendInInventoryCommand((Squirrel) prey));
         } else if (!high.isEmpty()) {
             Clock.getInstance().addCommandToTurn(new PreyMoveCommand(prey, high.charAt(0)));
         } else if (!low.isEmpty()) {
