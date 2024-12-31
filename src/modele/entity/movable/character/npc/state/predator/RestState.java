@@ -35,7 +35,7 @@ public abstract class RestState extends PredatorState {
 
     @Override
     public String applyColorModifier() {
-        return Colors.RED + predator.getRepresentation() + Colors.RESET;
+        return Colors.LIGHT_BLACK + predator.getRepresentation() + Colors.RESET;
     }
 
     protected abstract PredatorState getNextState();

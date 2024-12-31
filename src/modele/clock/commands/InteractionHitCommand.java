@@ -1,33 +1,43 @@
 package modele.clock.commands;
 
+import modele.Board;
 import modele.entity.movable.character.Character;
 import modele.entity.movable.character.PlayerCharacter;
 import modele.entity.movable.character.npc.NonPlayerCharacter;
 import modele.entity.movable.character.npc.prey.Prey;
+import modele.entity.movable.character.npc.state.State;
 import modele.interaction.Hit;
 
 public class InteractionHitCommand implements Command {
-	PlayerCharacter p;
-	Prey target;
+	PlayerCharacter playerCharacter;
+	NonPlayerCharacter target;
+	State old_state;
 	int old_friendLevel;
 	Hit interaction;
-	Character author;
 
-	public InteractionHitCommand(PlayerCharacter p, Prey target, Hit interaction, Character author) {
-		this.p 				 = p;
-		this.target 	 	 = target;
-		this.interaction 	 = interaction;
-		this.old_friendLevel = target.getFriendLevel();
-		this.author = author;
+
+	public InteractionHitCommand(PlayerCharacter playerCharacter, NonPlayerCharacter target, Hit interaction) {
+		this.playerCharacter= playerCharacter;
+		this.target			= target;
+		this.interaction 	= interaction;
+		this.old_state		= target.getCurrentState();
+		if (target instanceof Prey) {
+			this.old_friendLevel = ((Prey) target).getFriendLevel();
+		}
 	}
 
 	@Override
 	public void doCommand() {
-		this.interaction.interact(null, target, author);
+		this.interaction.interact(null, target, playerCharacter);
 	}
 
 	@Override
 	public void undoCommand() {
-		target.setFriendLevel(old_friendLevel);
+		if (target instanceof Prey) {
+			((Prey) target).setFriendLevel(old_friendLevel);
+		} else {
+			Board.getInstance().getAt(target.getX(), target.getY()).setEntityOnCase(target);
+			target.setCurrentState(old_state);
+		}
 	}
 }

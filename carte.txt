@@ -5,8 +5,8 @@ AAAAAAAAAA
 A        A
 A        A
 A @      A
-A   R    A
-A  BEA   A
+A   MH   A
+A  MEM   A
 A   B    A
 A 2      A
 A 3      A

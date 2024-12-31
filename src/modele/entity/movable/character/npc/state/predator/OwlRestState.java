@@ -4,7 +4,7 @@ import modele.entity.movable.character.npc.predator.Predator;
 
 public class OwlRestState extends RestState {
     public OwlRestState(Predator predator) {
-        super(predator, 1);
+        super(predator, 2);
     }
 
     protected PredatorState getNextState(){

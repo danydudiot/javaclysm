@@ -7,6 +7,7 @@ import modele.clock.commands.PredatorMoveCommand;
 import modele.entity.movable.character.npc.predator.Predator;
 import modele.entity.movable.character.npc.prey.Prey;
 import modele.entity.stationary.terrain.Terrain;
+import modele.entity.stationary.terrain.low.Bush;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,9 +26,9 @@ public class OwlRaidState extends RaidState {
     public void deplacement() {
         List<Terrain> around = Board.getInstance().getNear(predator.getX(), predator.getY(), 3);
         List<Prey> preyList = new ArrayList<>();
-        for (Terrain entity : around) {
-            if (entity.getEntityOnCase() instanceof Prey) {
-                preyList.add((Prey) entity.getEntityOnCase());
+        for (Terrain terrain : around) {
+            if (terrain.getEntityOnCase() instanceof Prey && !(terrain instanceof Bush)) {
+                preyList.add((Prey) terrain.getEntityOnCase());
             }
         }
 

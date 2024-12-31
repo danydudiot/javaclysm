@@ -20,6 +20,7 @@ public class Ihm {
 	public Ihm() {
 		this(21, 80);
 	}
+//	TODO : Fixes -> élargire la taille du premier panel
 
 
 	public boolean askBoard() {
@@ -268,10 +269,9 @@ public class Ihm {
 					Colors.RED		 	+ "E" + Colors.RESET + ": Ecureil Junkie",
 					Colors.YELLOW 		+ "G" + Colors.RESET + ": Gland",
 					Colors.LIGHT_RED	+ "H" + Colors.RESET + ": Hibou en vol",
-					Colors.RED			+ "H" + Colors.RESET + ": Hibou au sol",
+					Colors.LIGHT_BLACK	+ "H" + Colors.RESET + ": Hibou au sol",
 					Colors.BLUE 		+ "M" + Colors.RESET + ": Champignon Vénéneux",
 					Colors.LIGHT_RED	+ "R" + Colors.RESET + ": Renard en chasse",
-					Colors.RED			+ "R" + Colors.RESET + ": Renard au repos",
 					Colors.CYAN 		+ "2" + Colors.RESET + ": Pierre temporelle active (2 tours)",
 					Colors.LIGHT_BLACK	+ "2" + Colors.RESET + ": Pierre temporelle inactive (2 tours)",
 					Colors.BLUE 		+ "3" + Colors.RESET + ": Pierre temporelle active (3 tours)",

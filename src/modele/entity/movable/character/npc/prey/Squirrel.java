@@ -72,7 +72,7 @@ public class Squirrel extends Prey {
                         Clock.getInstance().addCommandToTurn(new PreyMoveCommand(this, low.charAt(0)));
                         setCurrentState(new TerrifyState(this));
                     }
-                ((Predator) aggressor).afterHit(false);
+                    ((Predator) aggressor).afterHit(false);
                     return false;
 
             } else {

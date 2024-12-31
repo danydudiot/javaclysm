@@ -39,8 +39,6 @@ public class PredatorAttackCommand implements Command{
 		Board.getInstance().moveTo(predator, old_predatorX, old_predatorY);
 		if (wasKilled) {
 			Board.getInstance().getAt(old_preyX, old_preyY).setEntityOnCase(prey);
-		} else {
-			Board.getInstance().moveTo(prey, old_preyX, old_preyY);
 		}
 		prey.setCurrentState(old_preyState);
 	}
