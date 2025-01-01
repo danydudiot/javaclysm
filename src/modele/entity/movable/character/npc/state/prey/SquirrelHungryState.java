@@ -9,7 +9,7 @@ public class SquirrelHungryState extends HungryState {
 
     @Override
     public void deplacement() {
-        final boolean move = getFood() || getDanger(true) || getDefault("zqsd") != 'a';
+        final boolean move = getFood() || getDanger(true) || getDefault(null) == null;
     }
 
     public void updateState(){

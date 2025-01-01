@@ -3,6 +3,7 @@ package modele.entity.movable.character.npc;
 import modele.clock.Observateur;
 import modele.entity.movable.character.Character;
 import modele.entity.movable.character.npc.state.State;
+import modele.entity.stationary.terrain.Terrain;
 import modele.interaction.Hit;
 import modele.interaction.Interactible;
 import modele.interaction.Interaction;
@@ -30,6 +31,11 @@ public abstract class NonPlayerCharacter extends Character implements Interactib
     @Override
     public boolean canMove(char direction) {
         return currentState.canMove(direction);
+    }
+
+    @Override
+    public boolean canMove(Terrain terrain) {
+        return currentState.canMove(terrain);
     }
 
     public void setCurrentState(State currentState) {

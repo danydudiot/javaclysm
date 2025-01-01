@@ -4,6 +4,7 @@ import modele.Colors;
 import modele.clock.Clock;
 import modele.clock.commands.PredatorMoveCommand;
 import modele.entity.movable.character.npc.predator.Predator;
+import modele.entity.stationary.terrain.Terrain;
 
 
 public abstract class RestState extends PredatorState {
@@ -16,6 +17,11 @@ public abstract class RestState extends PredatorState {
 
     @Override
     public boolean canMove(char direction) {
+        return false;
+    }
+
+    @Override
+    public boolean canMove(Terrain terrain) {
         return false;
     }
 

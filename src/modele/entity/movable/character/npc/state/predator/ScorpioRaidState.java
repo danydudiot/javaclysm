@@ -2,20 +2,13 @@ package modele.entity.movable.character.npc.state.predator;
 
 import modele.Board;
 import modele.Colors;
-import modele.clock.Clock;
-import modele.clock.commands.PredatorAttackCommand;
-import modele.clock.commands.PredatorMoveCommand;
 import modele.entity.movable.character.npc.predator.Predator;
 import modele.entity.movable.character.npc.predator.Scorpio;
-import modele.entity.movable.character.npc.prey.Prey;
 import modele.entity.stationary.terrain.Empty;
 import modele.entity.stationary.terrain.Terrain;
-import modele.entity.stationary.terrain.high.PalmTree;
 import modele.entity.stationary.terrain.low.Rock;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+
 
 public class ScorpioRaidState extends RaidState{
     public ScorpioRaidState(Predator predator) {
@@ -27,6 +20,17 @@ public class ScorpioRaidState extends RaidState{
         if (Board.getInstance().getAt(predator.getX(), predator.getY()) instanceof Rock){
             predator.setCurrentState(new UnderRockState(predator));
         }
+    }
+
+    @Override
+    public boolean canMove(char direction) {
+        Terrain terrain = Board.getInstance().getToward(predator.getX(), predator.getY(), direction);
+        return terrain instanceof Empty || terrain instanceof Rock;
+    }
+
+    @Override
+    public boolean canMove(Terrain terrain) {
+        return terrain instanceof Empty || terrain instanceof Rock;
     }
 
     protected boolean isAllow(Terrain terrain) {

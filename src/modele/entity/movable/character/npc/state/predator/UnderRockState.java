@@ -22,6 +22,12 @@ public class UnderRockState extends PredatorState {
     public boolean canMove(char direction) {
         return direction == 'a';
     }
+
+    @Override
+    public boolean canMove(Terrain terrain) {
+        return terrain.getEntityOnCase() == predator;
+    }
+
     @Override
     public void updateState() {
         if (time <= 0){

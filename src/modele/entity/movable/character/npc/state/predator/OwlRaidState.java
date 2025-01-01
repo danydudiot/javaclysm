@@ -27,9 +27,6 @@ public class OwlRaidState extends RaidState {
         List<Terrain> around = Board.getInstance().getNear(predator.getX(), predator.getY(), 3);
         List<Prey> preyList = new ArrayList<>();
         for (Terrain terrain : around) {
-            if (terrain.getEntityOnCase() instanceof Prey){
-                System.out.println("débug");
-            }
             if (terrain.getEntityOnCase() instanceof Prey && !(terrain instanceof Bush)) {
                 preyList.add((Prey) terrain.getEntityOnCase());
             }

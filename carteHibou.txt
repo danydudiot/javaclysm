@@ -33,10 +33,9 @@ F
 
 // # Scénario
 // Essayer d'attaquer le Hibou (e) (pour monter que l'on ne peut pas le frapper quand il n'est pas en repos).
-// Passer un tour (x) (Le hibou du bas tue l'écureuil, celui du haut le fait fuir dans le buisson qui passe en terrifier et les deux hibou passe en repos).
-// Attaquer le hibou du haut pour le tuer.
+// Passer un tour (x) (Le hibou du bas tue l'écureuil, celui du haut le fait fuir dans le buisson qui passe en terrifier et les deux hiboux passe en repos).
+// Attaquer le hibou du haut pour le tuer (E, 1).
 // Le hibou du bas repasse en mode attaque
 // Passer un tour (x) et le hibou du bas se déplace normalement.
 // Passer un tour (x), l'écureuil repasse en rassasié, car plus terrifiée.
-// Passer un tour (x), l'écureuil se déplace.
-// Passer un tour (x), l'écureuil passe en mode affamée.
+// Passer un tour (x), l'écureuil se déplace et passe en mode affamée.

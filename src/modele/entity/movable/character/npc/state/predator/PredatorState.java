@@ -28,6 +28,10 @@ public abstract class PredatorState implements State {
         return target != null && (target.isEmpty() || target.getEntityOnCase() instanceof Prey);
     }
 
+    @Override
+    public boolean canMove(Terrain terrain) {
+        return terrain != null && (terrain.isEmpty() || terrain.getEntityOnCase() instanceof Prey);
+    }
 
     protected char getPrey(){
         Map<Character, Terrain> neighbours = Board.getInstance().getNeighbours(predator.getX(),predator.getY());

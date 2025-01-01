@@ -29,14 +29,19 @@ public class JunkieState extends PreyState {
 
     @Override
     public void deplacement() {
-        char move1 = getDefault("zqsd");
-        char move2 = getDefault("zqsd".replaceAll(String.valueOf(prey.getInverseDirection(move1)), ""));
+        Terrain terrain1 = getDefault(null);
+        Terrain terrain2 = getDefault(terrain1);
     }
 
     @Override
     public boolean canMove(char direction) {
         Terrain target = Board.getInstance().getToward(prey.getX(), prey.getY(), direction);
         return super.canMove(direction) || (target instanceof Rock && target.getEntityOnCase() instanceof Scorpio);
+    }
+
+    @Override
+    public boolean canMove(Terrain terrain) {
+        return super.canMove(terrain) || (terrain instanceof Rock && terrain.getEntityOnCase() instanceof Scorpio);
     }
 
     @Override

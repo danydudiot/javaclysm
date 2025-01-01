@@ -28,5 +28,10 @@ public class FoxRaidState extends RaidState {
     }
 
     @Override
+    public boolean canMove(Terrain terrain) {
+        return terrain instanceof Empty && terrain.isEmpty();
+    }
+
+    @Override
     public void updateState() {}
 }
