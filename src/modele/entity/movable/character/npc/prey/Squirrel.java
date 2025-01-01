@@ -52,9 +52,10 @@ public class Squirrel extends Prey {
                 }
             }
 
-
+//            TODO : Retirer si interdit
             if (player != ' ' && isFriendly() && !Inventory.getInstance().isFull()){
                 Clock.getInstance().addCommandToTurn(new FriendInInventoryCommand(this));
+                return false;
             } else if (!high.isEmpty() && aggressor instanceof Fox) {
                 if (high.contains("a")){
                     Clock.getInstance().addCommandToTurn(new PreyMoveCommand(this, 'a'));
@@ -87,7 +88,6 @@ public class Squirrel extends Prey {
         } else {
             throw new InvalidActionException("Vous ne pouvez pas frapper l'animal");
         }
-        return false;
     }
 
     public boolean isProtected(Terrain terrain, Predator predator){

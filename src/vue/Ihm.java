@@ -20,8 +20,6 @@ public class Ihm {
 	public Ihm() {
 		this(21, 80);
 	}
-//	TODO : Fixes -> élargire la taille du premier panel
-
 
 	public boolean askBoard() {
 		while (true) {

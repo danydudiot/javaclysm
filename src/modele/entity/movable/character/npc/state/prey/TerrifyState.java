@@ -22,7 +22,6 @@ public class TerrifyState extends PreyState {
     @Override
     public void updateState() {
         fearLevel--;
-        prey.setHungryCount(prey.getHungryCount()-1);
         if (fearLevel <= 0){
 
             if (prey.getHungryCount() <= 0){

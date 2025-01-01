@@ -1,0 +1,47 @@
+F
+11
+31
+###############################
+#           ##                #
+#          #EM#               #
+#           #EC               #
+#           #GR#              #
+#            @#               #
+#                             #
+#                             #
+#####                         #
+#AER#             E  R        #
+###############################
+
+
+// Pour tout revenir dans le passé
+// ✔
+// ✖
+
+
+// # Écureuil
+// ✔ Déplacement normal (1 case)
+// ✔ Déplacement Junkie (2 case)
+// ✔ Manger
+// ✔ Manger Junkie
+// ✔ Manger ami
+// ✔ Passer affamée
+// ✔ Frapper ami
+// ✔ Fuir dans le joueur (Durant attaque ou non)
+// ✔ Fuir dans un Arbre pour le Renard
+//  Fuir dans un buisson pour le Hibou
+// ✔ Fuir dans la direction opposée
+// ✔ Terrifier
+// ✔ Mourir
+// ✔ Priorité d'action (Gland, Champignon, Danger, Random)
+
+// # Renard
+// ✔ Déplacement normal (1 case)
+// ✔ Attaque (Adjacente)
+
+
+// # Scénario
+// Passer un tour (X) (L'écureuil du coin, fui l'attaque du renard, celui du bas fui le renard, car voit le danger à moins 4 case).
+// Passer deux tours (2) (L'écureuil du coin passe en rassasié, parce que plus terrifier).
+// Passer un tour (X) (Tous les écureuils sont affamé).
+// Passer un tour (X) ()

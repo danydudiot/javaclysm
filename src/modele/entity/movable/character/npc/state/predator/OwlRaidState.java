@@ -27,6 +27,9 @@ public class OwlRaidState extends RaidState {
         List<Terrain> around = Board.getInstance().getNear(predator.getX(), predator.getY(), 3);
         List<Prey> preyList = new ArrayList<>();
         for (Terrain terrain : around) {
+            if (terrain.getEntityOnCase() instanceof Prey){
+                System.out.println("débug");
+            }
             if (terrain.getEntityOnCase() instanceof Prey && !(terrain instanceof Bush)) {
                 preyList.add((Prey) terrain.getEntityOnCase());
             }
@@ -36,9 +39,7 @@ public class OwlRaidState extends RaidState {
             Clock.getInstance().addCommandToTurn(new PredatorAttackCommand(predator, preyList.get(0)));
         } else {
             char move1 = getDefault("zqsd");
-            Clock.getInstance().addCommandToTurn(new PredatorMoveCommand(predator, move1));
-            char move2 = getDefault("zqsd".replaceAll(String.valueOf(move1), ""));
-            Clock.getInstance().addCommandToTurn(new PredatorMoveCommand(predator, move2));
+            char move2 = getDefault("zqsd".replaceAll(String.valueOf(predator.getInverseDirection(move1)), ""));
         }
 
     }

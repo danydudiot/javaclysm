@@ -8,7 +8,6 @@ public class SquirrelNotHungryState extends NotHungryState {
 	}
 	@Override
 	public void updateState(){
-		prey.setHungryCount(prey.getHungryCount()-1);
 		if (prey.getHungryCount() <= 0){
 			prey.setCurrentState(new SquirrelHungryState(prey));
 		}

@@ -187,15 +187,46 @@ public class Board {
         return out;
     }
 
-    public List<Terrain> getNear(int x, int y, int nbCases) {
-        List<Terrain> listNear = new ArrayList<>();
-        for (int i = Math.max(x - nbCases, 0); i < Math.min(x + nbCases, width); i++) {
-            for (int j = Math.max(y - nbCases, 0); j < Math.min(y + nbCases, height); j++) {
-                if ((Math.abs(x - i) + Math.abs(y - j)) <= nbCases) {
-                    listNear.add(board[j][i]);
+    public List<List<Terrain>> getNearSorted(int x, int y, int nbCases) {
+        List<List<Terrain>> out = new ArrayList<>();
+        List<Terrain> all = new ArrayList<>();
+        for (int i = 0; i <= nbCases; ++i) {
+            out.add(new ArrayList<>());
+        }
+        out.get(0).add(getAt(x,y));
+        all.add(getAt(x,y));
+        for (int i = 1; i <= nbCases; ++i) {
+            for (Terrain terrain : out.get(i-1)) {
+                for (Terrain neighbour : getNeighbours(terrain.getX(), terrain.getY()).values()) {
+                    if (!(all.contains(neighbour))) {
+                        out.get(i).add(neighbour);
+                        all.add(neighbour);
+                    }
                 }
             }
         }
-        return listNear;
+        return out;
     }
+
+    public List<Terrain> getNear(int x, int y, int nbCases) {
+        List<Terrain> all = new ArrayList<>();
+        List<Terrain> toTest = new ArrayList<>();
+
+        all.add(getAt(x,y));
+        toTest.add(getAt(x,y));
+        for (int i = 1; i <= nbCases; ++i) {
+            List<Terrain> next = new ArrayList<>();
+            for (Terrain terrain : toTest) {
+                for (Terrain neighbour : getNeighbours(terrain.getX(), terrain.getY()).values()) {
+                    if (!all.contains(neighbour)) {
+                        all.add(neighbour);
+                        next.add(neighbour);
+                    }
+                }
+            }
+            toTest = next;
+        }
+        return all;
+    }
+
 }

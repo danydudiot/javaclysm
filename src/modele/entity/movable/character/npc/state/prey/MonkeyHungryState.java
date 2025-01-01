@@ -21,7 +21,7 @@ public class MonkeyHungryState extends HungryState {
         if (prey.getHungryCount() > 0){
             prey.setCurrentState(new MonkeyNotHungryState(prey));
         }
-        ((Monkey) prey).yell();
+        ((Monkey) prey).tryYelling();
     }
 
     @Override

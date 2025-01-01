@@ -89,6 +89,8 @@ public class GeneratorForest extends Generator{
             return generateTimeStone(x,y,2);
         } else if (content == '3') {
             return generateTimeStone(x,y,3);
+        } else if (content == '#') {
+            return generateWall(x, y);
         } else {
             throw new IllegalArgumentException("Le fichier est invalide. (Caractère inconnu)" + content);
         }

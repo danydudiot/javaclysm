@@ -2,6 +2,7 @@ package modele.boardFactory.generator;
 
 import modele.entity.movable.character.PlayerCharacter;
 import modele.entity.stationary.TimeStone;
+import modele.entity.stationary.Wall;
 import modele.entity.stationary.food.Mushroom;
 import modele.entity.stationary.terrain.Empty;
 import modele.entity.stationary.terrain.Terrain;
@@ -51,6 +52,12 @@ public abstract class Generator {
     public Terrain generateTimeStone(int x, int y, int turns) {
         Terrain empty = generateEmpty(x,y);
         empty.setEntityOnCase(new TimeStone(x,y,turns));
+        return empty;
+    }
+
+    public Terrain generateWall(int x, int y) {
+        Terrain empty = generateEmpty(x,y);
+        empty.setEntityOnCase(new Wall(x,y));
         return empty;
     }
 

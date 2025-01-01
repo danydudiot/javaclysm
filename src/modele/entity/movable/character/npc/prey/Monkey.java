@@ -7,8 +7,6 @@ import modele.clock.commands.FriendInInventoryCommand;
 import modele.clock.commands.PreyMoveCommand;
 import modele.entity.movable.character.Character;
 import modele.entity.movable.character.PlayerCharacter;
-import modele.entity.movable.character.npc.predator.Fox;
-import modele.entity.movable.character.npc.predator.Owl;
 import modele.entity.movable.character.npc.predator.Predator;
 import modele.entity.movable.character.npc.predator.Snake;
 import modele.entity.movable.character.npc.state.DeadState;
@@ -18,7 +16,6 @@ import modele.entity.stationary.food.Banana;
 import modele.entity.stationary.food.Food;
 import modele.entity.stationary.terrain.Terrain;
 import modele.entity.stationary.terrain.high.High;
-import modele.entity.stationary.terrain.low.Low;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -105,7 +102,7 @@ public class Monkey extends Prey {
 
 
 
-    public void yell() {
+    public void tryYelling() {
         List<Terrain> around = Board.getInstance().getNear(getX(), getY(), 4);
         List<Predator> danger = new ArrayList<>();
         for (Terrain terrain : around){

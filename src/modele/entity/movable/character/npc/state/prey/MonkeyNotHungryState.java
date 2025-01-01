@@ -14,11 +14,10 @@ public class MonkeyNotHungryState extends NotHungryState{
 
 	@Override
 	public void updateState(){
-		prey.setHungryCount(prey.getHungryCount()-1);
 		if (prey.getHungryCount() <= 0){
 			prey.setCurrentState(new MonkeyHungryState(prey));
 		}
-		((Monkey) prey).yell();
+		((Monkey) prey).tryYelling();
 
 	}
 

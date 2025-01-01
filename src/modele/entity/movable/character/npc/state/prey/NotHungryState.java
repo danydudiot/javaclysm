@@ -7,7 +7,9 @@ import modele.entity.movable.character.npc.prey.Prey;
 public abstract class NotHungryState extends PreyState {
     public NotHungryState(Prey prey) {
         super(prey);
-        prey.setHungryCount(prey.hungryCountBase);
+        if (prey.getHungryCount() <= 0){
+            prey.setHungryCount(prey.hungryCountBase);
+        }
     }
 
     @Override

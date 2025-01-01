@@ -4,20 +4,9 @@ import modele.Board;
 import modele.boardFactory.generator.Generator;
 import modele.boardFactory.generator.GeneratorForest;
 import modele.boardFactory.generator.GeneratorJungle;
-import modele.clock.Clock;
 import modele.entity.movable.character.PlayerCharacter;
-import modele.entity.movable.character.npc.prey.Monkey;
-import modele.entity.movable.character.npc.NonPlayerCharacter;
-import modele.entity.movable.character.npc.prey.Squirrel;
-import modele.entity.stationary.food.Acorn;
-import modele.entity.stationary.food.Banana;
-import modele.entity.stationary.food.Mushroom;
 import modele.entity.stationary.terrain.Empty;
 import modele.entity.stationary.terrain.Terrain;
-import modele.entity.stationary.terrain.high.PalmTree;
-import modele.entity.stationary.terrain.high.Tree;
-import modele.entity.stationary.terrain.low.Bush;
-import modele.entity.stationary.terrain.low.Rock;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -26,7 +15,7 @@ import java.util.Scanner;
 public class BoardFactoryParser extends BoardFactory {
 	File mapFile;
 	public BoardFactoryParser()  {
-		mapFile = new File("carte.txt");
+		mapFile = new File("carteRenard.txt");
 	}
 
 	@Override
@@ -36,7 +25,6 @@ public class BoardFactoryParser extends BoardFactory {
 
 
 	public void parseBoard() throws FileNotFoundException {
-		Clock clock = Clock.getInstance();
 		char theme;
 		int height;
 		int width;
@@ -57,8 +45,8 @@ public class BoardFactoryParser extends BoardFactory {
 
 		while (scanner.hasNextLine()) {
 			String line = scanner.nextLine();
-			if (line.isEmpty()) { // TODO : Ca peut êtes améliorer en réglant le problème du scanner fantôme
-				line = scanner.nextLine();
+			if (line.isEmpty() || line.contains("//")) {
+				continue;
 			}
 			for (int x = 0; x < width; x++) {
 				if (x >= line.length()) {
