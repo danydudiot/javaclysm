@@ -116,7 +116,7 @@ public class Controleur {
                     throw new InvalidActionException("Action inconnue.");
                 }
         } catch (InvalidActionException | MoveInvalidException e) {
-            ihm.displayError(e.getMessage());
+            Board.getInstance().logError(e.getMessage());
             tour();
         }
     }
@@ -160,7 +160,7 @@ public class Controleur {
     }
 
     private void manageInventory(){
-        ihm.displayInventory(Inventory.getInstance().getItemsStrings(), Inventory.getInstance().getEquippedItemString(), Inventory.getInstance().getEquippedItemId());
+        ihm.displayInventory(Inventory.getInstance().getItemsStrings(), Inventory.getInstance().getEquippedItemId());
         int numSelection = ihm.askInventory();
         if (numSelection == -1) {
             return;

@@ -3,7 +3,7 @@ package modele.entity.stationary;
 import modele.entity.Entity;
 
 /**
- * Classe abstraite représentant tous les types d'entité qui ne peuvent pas bouger par elle-même.
+ * Classe abstraite représentant tous les types d'entité qui ne peuvent pas bouger par elles-même.
  */
 public abstract class StaticEntity extends Entity {
     /**

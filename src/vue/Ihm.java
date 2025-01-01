@@ -4,26 +4,53 @@ import modele.Colors;
 
 import java.util.*;
 
+
 public class Ihm {
 
-
+	/**
+	 * Représente les deux dernières composantes (la carte en 0 et l'UI en 1) de la derniere frame affichée
+	 */
 	private String[] last_frame = new String[2];
+	/**
+	 * Représente la hauteur de la frame.
+	 */
 	private final int displayHeight;
+	/**
+	 * Représente la largeur de la frame
+	 */
 	private final int displayWidth;
+	/**
+	 * Permet de lire les inputs de l'utilisateur.
+	 */
 	private final Scanner sc;
+
+	/**
+	 * Constructeur par défaut.
+	 * @param height hauteur de la frame
+	 * @param width largeur de la frame
+	 */
 	public Ihm(int height, int width) {
 		this.displayHeight = height;
 		this.displayWidth = width;
 		this.sc	= new Scanner(System.in);
 		last_frame = new String[]{"",""};
 	}
+
+	/**
+	 * Constructeur sans argument.
+	 * Permet d'obtenir une frame de la taille recommandée (21*80).
+	 */
 	public Ihm() {
 		this(21, 80);
 	}
 
+	/**
+	 * Demande à l'utilisateur si il souhaite utilisée la carte stockée ou en generer un nouvelle.
+	 * @return true si l'utilisateur souhaite charger la carte, false sinon.
+	 */
 	public boolean askBoard() {
 		while (true) {
-			System.out.println("Voulez vous charger une carte au format "+ Colors.YELLOW +".txt"+ Colors.RESET +" ? (y/n)");
+			System.out.println("Voulez vous charger la carte pré-enregistrée (carte.txt) ? (y/n)");
 			String answer = sc.nextLine();
 			if (answer.equals("y") || answer.equals("Y")) {
 				return true;
@@ -34,6 +61,12 @@ public class Ihm {
 			}
 		}
 	}
+
+	/**
+	 * METHODE NON-UTILISÉE Permet de demander au joueur d'entrer le path vers une carte.
+	 * @return une String de path finissant par `.txt`.
+	 */
+	@Deprecated
 	public String askFile() {
 		while (true) {
 			System.out.println("Veuillez entrer un path valide vers votre carte: ");
@@ -49,6 +82,10 @@ public class Ihm {
 		}
 	}
 
+	/**
+	 * Demande à l'utilisateur quel thème il souhaite utiliser pour generer la carte.
+	 * @return 'F': Forêt, 'J': Jungle.
+	 */
 	public char askTheme() {
 		while (true) {
 			System.out.println("Veuillez entrer le theme pour la partie :");
@@ -65,6 +102,11 @@ public class Ihm {
 		}
 	}
 
+	/**
+	 * Demande une dimensions à l'utilisateur.
+	 * @param type "Hauteur" | "Largeur".
+	 * @return la dimension
+	 */
 	public int askDimension(String type) {
 		while (true) {
 			System.out.println("Veuillez entrer la "+ type + " souhaitée :");
@@ -82,6 +124,10 @@ public class Ihm {
 		}
 	}
 
+	/**
+	 * Lit l'input de l'utilisateur et verifie qu'il est valide.
+	 * @return le char représentant l'action ∈ {'z', 'q', 's', 'd', 'o', 'k', 'l', 'm', 'e', 'i', 'j', 'r', 'h', 'x'}
+	 */
 	public char askAction() {
 		while (true) {
 			String scannerInput = sc.nextLine();
@@ -93,6 +139,11 @@ public class Ihm {
 			}
 		}
 	}
+
+	/**
+	 * Lit le numéro de l'interaction (compris entre 1 et 9) choisie par le joueur.
+	 * @return -1: fermer le menu, 0-8: pour le numéro de l'action choisie (ré-indéxée a 0 au lieu de 1).
+	 */
 	public int askInteraction() {
 		while (true) {
 			String scannerInput = sc.nextLine();
@@ -103,6 +154,11 @@ public class Ihm {
 			}
 		}
 	}
+
+	/**
+	 * Affiche la liste des interactions formatté en une table.
+	 * @param interactions une liste de taille 9 représentant les interactions
+	 */
 	public void displayInteractions(List<String> interactions) {
 		String ui = makeInteractionUi(interactions);
 		System.out.println(Colors.RESET);
@@ -110,6 +166,11 @@ public class Ihm {
 		System.out.print(ui);
 		last_frame[1] = ui;
 	}
+
+	/**
+	 * Lit le numéro de l'objet séléctionné pour être equipé dans l'inventaire.
+	 * @return -1: fermer le menu, 0-8: numéro de l'objet choisi (ré-indéxée a 0 au lieu de 1).
+	 */
 	public int askInventory() {
 		while (true) {
 			char input = sc.nextLine().charAt(0);
@@ -117,17 +178,41 @@ public class Ihm {
 			else if (Character.isDigit(input)) { return Integer.parseInt(Character.toString(input))-1; }
 		}
 	}
-	public void displayInventory(List<String> items, String equippedItem, int equippedItemId) {
+
+	/**
+	 * Permet d'afficher la frame d'inventaire.
+	 * @param items la liste de taille 9 des représentations de l'inventaire
+	 * @param equippedItemId l'indice de l'objet équipé ou -1 si il n'y en a pas.
+	 */
+	public void displayInventory(List<String> items, int equippedItemId) {
 		String ui = makeInventoryUi(items, equippedItemId);
 		System.out.println(Colors.RESET);
 		System.out.println(last_frame[0].replace('├','└').replace('┬', '─'));
 		System.out.print(ui);
 		last_frame[1] = ui;
 	}
+
+	/**
+	 * Permet d'afficher les erreurs avant le début du jeu (quand on a pas encore d'ui).
+	 * @param error le message d'erreur à afficher.
+	 */
 	public void displayError(String error) {
 		System.out.println(last_frame[0].replace('├','└').replace('┬', '─'));
 		System.out.println(Colors.RESET + Colors.RED + error + Colors.RESET);
 	}
+
+	/**
+	 * Permet d'afficher une frame de jeu normal (pas inventaire ou interaction).
+	 * @param board liste des lignes du plateau.
+	 * @param boardHeight hauteur du plateau.
+	 * @param boardWidth largeur du plateau.
+	 * @param actionHistory liste des dernieres actions/erreurs loggées.
+	 * @param playerX position x du joueur.
+	 * @param playerY position x du joueur.
+	 * @param playerDir orientation du joueur.
+	 * @param equippedItem représentation de l'objet équipé.
+	 * @param turnNumber le numéro de tour.
+	 */
 	public void display(List<List<String>> board, int boardHeight, int boardWidth, List<String> actionHistory, int playerX, int playerY, char playerDir, String equippedItem, int turnNumber) {
 		String croppedBoard = cropBoard(board, boardWidth, boardHeight, displayWidth, displayHeight-4,playerX,playerY, true);
 		String ui = makeUi(displayWidth, actionHistory, playerX, playerY, playerDir, equippedItem, turnNumber);
@@ -139,9 +224,23 @@ public class Ihm {
 		System.out.println(croppedBoard);
 		System.out.print(ui);
 	}
+
+	/**
+	 * Helper permettant de clamp un nombre entre deux bornes
+	 * @param value valeur a clamper.
+	 * @param low borne basse.
+	 * @param high borne haute.
+	 * @return x ∈ [low, high]
+	 */
 	private int clamp(int value, int low, int high) {
 		return Math.min(Math.max(low, value), high);
 	}
+
+	/**
+	 * Helper permet
+	 * @param dir
+	 * @return
+	 */
 	private char asArrow(char dir) {
 		return switch (dir) {
 			case 'z' -> '↑';
@@ -173,7 +272,6 @@ public class Ihm {
 			}
 			int lineStart = offsetY + i;
 			int start = clamp(playerX - (targetWidth / 2), 0,sourceWidth-targetWidth);
-//			output.append(lines[lineStart], start, start + targetWidth);
 			if (lineStart < 0 || lineStart >= lines.size()) {
 				output.append(Colors.LIGHT_BLACK).append("#".repeat(targetWidth)).append(Colors.RESET);
 			} else {
@@ -204,10 +302,6 @@ public class Ihm {
 				"│ [" + String.format("%03d", playerX) + ","+ String.format("%03d", playerY) +"]        (" + asArrow(playerDir) +") │ " + Colors.WHITE + actionHistoryCopy.remove() + Colors.RESET + '\n' +
 				"│ >> " + String.format("%-18s", equippedItem) + "│ " + Colors.LIGHT_BLACK + actionHistoryCopy.remove() + Colors.RESET + '\n' +
 				Colors.HIGHLIGHT + String.format(("%-"+(targetWidth-1)+"s"), " ZQSD : Bouger   OKLM : Regarder   I : Inventaire   E : Interagir   J : Jeter");
-//		| x: 14  y: 36   | Player move up
-//		| Dir : (↓)      | Player look left
-//		| >> Ecureil     | Monkey is now friend w/ Player
-//		H : Help    ZQSD : Move    OKLM : Look    I : Inventaire    E : Interagir
 	}
 	private String makeInteractionUi(List<String> interactions) {
 		StringBuilder out = new StringBuilder();
@@ -306,5 +400,4 @@ public class Ihm {
 			System.out.println(element);
 		}
 	}
-
 }
