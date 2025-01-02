@@ -46,19 +46,12 @@ public class JunkieState extends PreyState {
             if (!casePossible.isEmpty()){
                 Terrain terrain = casePossible.get((int) (Math.random() * casePossible.size()));
                 Clock.getInstance().addCommandToTurn(new PreyMoveCoordinateCommand(prey, terrain));
+                return;
             }
-
-
         }
 
         Terrain terrain = Board.getInstance().getAt(prey.getX(), prey.getY());
         Clock.getInstance().addCommandToTurn(new PreyMoveCoordinateCommand(prey, terrain));
-
-
-
-
-        // Terrain terrain1 = getDefault(null);
-        // Terrain terrain2 = getDefault(terrain1);
     }
 
     @Override
