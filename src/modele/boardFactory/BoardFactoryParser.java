@@ -15,7 +15,7 @@ import java.util.Scanner;
 public class BoardFactoryParser extends BoardFactory {
 	File mapFile;
 	public BoardFactoryParser()  {
-		mapFile = new File("carteRenard.txt");
+		mapFile = new File("carteHibou.txt");
 	}
 
 	@Override

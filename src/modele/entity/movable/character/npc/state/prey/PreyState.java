@@ -47,7 +47,7 @@ public abstract class PreyState implements State {
 
 
         for (Terrain terrain : neighbours) {
-            if (canMove(terrain) && terrain != forbidden) {
+            if (canMove(terrain) && !terrain.equals(forbidden)) {
                 casePossible.add(terrain);
             }
         }

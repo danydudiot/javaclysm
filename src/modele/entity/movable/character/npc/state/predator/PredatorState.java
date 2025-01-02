@@ -3,8 +3,7 @@ package modele.entity.movable.character.npc.state.predator;
 import modele.Board;
 import modele.clock.Clock;
 import modele.clock.commands.PredatorAttackCommand;
-import modele.clock.commands.PredatorMoveCommand;
-import modele.entity.Entity;
+import modele.clock.commands.PredatorMoveCoordinateCommand;
 import modele.entity.movable.character.npc.predator.Predator;
 import modele.entity.movable.character.npc.prey.Prey;
 import modele.entity.movable.character.npc.state.State;
@@ -33,42 +32,43 @@ public abstract class PredatorState implements State {
         return terrain != null && (terrain.isEmpty() || terrain.getEntityOnCase() instanceof Prey);
     }
 
-    protected char getPrey(){
-        Map<Character, Terrain> neighbours = Board.getInstance().getNeighbours(predator.getX(),predator.getY());
-        String prey = "";
-        for (char direction : neighbours.keySet()){
-            Terrain terrain = neighbours.get(direction);
+    protected Terrain getPrey(){
+        List<Terrain> neighbours = Board.getInstance().getNear(predator.getX(), predator.getY(), 1);
+        List<Terrain> casePossible = new ArrayList<>();
+        for (Terrain terrain : neighbours){
             if (terrain.getEntityOnCase() instanceof Prey && !((Prey) terrain.getEntityOnCase()).isProtected(terrain, predator)){
-                prey += direction;
+                casePossible.add(terrain);
             }
         }
 
-        if (prey.isEmpty()){
-            return 'a';
+        if (casePossible.isEmpty()){
+            Terrain currentCase = Board.getInstance().getAt(predator.getX(), predator.getY());
+            Clock.getInstance().addCommandToTurn(new PredatorMoveCoordinateCommand(predator, currentCase));
+            return currentCase;
+        } else {
+            Prey preyEntity = (Prey) casePossible.get(0).getEntityOnCase();
+            Clock.getInstance().addCommandToTurn(new PredatorAttackCommand(predator, preyEntity));
+            return casePossible.get(0);
         }
-
-        Prey preyEntity = (Prey) neighbours.get(prey.charAt(0)).getEntityOnCase();
-        Clock.getInstance().addCommandToTurn(new PredatorAttackCommand(predator, preyEntity));
-        return prey.charAt(0);
     }
 
 
-    protected char getDefault(String allow){
-        int[] position = predator.getPosition();
-        final Map<Character, Terrain> neighbours = Board.getInstance().getNeighbours(position[0], position[1]);
-        String directionList = "";
-        for (char direction : neighbours.keySet()) {
-            Terrain terrain = neighbours.get(direction);
-            if (terrain.isEmpty() && isAllow(terrain) && allow.contains(String.valueOf(direction))) {
-                directionList += direction;
+    protected Terrain getDefault(Terrain forbidden){
+        List<Terrain> neighbours = Board.getInstance().getNear(predator.getX(), predator.getY(), 1);
+        List<Terrain> casePossible = new ArrayList<>();
+
+        for (Terrain terrain : neighbours) {
+            if (terrain.isEmpty() && isAllow(terrain) && !terrain.equals(forbidden)) {
+                casePossible.add(terrain);
             }
         }
-        if (directionList.isEmpty()){
-            Clock.getInstance().addCommandToTurn(new PredatorMoveCommand(predator, 'a'));
-            return 'a';
+        if (casePossible.isEmpty()){
+            Terrain currentCase = Board.getInstance().getAt(predator.getX(), predator.getY());
+            Clock.getInstance().addCommandToTurn(new PredatorMoveCoordinateCommand(predator, currentCase));
+            return currentCase;
         } else {
-            char move = directionList.charAt((int) (Math.random() * directionList.length()));
-            Clock.getInstance().addCommandToTurn(new PredatorMoveCommand(predator, move));
+            Terrain move = casePossible.get((int) (Math.random() * casePossible.size()));
+            Clock.getInstance().addCommandToTurn(new PredatorMoveCoordinateCommand(predator, move));
             return move;
         }
 
