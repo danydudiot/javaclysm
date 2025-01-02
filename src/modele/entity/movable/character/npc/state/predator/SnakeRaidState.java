@@ -17,10 +17,7 @@ public class SnakeRaidState extends RaidState {
     public void deplacement() {
         Terrain move = getPrey();
         if (move.equals(Board.getInstance().getAt(predator.getX(), predator.getY()))){
-            move = getDefault(null);
-            if (getPrey().equals(Board.getInstance().getAt(predator.getX(), predator.getY()))){
-                getDefault(move);
-            }
+            getDefault2Case();
         }
     }
 

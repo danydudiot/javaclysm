@@ -82,7 +82,7 @@ public abstract class Prey extends NonPlayerCharacter implements InventoryItem {
     @Override
     public void mettreAJour(){
         if (hungryCount >= 0) {
-            --hungryCount; // pour eviter les nombres infiniment négatifs.
+            --hungryCount; // pour éviter les nombres infiniment négatifs.
         }
         if (!hasMoved) {
             currentState.deplacement();
