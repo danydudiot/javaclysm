@@ -15,11 +15,12 @@ public class SnakeRaidState extends RaidState {
     }
     @Override
     public void deplacement() {
+        Terrain forbidden = Board.getInstance().getAt(predator.getX(), predator.getY());
         Terrain move = getPrey();
         if (move.equals(Board.getInstance().getAt(predator.getX(), predator.getY()))){
             move = getDefault(null);
             if (getPrey().equals(Board.getInstance().getAt(predator.getX(), predator.getY()))){
-                getDefault(move);
+                getDefault(forbidden);
             }
         }
     }

@@ -1,14 +1,10 @@
 package modele.entity.movable.character.npc.state.prey;
 
 import modele.Board;
-import modele.Colors;
 import modele.clock.Clock;
 import modele.clock.commands.PreyMoveCoordinateCommand;
-import modele.entity.movable.character.npc.predator.Scorpio;
 import modele.entity.movable.character.npc.prey.Prey;
-import modele.entity.movable.character.npc.prey.Squirrel;
 import modele.entity.stationary.terrain.Terrain;
-import modele.entity.stationary.terrain.low.Rock;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +16,6 @@ public class SquirrelJunkieState extends JunkieState {
 
     @Override
     public void updateState() {
-        prey.setHungryCount(prey.getHungryCount()-1);
         if (prey.getHungryCount() <= 0){
             prey.setCurrentState(new SquirrelHungryState(prey));
         }

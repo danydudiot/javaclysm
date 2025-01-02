@@ -4,15 +4,13 @@ import exception.InvalidActionException;
 import modele.Board;
 import modele.clock.Clock;
 import modele.clock.commands.FriendInInventoryCommand;
-import modele.clock.commands.PreyMoveCoordinateCommand;
 import modele.entity.movable.character.Character;
 import modele.entity.movable.character.PlayerCharacter;
 import modele.entity.movable.character.npc.predator.Predator;
 import modele.entity.movable.character.npc.predator.Snake;
 import modele.entity.movable.character.npc.state.DeadState;
+import modele.entity.movable.character.npc.state.prey.MonkeyJunkieState;
 import modele.entity.movable.character.npc.state.prey.MonkeyNotHungryState;
-import modele.entity.movable.character.npc.state.prey.SquirrelJunkieState;
-import modele.entity.movable.character.npc.state.prey.TerrifyState;
 import modele.entity.stationary.food.BadFood;
 import modele.entity.stationary.food.Banana;
 import modele.entity.stationary.food.Food;
@@ -21,7 +19,6 @@ import modele.entity.stationary.terrain.high.High;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class Monkey extends Prey {
 
@@ -57,7 +54,7 @@ public class Monkey extends Prey {
         if (!wasFriendly && isFriendly()) {
             Clock.getInstance().addCommandToTurn(new FriendInInventoryCommand(this));
         } else if (food instanceof BadFood){
-            setCurrentState(new SquirrelJunkieState(this));
+            setCurrentState(new MonkeyJunkieState(this));
         } else {
             currentState.updateState();
         }

@@ -88,7 +88,6 @@ public abstract class Prey extends NonPlayerCharacter implements InventoryItem {
             currentState.deplacement();
             currentState.updateState();
         }
-        System.out.println(currentState);
         hasMoved = false;
     }
 
