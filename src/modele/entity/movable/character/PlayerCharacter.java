@@ -1,11 +1,7 @@
 package modele.entity.movable.character;
 
-import exception.EntityNotFoundException;
-import exception.MoveInvalidException;
 import modele.Board;
 import modele.Colors;
-import modele.entity.stationary.terrain.Empty;
-import modele.entity.stationary.terrain.Terrain;
 
 public class PlayerCharacter extends Character{
     protected char orientation;

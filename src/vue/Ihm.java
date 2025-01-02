@@ -2,13 +2,16 @@ package vue;
 
 import modele.Colors;
 
-import java.util.*;
+import java.util.ArrayDeque;
+import java.util.List;
+import java.util.Queue;
+import java.util.Scanner;
 
 
 public class Ihm {
 
 	/**
-	 * Représente les deux dernières composantes (la carte en 0 et l'UI en 1) de la dernière frame affichée
+	 * Représente les deux dernières composantes (la carte en 0 et l'UI en 1) de la dernière frame affichée.
 	 */
 	private String[] last_frame = new String[2];
 	/**
@@ -16,7 +19,7 @@ public class Ihm {
 	 */
 	private final int displayHeight;
 	/**
-	 * Représente la largeur de la frame
+	 * Représente la largeur de la frame.
 	 */
 	private final int displayWidth;
 	/**
@@ -26,8 +29,8 @@ public class Ihm {
 
 	/**
 	 * Constructeur par défaut.
-	 * @param height hauteur de la frame
-	 * @param width largeur de la frame
+	 * @param height Hauteur de la frame.
+	 * @param width Largeur de la frame.
 	 */
 	public Ihm(int height, int width) {
 		this.displayHeight = height;
@@ -64,7 +67,7 @@ public class Ihm {
 
 	/**
 	 * METHODE NON-UTILISÉE Permet de demander au joueur d'entrer le path vers une carte.
-	 * @return une String de path finissant par `.txt`.
+	 * @return Une String de path finissant par `.txt`.
 	 */
 	@Deprecated
 	public String askFile() {
@@ -105,7 +108,7 @@ public class Ihm {
 	/**
 	 * Demande une dimension à l'utilisateur.
 	 * @param type "Hauteur" | "Largeur".
-	 * @return la dimension
+	 * @return La dimension.
 	 */
 	public int askDimension(String type) {
 		while (true) {
@@ -126,7 +129,7 @@ public class Ihm {
 
 	/**
 	 * Lit l'input de l'utilisateur et vérifie qu'il est valide.
-	 * @return le char représentant l'action ∈ {'z', 'q', 's', 'd', 'o', 'k', 'l', 'm', 'e', 'i', 'j', 'r', 'h', 'x'}
+	 * @return Le char représentant l'action ∈ {'z', 'q', 's', 'd', 'o', 'k', 'l', 'm', 'e', 'i', 'j', 'r', 'h', 'x'} ou un chiffre.
 	 */
 	public char askAction() {
 		while (true) {
@@ -142,7 +145,7 @@ public class Ihm {
 
 	/**
 	 * Lit le numéro de l'interaction (compris entre 1 et 9) choisie par le joueur.
-	 * @return -1: fermer le menu, 0-8: pour le numéro de l'action choisie (ré-indexée à 0 au lieu de 1).
+	 * @return -1 : fermer le menu, 0-8 : pour le numéro de l'action choisie (ré-indexée à 0 au lieu de 1).
 	 */
 	public int askInteraction() {
 		while (true) {
@@ -156,8 +159,8 @@ public class Ihm {
 	}
 
 	/**
-	 * Affiche la liste des interactions formatté en une table.
-	 * @param interactions une liste de taille 9 représentant les interactions
+	 * Affiche la liste des interactions formatée en une table.
+	 * @param interactions Une liste de taille 9 représentant les interactions.
 	 */
 	public void displayInteractions(List<String> interactions) {
 		String ui = makeInteractionUi(interactions);
@@ -168,8 +171,8 @@ public class Ihm {
 	}
 
 	/**
-	 * Lit le numéro de l'objet séléctionné pour être equipé dans l'inventaire.
-	 * @return -1: fermer le menu, 0-8: numéro de l'objet choisi (ré-indéxée a 0 au lieu de 1).
+	 * Lit le numéro de l'objet sélectionné pour être équipé dans l'inventaire.
+	 * @return -1 : fermer le menu, 0-8 : numéro de l'objet choisi (ré-indexée à 0 au lieu de 1).
 	 */
 	public int askInventory() {
 		while (true) {
@@ -194,7 +197,7 @@ public class Ihm {
 
 	/**
 	 * Permet d'afficher les erreurs avant le début du jeu (quand on n'a pas encore d'ui).
-	 * @param error le message d'erreur à afficher.
+	 * @param error Le message d'erreur à afficher.
 	 */
 	public void displayError(String error) {
 		System.out.println(last_frame[0].replace('├','└').replace('┬', '─'));
@@ -203,15 +206,15 @@ public class Ihm {
 
 	/**
 	 * Permet d'afficher une frame de jeu normal (pas inventaire ou interaction).
-	 * @param board liste des lignes du plateau.
-	 * @param boardHeight hauteur du plateau.
-	 * @param boardWidth largeur du plateau.
-	 * @param actionHistory liste des dernières actions/erreurs loggées.
-	 * @param playerX position x du joueur.
-	 * @param playerY position x du joueur.
-	 * @param playerDir orientation du joueur.
-	 * @param equippedItem représentation de l'objet équipé.
-	 * @param turnNumber le numéro de tour.
+	 * @param board Liste des lignes du plateau.
+	 * @param boardHeight Hauteur du plateau.
+	 * @param boardWidth Largeur du plateau.
+	 * @param actionHistory Liste des dernières actions/erreurs loggées.
+	 * @param playerX Position x du joueur.
+	 * @param playerY Position x du joueur.
+	 * @param playerDir Orientation du joueur.
+	 * @param equippedItem Représentation de l'objet équipé.
+	 * @param turnNumber Le numéro de tour.
 	 */
 	public void display(List<List<String>> board, int boardHeight, int boardWidth, List<String> actionHistory, int playerX, int playerY, char playerDir, String equippedItem, int turnNumber) {
 		String croppedBoard = cropBoard(board, boardWidth, boardHeight, displayWidth, displayHeight-4,playerX,playerY, true);
@@ -226,10 +229,10 @@ public class Ihm {
 	}
 
 	/**
-	 * Helper permettant de clamp un nombre entre deux bornes
-	 * @param value valeur a clamper.
-	 * @param low borne basse.
-	 * @param high borne haute.
+	 * Helper permettant de clamp un nombre entre deux bornes.
+	 * @param value Valeur a clamper.
+	 * @param low Borne basse.
+	 * @param high Borne haute.
 	 * @return x ∈ [low, high]
 	 */
 	private int clamp(int value, int low, int high) {
@@ -253,15 +256,15 @@ public class Ihm {
 
 	/**
 	 * Helper qui permet de recadrer et de centrer la carte sur la position du joueur.
-	 * @param lines liste des lignes qui composent la carte.
-	 * @param sourceWidth largeur initiale de la carte
-	 * @param sourceHeight hauteur initiale de la carte
-	 * @param targetWidth largeur souhaitée
-	 * @param targetHeight hauteur souhaitée
-	 * @param playerX position X du joueur
-	 * @param playerY position Y du joueur
-	 * @param border true : ajouter une bordure, false : ne pas en ajouter
-	 * @return une String à afficher qui représente la carte à la taille correcte.
+	 * @param lines Liste des lignes qui composent la carte.
+	 * @param sourceWidth Largeur initiale de la carte.
+	 * @param sourceHeight Hauteur initiale de la carte.
+	 * @param targetWidth Largeur souhaitée.
+	 * @param targetHeight Hauteur souhaitée.
+	 * @param playerX Position X du joueur.
+	 * @param playerY Position Y du joueur.
+	 * @param border true : ajouter une bordure, false : ne pas en ajouter.
+	 * @return Une String à afficher qui représente la carte à la taille correcte.
 	 */
 	private String cropBoard(List<List<String>> lines, int sourceWidth, int sourceHeight, int targetWidth, int targetHeight, int playerX, int playerY, boolean border) {
 		StringBuilder output = new StringBuilder();
@@ -312,14 +315,14 @@ public class Ihm {
 
 	/**
 	 * Helper qui permet de mettre en forme l'UI du jeu.
-	 * @param targetWidth la largeur souhaitée
-	 * @param actionHistory les dernières actions loggées
-	 * @param playerX la position x du joueur
-	 * @param playerY la position y du joueur
-	 * @param playerDir la direction du joueur
-	 * @param equippedItem la representation de l'objet équipé
-	 * @param turnNumber le numéro de tour.
-	 * @return une String à afficher qui représente l'UI de base du jeu.
+	 * @param targetWidth La largeur souhaitée.
+	 * @param actionHistory Les dernières actions loggées.
+	 * @param playerX La position x du joueur.
+	 * @param playerY La position y du joueur.
+	 * @param playerDir La direction du joueur.
+	 * @param equippedItem La representation de l'objet équipé.
+	 * @param turnNumber Le numéro de tour.
+	 * @return Une String à afficher qui représente l'UI de base du jeu.
 	 */
 	private String makeUi(int targetWidth, List<String> actionHistory, int playerX, int playerY, char playerDir, String equippedItem, int turnNumber) {
 		Queue<String> actionHistoryCopy = new ArrayDeque<>(actionHistory);
@@ -330,9 +333,9 @@ public class Ihm {
 	}
 
 	/**
-	 * Helper qui permet d'afficher la liste des interactions sous forme de tableau
-	 * @param interactions la liste des iteractions
-	 * @return une String à afficher qui représente les interactions disponibles
+	 * Helper qui permet d'afficher la liste des interactions sous forme de tableau.
+	 * @param interactions la liste des interactions.
+	 * @return Une String à afficher qui représente les interactions disponibles.
 	 */
 	private String makeInteractionUi(List<String> interactions) {
 		StringBuilder out = new StringBuilder();
@@ -352,9 +355,9 @@ public class Ihm {
 
 	/**
 	 * Helper qui permet d'afficher la liste des objets dans l'inventaire et de mettre en valeur celui qui est équipé.
-	 * @param items la liste des objets
-	 * @param equippedItem l'indice de l'objet à mettre en valeur
-	 * @return  une String à afficher qui représente les
+	 * @param items La liste des objets.
+	 * @param equippedItem L'indice de l'objet à mettre en valeur.
+	 * @return  Une String à afficher qui représente les objets dans l'inventaire.
 	 */
 	private String makeInventoryUi(List<String> items, int equippedItem) {
 		StringBuilder out = new StringBuilder();
@@ -379,7 +382,7 @@ public class Ihm {
 		}
 		out.append("\n")
 				.append(Colors.HIGHLIGHT)
-				.append(String.format("%-"+(displayWidth -1)+"s","1-"+ items.size() +" : Selectionner l'objet à equiper    I : fermer le menu"));
+				.append(String.format("%-"+(displayWidth -1)+"s","1-"+ items.size() +" : Sélectionner l'objet à équiper    I : fermer le menu"));
 		return out.toString();
 	}
 
@@ -391,12 +394,12 @@ public class Ihm {
 					Colors.GREEN 		+ "A" + Colors.RESET + ": Arbre",
 					Colors.GREEN 		+ "B" + Colors.RESET + ": Buisson",
 					Colors.PURPLE 		+ "C" + Colors.RESET + ": Champignon Normal",
-					Colors.LIGHT_WHITE 	+ "E" + Colors.RESET + ": Ecureil Rassasié",
-					Colors.WHITE 		+ "E" + Colors.RESET + ": Ecureil Affamé",
-					Colors.LIGHT_PURPLE	+ "E" + Colors.RESET + ": Ecureil Ami Rassasié",
-					Colors.PURPLE	 	+ "E" + Colors.RESET + ": Ecureil Ami Affamé",
-					Colors.RED		 	+ "E" + Colors.RESET + ": Ecureil Junkie",
-					Colors.BLUE_BACKGROUND + "E" + Colors.RESET + ": Ecureil Terrifié",
+					Colors.LIGHT_WHITE 	+ "E" + Colors.RESET + ": Écureuil Rassasié",
+					Colors.WHITE 		+ "E" + Colors.RESET + ": Écureuil Affamé",
+					Colors.LIGHT_PURPLE	+ "E" + Colors.RESET + ": Écureuil Ami Rassasié",
+					Colors.PURPLE	 	+ "E" + Colors.RESET + ": Écureuil Ami Affamé",
+					Colors.RED		 	+ "E" + Colors.RESET + ": Écureuil Junkie",
+					Colors.BLUE_BACKGROUND + "E" + Colors.RESET + ": Écureuil Terrifié",
 					Colors.YELLOW 		+ "G" + Colors.RESET + ": Gland",
 					Colors.LIGHT_RED	+ "H" + Colors.RESET + ": Hibou en vol",
 					Colors.LIGHT_BLACK	+ "H" + Colors.RESET + ": Hibou au sol",
@@ -432,7 +435,7 @@ public class Ihm {
 
 			};
 		}
-		System.out.println(Colors.RESET + "\n" + Colors.HIGHLIGHT + "           LEGENDE DES ICONES           " + Colors.RESET);
+		System.out.println(Colors.RESET + "\n" + Colors.HIGHLIGHT + "           LÉGENDE DES ICÔNES           " + Colors.RESET);
 		for (String element : elements) {
 			System.out.println(element);
 		}

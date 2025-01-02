@@ -12,7 +12,7 @@ public class PredatorAttackCommand implements Command{
 	State old_predatorState;
 	int old_predatorX;
 	int old_predatorY;
-	Prey prey;
+	public Prey prey;
 	State old_preyState;
 	int old_preyX;
 	int old_preyY;
