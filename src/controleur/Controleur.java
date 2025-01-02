@@ -149,7 +149,8 @@ public class Controleur {
     private void manageInteraction(){
         Clock clock = Clock.getInstance();
         Board board = Board.getInstance();
-        Terrain terrain = board.getAt(playerCharacter.getX(), playerCharacter.getY());
+        int[] position = playerCharacter.getTarget();
+        Terrain terrain = board.getAt(position[0],position[1]);
         if (terrain != null) {
             Entity entity = terrain.getEntityOnCase();
             if (entity instanceof Interactible interactible){
