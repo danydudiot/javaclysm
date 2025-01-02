@@ -3,6 +3,7 @@ package modele.entity.movable.character.npc.state.predator;
 import modele.Board;
 import modele.clock.Clock;
 import modele.clock.commands.PredatorAttackCommand;
+
 import modele.entity.movable.character.npc.predator.Predator;
 import modele.entity.movable.character.npc.prey.Prey;
 import modele.entity.stationary.terrain.Terrain;
@@ -34,8 +35,7 @@ public class OwlRaidState extends RaidState {
         if (!preyList.isEmpty()) {
             Clock.getInstance().addCommandToTurn(new PredatorAttackCommand(predator, preyList.get(0)));
         } else {
-            Terrain move1 = getDefault(null);
-            Terrain move2 = getDefault(move1);
+           getDefault2Case();
         }
 
     }

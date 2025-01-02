@@ -74,4 +74,26 @@ public abstract class PredatorState implements State {
 
     }
 
+
+    protected Terrain getDefault2Case(){
+        List<List<Terrain>> neighbours = Board.getInstance().getNearSorted(predator.getX(), predator.getY(),2);
+        List<Terrain> casePossible = new ArrayList<>();
+
+        for (int i = neighbours.size()-1; i >= 0; --i) {
+            for (Terrain terrain : neighbours.get(i)) {
+                if (canMove(terrain)) {
+                    casePossible.add(terrain);
+                }
+            }
+            if (!casePossible.isEmpty()){
+                Terrain terrain = casePossible.get((int) (Math.random() * casePossible.size()));
+                Clock.getInstance().addCommandToTurn(new PredatorMoveCoordinateCommand(predator, terrain));
+                return terrain;
+            }
+        }
+        Terrain terrain = Board.getInstance().getAt(predator.getX(), predator.getY());
+        Clock.getInstance().addCommandToTurn(new PredatorMoveCoordinateCommand(predator, terrain));
+        return terrain;
+    }
+
 }

@@ -59,6 +59,8 @@ public final class Clock implements Observable{
         nbTour++;
         for (Observateur observateur : observateurs){
             observateur.mettreAJour();
+            // TODO : remove
+            //System.out.println(Board.getInstance());
         }
         historizeTurn();
     }

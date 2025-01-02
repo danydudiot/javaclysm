@@ -29,7 +29,6 @@ F
 // ✔ Frapper ami
 // ✔ Fuir dans le joueur (Durant attaque ou non)
 // ✔ Fuir dans un Arbre pour le Renard
-//  Fuir dans un buisson pour le Hibou
 // ✔ Fuir dans la direction opposée
 // ✔ Terrifier
 // ✔ Mourir

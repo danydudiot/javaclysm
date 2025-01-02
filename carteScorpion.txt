@@ -1,0 +1,40 @@
+J
+11
+31
+###############################
+#OR                           #
+##             #              #
+#             #S#             #
+#            #ORS#            #
+#             # #             #
+#                             #
+#  OS                         #
+#                        ###  #
+#                       @ES#  #
+###############################
+
+
+// Pour tout revenir dans le passé
+// ✔
+// ✖
+
+
+
+// # Serpent
+// ✔ Attaque réussie passée au repos / Contre attaque (3 tours)
+
+
+// # Scorpion
+// ✔ Déplacement normal (1 case)
+// ✔ Allez se cacher sous un rocher
+// ✔ Rester caché sous un rocher (5 tours)
+// ✔ Attaque (Adjacente)
+// ✔ Attaque (sur rocher quand cacher)
+// ✔ Pas d'attaque pendant 2 tours après une attaque
+
+// # Scénario
+// Passer un tour (X) (Le scorpion sur le côté tue le singe, Le serpent tue singe et passe en repos, le scorpion du milieu va sous le rocher et un singe essai d'aller sur le rocher, mais se fait tuer par le scorpion)
+// Tuer le serpent (M, E, 1) (Le serpent meurt, le scorpion sur le côté se déplace normalement, mais ne peux pas attaquer)
+// Passer un tour (X) (Les scorpions peuvent réattaquer, le signe restant essai d'aller sur le rocher, mais se fait tuer par le scorpion)
+// Passer un tour (X)
+// Passer un tour (X)

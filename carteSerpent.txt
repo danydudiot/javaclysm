@@ -1,0 +1,56 @@
+J
+11
+31
+###############################
+#S#        #                  #
+#E#       #B@    #   ####     #
+###       CSB#  #E#   SM#     #
+#          ##    #   ####     #
+#                             #
+#                             #
+#                             #
+#####                         #
+#PSE#                   S  E  #
+###############################
+
+
+// Pour tout revenir dans le passé
+// ✔
+// ✖
+
+
+// # Singe
+// ✔ Déplacement normal (1 case)
+// ✔ Déplacement Junkie (1 case, perte sens du danger)
+// ✔ Manger
+// ✔ Manger Junkie
+// ✔ Manger ami (Monter sur épaule 3 tour)
+// ✔ Passer affamé
+// ✔ Frapper ami
+// ✔ Crier quand il est ami et qu'il y a un danger à moins de 4 case
+// ✔ Fuir dans un Arbre pour le Serpent
+// ✔ Fuir dans la direction opposée
+// ✔ Terrifier
+// ✔ Mourir
+// ✔ Priorité d'action (Danger, Banane, Champignon, Random)
+
+// # Serpent
+// ✔ Déplacement normal (2 case)
+// ✔ Attaque (Adjacente)
+// Attaque réussie passée au repos / Contre attaque (3 tours)
+
+
+// # Scénario
+// Passer un tour (X) (Le singe du coin se fui dans le cocotier, et celui du bas fui le serpent si à distance, le singe en haut meurt)
+// Passer un tour (X) (Le signe de droite va à droite, car il a vu du danger)
+// Passer un tour (X) (Tous les singes rassasié passe en affamé)
+// Passer un tour (X) (Le signe du coin n'est plus terrifié et passe affamé, Le singe de gauche mange la banane)
+// Passer un tour (X) (Le singe de droit mange le champignon hallucinogène et passe Junkie)
+// Passer un tour (X) (Le singe de droit ignore le danger (Si le random est avec nous, sinon relance))
+// Passer un tour (X) (Le signe de gauche mange la banane et devient ami et donc monte sur l'épaule du joueur
+// Allez à droite (d)
+// Allez à droite (d)
+// Allez en bas (s) (Le singe descend de l'épaule)
+// Passer des tours jusqu'à ce qu'il crie
+// Frapper le signe (E, 1)
+

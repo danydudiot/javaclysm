@@ -29,10 +29,10 @@ public class UnderRockState extends PredatorState {
 
     @Override
     public void updateState() {
+        time--;
         if (time <= 0){
             predator.setCurrentState(new ScorpioRaidState(predator));
         }
-        time--;
     }
 
     @Override

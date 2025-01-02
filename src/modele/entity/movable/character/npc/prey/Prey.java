@@ -68,12 +68,6 @@ public abstract class Prey extends NonPlayerCharacter implements InventoryItem {
             }
         }
         hungryCount = hungryCountBase;
-
-        if (food instanceof BadFood){
-            setCurrentState(new JunkieState(this));
-        } else {
-            currentState.updateState();
-        }
     }
 
     @Override
@@ -88,13 +82,12 @@ public abstract class Prey extends NonPlayerCharacter implements InventoryItem {
     @Override
     public void mettreAJour(){
         if (hungryCount >= 0) {
-            --hungryCount; // pour eviter les nombres infiniment négatifs.
+            --hungryCount; // pour éviter les nombres infiniment négatifs.
         }
         if (!hasMoved) {
             currentState.deplacement();
             currentState.updateState();
         }
-        System.out.println(currentState);
         hasMoved = false;
     }
 
