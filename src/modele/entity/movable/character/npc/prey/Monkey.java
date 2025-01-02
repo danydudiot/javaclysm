@@ -63,6 +63,7 @@ public class Monkey extends Prey {
             return true;
         } else if (aggressor instanceof Predator) {
             Terrain currentPosition = Board.getInstance().getAt(getX(), getY());
+            // Ici on utilise getNear plutôt que getNeighbours car getNear inclue la case actuelle.
             List<Terrain> neighbours = Board.getInstance().getNear(getX(), getY(), 1);
             List<Terrain> high = new ArrayList<>();
 
@@ -73,16 +74,8 @@ public class Monkey extends Prey {
             }
 
 
-            if (!high.isEmpty() && aggressor instanceof Snake) {
-                if (high.contains(currentPosition)){
-                    Clock.getInstance().addCommandToTurn(new PreyMoveCoordinateCommand(this, currentPosition));
-                    setCurrentState(new TerrifyState(this));
-                } else {
-                    Clock.getInstance().addCommandToTurn(new PreyMoveCoordinateCommand(this, high.get(0)));
-                    setCurrentState(new TerrifyState(this));
-                }
-                ((Predator) aggressor).afterHit(false);
-                return false;
+            if (!high.isEmpty() && aggressor instanceof Snake snake) {
+                return runAway(snake, currentPosition, high);
             } else {
                 Board.getInstance().getAt(x,y).clearEntityOnCase();
                 this.setCurrentState(new DeadState(this));
@@ -122,52 +115,3 @@ public class Monkey extends Prey {
     }
 
 }
-
-
-/*
-
-
-
-
-@Override
-public boolean hit(Character aggressor) {
-    if (aggressor instanceof PlayerCharacter){
-        friendLevel = 0;
-        return true;
-    } else if (aggressor instanceof Predator) {
-        Map<java.lang.Character, Terrain> neighbours = Board.getInstance().getNeighbours(x, y);
-        String high = "";
-        for (char direction: neighbours.keySet()){
-            Terrain terrain = neighbours.get(direction);
-            if (terrain instanceof High){
-                high += direction;
-            }
-        }
-
-
-        if (!high.isEmpty() && aggressor instanceof Snake) {
-            if (high.contains("a")){
-                Clock.getInstance().addCommandToTurn(new PreyMoveCommand(this, 'a'));
-                setCurrentState(new TerrifyState(this));
-            } else {
-                Clock.getInstance().addCommandToTurn(new PreyMoveCommand(this, high.charAt(0)));
-                setCurrentState(new TerrifyState(this));
-            }
-            ((Predator) aggressor).afterHit(false);
-            return false;
-        } else {
-            Board.getInstance().getAt(x,y).clearEntityOnCase();
-            this.setCurrentState(new DeadState(this));
-            ((Predator) aggressor).afterHit(true);
-            return true;
-        }
-
-    } else {
-        throw new InvalidActionException("Vous ne pouvez pas frapper l'animal");
-    }
-}
-
-
-
-
- */

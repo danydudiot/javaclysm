@@ -8,7 +8,7 @@ import java.util.*;
 public class Ihm {
 
 	/**
-	 * Représente les deux dernières composantes (la carte en 0 et l'UI en 1) de la derniere frame affichée
+	 * Représente les deux dernières composantes (la carte en 0 et l'UI en 1) de la dernière frame affichée
 	 */
 	private String[] last_frame = new String[2];
 	/**
@@ -45,7 +45,7 @@ public class Ihm {
 	}
 
 	/**
-	 * Demande à l'utilisateur si il souhaite utilisée la carte stockée ou en generer un nouvelle.
+	 * Demande à l'utilisateur s'il souhaite utiliser la carte stockée ou en générer une nouvelle.
 	 * @return true si l'utilisateur souhaite charger la carte, false sinon.
 	 */
 	public boolean askBoard() {
@@ -83,7 +83,7 @@ public class Ihm {
 	}
 
 	/**
-	 * Demande à l'utilisateur quel thème il souhaite utiliser pour generer la carte.
+	 * Demande à l'utilisateur quel thème il souhaite utiliser pour générer la carte.
 	 * @return 'F': Forêt, 'J': Jungle.
 	 */
 	public char askTheme() {
@@ -103,7 +103,7 @@ public class Ihm {
 	}
 
 	/**
-	 * Demande une dimensions à l'utilisateur.
+	 * Demande une dimension à l'utilisateur.
 	 * @param type "Hauteur" | "Largeur".
 	 * @return la dimension
 	 */
@@ -125,7 +125,7 @@ public class Ihm {
 	}
 
 	/**
-	 * Lit l'input de l'utilisateur et verifie qu'il est valide.
+	 * Lit l'input de l'utilisateur et vérifie qu'il est valide.
 	 * @return le char représentant l'action ∈ {'z', 'q', 's', 'd', 'o', 'k', 'l', 'm', 'e', 'i', 'j', 'r', 'h', 'x'}
 	 */
 	public char askAction() {
@@ -142,7 +142,7 @@ public class Ihm {
 
 	/**
 	 * Lit le numéro de l'interaction (compris entre 1 et 9) choisie par le joueur.
-	 * @return -1: fermer le menu, 0-8: pour le numéro de l'action choisie (ré-indéxée a 0 au lieu de 1).
+	 * @return -1: fermer le menu, 0-8: pour le numéro de l'action choisie (ré-indexée à 0 au lieu de 1).
 	 */
 	public int askInteraction() {
 		while (true) {
@@ -182,7 +182,7 @@ public class Ihm {
 	/**
 	 * Permet d'afficher la frame d'inventaire.
 	 * @param items la liste de taille 9 des représentations de l'inventaire
-	 * @param equippedItemId l'indice de l'objet équipé ou -1 si il n'y en a pas.
+	 * @param equippedItemId l'indice de l'objet équipé ou -1 s'il n'y en a pas.
 	 */
 	public void displayInventory(List<String> items, int equippedItemId) {
 		String ui = makeInventoryUi(items, equippedItemId);
@@ -193,7 +193,7 @@ public class Ihm {
 	}
 
 	/**
-	 * Permet d'afficher les erreurs avant le début du jeu (quand on a pas encore d'ui).
+	 * Permet d'afficher les erreurs avant le début du jeu (quand on n'a pas encore d'ui).
 	 * @param error le message d'erreur à afficher.
 	 */
 	public void displayError(String error) {
@@ -206,7 +206,7 @@ public class Ihm {
 	 * @param board liste des lignes du plateau.
 	 * @param boardHeight hauteur du plateau.
 	 * @param boardWidth largeur du plateau.
-	 * @param actionHistory liste des dernieres actions/erreurs loggées.
+	 * @param actionHistory liste des dernières actions/erreurs loggées.
 	 * @param playerX position x du joueur.
 	 * @param playerY position x du joueur.
 	 * @param playerDir orientation du joueur.
@@ -237,9 +237,9 @@ public class Ihm {
 	}
 
 	/**
-	 * Helper permet
-	 * @param dir
-	 * @return
+	 * Helper permettant de convertir une direction en fleche.
+	 * @param dir 'z' | 'q' | 's' | 'd'
+	 * @return '↑' | '↓' | '←' | '→' | '·'
 	 */
 	private char asArrow(char dir) {
 		return switch (dir) {
@@ -250,6 +250,19 @@ public class Ihm {
 			default  -> '·';
 		};
 	}
+
+	/**
+	 * Helper qui permet de recadrer et de centrer la carte sur la position du joueur.
+	 * @param lines liste des lignes qui composent la carte.
+	 * @param sourceWidth largeur initiale de la carte
+	 * @param sourceHeight hauteur initiale de la carte
+	 * @param targetWidth largeur souhaitée
+	 * @param targetHeight hauteur souhaitée
+	 * @param playerX position X du joueur
+	 * @param playerY position Y du joueur
+	 * @param border true : ajouter une bordure, false : ne pas en ajouter
+	 * @return une String à afficher qui représente la carte à la taille correcte.
+	 */
 	private String cropBoard(List<List<String>> lines, int sourceWidth, int sourceHeight, int targetWidth, int targetHeight, int playerX, int playerY, boolean border) {
 		StringBuilder output = new StringBuilder();
 
@@ -296,6 +309,18 @@ public class Ihm {
 		}
 		return output.toString();
 	}
+
+	/**
+	 * Helper qui permet de mettre en forme l'UI du jeu.
+	 * @param targetWidth la largeur souhaitée
+	 * @param actionHistory les dernières actions loggées
+	 * @param playerX la position x du joueur
+	 * @param playerY la position y du joueur
+	 * @param playerDir la direction du joueur
+	 * @param equippedItem la representation de l'objet équipé
+	 * @param turnNumber le numéro de tour.
+	 * @return une String à afficher qui représente l'UI de base du jeu.
+	 */
 	private String makeUi(int targetWidth, List<String> actionHistory, int playerX, int playerY, char playerDir, String equippedItem, int turnNumber) {
 		Queue<String> actionHistoryCopy = new ArrayDeque<>(actionHistory);
 		return 	"│ tour n°"+ String.format("%-3S", turnNumber) +"           │ " + Colors.LIGHT_WHITE + actionHistoryCopy.remove() + Colors.RESET + '\n' +
@@ -303,6 +328,12 @@ public class Ihm {
 				"│ >> " + String.format("%-18s", equippedItem) + "│ " + Colors.LIGHT_BLACK + actionHistoryCopy.remove() + Colors.RESET + '\n' +
 				Colors.HIGHLIGHT + String.format(("%-"+(targetWidth-1)+"s"), " ZQSD : Bouger   OKLM : Regarder   I : Inventaire   E : Interagir   J : Jeter");
 	}
+
+	/**
+	 * Helper qui permet d'afficher la liste des interactions sous forme de tableau
+	 * @param interactions la liste des iteractions
+	 * @return une String à afficher qui représente les interactions disponibles
+	 */
 	private String makeInteractionUi(List<String> interactions) {
 		StringBuilder out = new StringBuilder();
 		for (int i = 1; i <= 9; ++i) {
@@ -319,6 +350,12 @@ public class Ihm {
 		return out.toString();
 	}
 
+	/**
+	 * Helper qui permet d'afficher la liste des objets dans l'inventaire et de mettre en valeur celui qui est équipé.
+	 * @param items la liste des objets
+	 * @param equippedItem l'indice de l'objet à mettre en valeur
+	 * @return  une String à afficher qui représente les
+	 */
 	private String makeInventoryUi(List<String> items, int equippedItem) {
 		StringBuilder out = new StringBuilder();
 		for (int i = 1; i <= 9; ++i) {

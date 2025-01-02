@@ -2,19 +2,17 @@ package modele.entity.movable.character.npc.prey;
 
 import modele.Board;
 import modele.InventoryItem;
-import modele.entity.movable.character.Character;
-import modele.entity.movable.character.PlayerCharacter;
+import modele.clock.Clock;
+import modele.clock.commands.PreyMoveCoordinateCommand;
 import modele.entity.movable.character.npc.NonPlayerCharacter;
 import modele.entity.movable.character.npc.predator.Predator;
 import modele.entity.movable.character.npc.state.prey.JunkieState;
-import modele.entity.movable.character.npc.state.prey.NotHungryState;
+import modele.entity.movable.character.npc.state.prey.TerrifyState;
 import modele.entity.stationary.food.BadFood;
 import modele.entity.stationary.food.Food;
 import modele.entity.stationary.terrain.Terrain;
-import modele.entity.stationary.terrain.high.High;
-import modele.entity.stationary.terrain.low.Low;
 
-import java.util.Map;
+import java.util.List;
 
 public abstract class Prey extends NonPlayerCharacter implements InventoryItem {
     public final int hungryCountBase;
@@ -96,7 +94,20 @@ public abstract class Prey extends NonPlayerCharacter implements InventoryItem {
             currentState.deplacement();
             currentState.updateState();
         }
+        System.out.println(currentState);
         hasMoved = false;
+    }
+
+    protected boolean runAway(Predator aggressor, Terrain currentPosition, List<Terrain> terrainList) {
+        if (terrainList.contains(currentPosition)){
+            Clock.getInstance().addCommandToTurn(new PreyMoveCoordinateCommand(this, currentPosition));
+            setCurrentState(new TerrifyState(this));
+        } else {
+            Clock.getInstance().addCommandToTurn(new PreyMoveCoordinateCommand(this, terrainList.get(0)));
+            setCurrentState(new TerrifyState(this));
+        }
+        aggressor.afterHit(false);
+        return false;
     }
 
 

@@ -33,11 +33,6 @@ public class ScorpioRaidState extends RaidState{
         return terrain instanceof Empty || terrain instanceof Rock;
     }
 
-    protected boolean isAllow(Terrain terrain) {
-        return terrain instanceof Empty || terrain instanceof Rock;
-    }
-
-
     @Override
     public String applyColorModifier() {
         if (((Scorpio) predator).canAttack()) {

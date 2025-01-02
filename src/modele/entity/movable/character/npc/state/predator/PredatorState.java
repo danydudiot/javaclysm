@@ -33,7 +33,7 @@ public abstract class PredatorState implements State {
     }
 
     protected Terrain getPrey(){
-        List<Terrain> neighbours = Board.getInstance().getNear(predator.getX(), predator.getY(), 1);
+        List<Terrain> neighbours = Board.getInstance().getNeighbours(predator.getX(), predator.getY());
         List<Terrain> casePossible = new ArrayList<>();
         for (Terrain terrain : neighbours){
             if (terrain.getEntityOnCase() instanceof Prey && !((Prey) terrain.getEntityOnCase()).isProtected(terrain, predator)){
@@ -54,11 +54,11 @@ public abstract class PredatorState implements State {
 
 
     protected Terrain getDefault(Terrain forbidden){
-        List<Terrain> neighbours = Board.getInstance().getNear(predator.getX(), predator.getY(), 1);
+        List<Terrain> neighbours = Board.getInstance().getNeighbours(predator.getX(), predator.getY());
         List<Terrain> casePossible = new ArrayList<>();
 
         for (Terrain terrain : neighbours) {
-            if (terrain.isEmpty() && isAllow(terrain) && !terrain.equals(forbidden)) {
+            if (terrain.isEmpty() && canMove(terrain) && !terrain.equals(forbidden)) {
                 casePossible.add(terrain);
             }
         }
@@ -74,7 +74,4 @@ public abstract class PredatorState implements State {
 
     }
 
-    protected boolean isAllow(Terrain terrain) {
-        return terrain instanceof Empty;
-    }
 }

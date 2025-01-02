@@ -13,11 +13,11 @@ public class PreyMoveCoordinateCommand implements Command {
 	State old_state;
 
 	public PreyMoveCoordinateCommand(Prey prey, Terrain terrain) {
-		this.prey = prey;
-		this.terrain = terrain;
+		this.prey 		 = prey;
+		this.terrain 	 = terrain;
 		this.old_terrain = Board.getInstance().getAt(prey.getX(), prey.getY());
-		this.old_hunger = prey.getHungryCount();
-		this.old_state 	= prey.getCurrentState();
+		this.old_hunger  = prey.getHungryCount();
+		this.old_state 	 = prey.getCurrentState();
 	}
 
 	@Override
