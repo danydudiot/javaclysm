@@ -11,7 +11,9 @@ import modele.entity.movable.character.npc.predator.Predator;
 import modele.entity.movable.character.npc.predator.Snake;
 import modele.entity.movable.character.npc.state.DeadState;
 import modele.entity.movable.character.npc.state.prey.MonkeyNotHungryState;
+import modele.entity.movable.character.npc.state.prey.SquirrelJunkieState;
 import modele.entity.movable.character.npc.state.prey.TerrifyState;
+import modele.entity.stationary.food.BadFood;
 import modele.entity.stationary.food.Banana;
 import modele.entity.stationary.food.Food;
 import modele.entity.stationary.terrain.Terrain;
@@ -51,8 +53,13 @@ public class Monkey extends Prey {
     public void eat(boolean isPlayerNearby, Food food) {
         boolean wasFriendly = isFriendly();
         super.eat(isPlayerNearby, food);
+
         if (!wasFriendly && isFriendly()) {
             Clock.getInstance().addCommandToTurn(new FriendInInventoryCommand(this));
+        } else if (food instanceof BadFood){
+            setCurrentState(new SquirrelJunkieState(this));
+        } else {
+            currentState.updateState();
         }
     }
 

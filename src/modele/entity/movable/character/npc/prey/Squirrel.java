@@ -12,9 +12,13 @@ import modele.entity.movable.character.npc.predator.Fox;
 import modele.entity.movable.character.npc.predator.Owl;
 import modele.entity.movable.character.npc.predator.Predator;
 import modele.entity.movable.character.npc.state.DeadState;
+import modele.entity.movable.character.npc.state.prey.JunkieState;
+import modele.entity.movable.character.npc.state.prey.SquirrelJunkieState;
 import modele.entity.movable.character.npc.state.prey.SquirrelNotHungryState;
 import modele.entity.movable.character.npc.state.prey.TerrifyState;
 import modele.entity.stationary.food.Acorn;
+import modele.entity.stationary.food.BadFood;
+import modele.entity.stationary.food.Food;
 import modele.entity.stationary.terrain.Terrain;
 import modele.entity.stationary.terrain.high.High;
 import modele.entity.stationary.terrain.low.Low;
@@ -84,4 +88,14 @@ public class Squirrel extends Prey {
                 (terrain instanceof Low && predator instanceof Owl));
     }
 
+
+    @Override
+    public void eat(boolean isPlayerNearby, Food food) {
+        super.eat(isPlayerNearby, food);
+        if (food instanceof BadFood){
+            setCurrentState(new SquirrelJunkieState(this));
+        } else {
+            currentState.updateState();
+        }
+    }
 }

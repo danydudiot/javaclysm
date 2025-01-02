@@ -68,12 +68,6 @@ public abstract class Prey extends NonPlayerCharacter implements InventoryItem {
             }
         }
         hungryCount = hungryCountBase;
-
-        if (food instanceof BadFood){
-            setCurrentState(new JunkieState(this));
-        } else {
-            currentState.updateState();
-        }
     }
 
     @Override
