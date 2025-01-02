@@ -1,0 +1,51 @@
+J
+11
+31
+###############################
+#                             #
+#                             #
+#                             #
+#                             #
+#                             #
+#                             #
+#                             #
+#                             #
+#                    @        #
+###############################
+
+
+// Pour tout revenir dans le passé
+// ✔
+// ✖
+
+
+// # Singe
+// Déplacement normal (1 case)
+// Déplacement Junkie (perte sens du danger)
+// Manger
+// Manger Junkie
+// Manger ami (Monter sur épaule 3 tours)
+// Repasser affamée
+// Frapper ami
+// Crier quand il est ami et qu'il y a un danger à moins de 4 case
+// Fuir dans un Arbre pour le Serpent
+// Fuir dans la direction opposée
+// Terrifier
+// Mourir
+// Priorité d'action (Danger, Banane, Champignon, Random)
+// Ne pas bouger s'il a fui
+
+// # Serpent
+// Déplacement normal (2 case)
+// Attaque (Adjacente)
+// Attaque réussie passée au repos / Contre attaque (3 tours)
+
+
+// # Scorpion
+// Déplacement normal (1 case)
+// Allez se cacher sous un rocher
+// Rester caché sous un rocher (5 tours)
+// Attaque (Adjacente)
+// Attaque (sur rocher quand cacher)
+// Repos après attaque / Contre Attaque (1 tour)
+
