@@ -87,12 +87,12 @@ public class Board {
         }
     }
 
-    public Map<Character, Terrain> getNeighbours(int x, int y) {
-        Map<Character, Terrain> out = new HashMap<>();
+    public List<Terrain> getNeighbours(int x, int y) {
+        List<Terrain> out = new ArrayList<>();
         for (char c : new char[]{'z', 'q', 's', 'd'}) {
             Terrain target = getToward(x, y, c);
             if (target != null) {
-                out.put(c, target);
+                out.add(target);
             }
         }
         return out;
@@ -197,7 +197,7 @@ public class Board {
         all.add(getAt(x,y));
         for (int i = 1; i <= nbCases; ++i) {
             for (Terrain terrain : out.get(i-1)) {
-                for (Terrain neighbour : getNeighbours(terrain.getX(), terrain.getY()).values()) {
+                for (Terrain neighbour : getNeighbours(terrain.getX(), terrain.getY())) {
                     if (!(all.contains(neighbour))) {
                         out.get(i).add(neighbour);
                         all.add(neighbour);
@@ -217,7 +217,7 @@ public class Board {
         for (int i = 1; i <= nbCases; ++i) {
             List<Terrain> next = new ArrayList<>();
             for (Terrain terrain : toTest) {
-                for (Terrain neighbour : getNeighbours(terrain.getX(), terrain.getY()).values()) {
+                for (Terrain neighbour : getNeighbours(terrain.getX(), terrain.getY())) {
                     if (!all.contains(neighbour)) {
                         all.add(neighbour);
                         next.add(neighbour);

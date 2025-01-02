@@ -16,10 +16,10 @@ public class FriendInInventoryState extends PreyState {
 
 	@Override
 	public void updateState() {
+		timeInPocket--;
 		if (timeInPocket <= 0) {
 			Clock.getInstance().addCommandToTurn(new FriendOutInventoryCommand(prey));
 		}
-		timeInPocket--;
 	}
 
 	@Override

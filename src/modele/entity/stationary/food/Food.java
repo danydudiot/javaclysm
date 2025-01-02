@@ -9,6 +9,7 @@ import modele.interaction.Grab;
 import modele.interaction.Interactible;
 import modele.interaction.Interaction;
 
+import java.util.List;
 import java.util.Map;
 
 
@@ -32,9 +33,9 @@ public abstract class Food extends StaticEntity implements Interactible, Invento
     }
 
     public boolean isPlayerNearby() {
-        Map<Character, Terrain> neighbours = Board.getInstance().getNeighbours(x, y);
-		for (char direction : neighbours.keySet()) {
-			if (neighbours.get(direction).getEntityOnCase() instanceof PlayerCharacter) {
+        List<Terrain> neighbours = Board.getInstance().getNeighbours(x,y);
+		for (Terrain terrain : neighbours) {
+			if (terrain.getEntityOnCase() instanceof PlayerCharacter) {
 				return true;
 			}
 		}

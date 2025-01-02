@@ -23,7 +23,7 @@ public class MonkeyNotHungryState extends NotHungryState{
 
 	@Override
 	public void deplacement() {
-		final boolean move = getDanger(false) || getDefault("zqsd") != 'a';
+		final boolean move = getDanger(false) || getDefault(null) == null;
 	}
 
 
@@ -31,5 +31,10 @@ public class MonkeyNotHungryState extends NotHungryState{
 	public boolean canMove(char direction) {
 		Terrain target = Board.getInstance().getToward(prey.getX(), prey.getY(), direction);
 		return super.canMove(direction) || (target instanceof Rock && target.getEntityOnCase() instanceof Scorpio);
+	}
+
+	@Override
+	public boolean canMove(Terrain terrain) {
+		return super.canMove(terrain) || (terrain instanceof Rock && terrain.getEntityOnCase() instanceof Scorpio);
 	}
 }

@@ -4,10 +4,9 @@ package modele.entity.movable.character.npc.state.predator;
 import modele.Board;
 import modele.Colors;
 import modele.clock.Clock;
-import modele.clock.commands.PredatorMoveCommand;
+import modele.clock.commands.PredatorMoveCoordinateCommand;
 import modele.entity.movable.character.npc.predator.Predator;
 import modele.entity.movable.character.npc.predator.Scorpio;
-import modele.entity.movable.character.npc.prey.Prey;
 import modele.entity.stationary.terrain.Terrain;
 
 public class UnderRockState extends PredatorState {
@@ -22,6 +21,12 @@ public class UnderRockState extends PredatorState {
     public boolean canMove(char direction) {
         return direction == 'a';
     }
+
+    @Override
+    public boolean canMove(Terrain terrain) {
+        return terrain.getEntityOnCase() == predator;
+    }
+
     @Override
     public void updateState() {
         if (time <= 0){
@@ -32,7 +37,7 @@ public class UnderRockState extends PredatorState {
 
     @Override
     public void deplacement() {
-        Clock.getInstance().addCommandToTurn(new PredatorMoveCommand(predator, 'a'));
+        Clock.getInstance().addCommandToTurn(new PredatorMoveCoordinateCommand(predator, Board.getInstance().getAt(predator.getX(), predator.getY())));
     }
 
     @Override

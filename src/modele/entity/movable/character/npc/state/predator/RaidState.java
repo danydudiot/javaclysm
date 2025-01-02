@@ -1,7 +1,9 @@
 package modele.entity.movable.character.npc.state.predator;
 
+import modele.Board;
 import modele.Colors;
 import modele.entity.movable.character.npc.predator.Predator;
+import modele.entity.stationary.terrain.Terrain;
 
 public abstract class RaidState extends PredatorState {
 
@@ -11,9 +13,9 @@ public abstract class RaidState extends PredatorState {
 
     @Override
     public void deplacement() {
-        char move = getPrey();
-        if (move == 'a'){
-            getDefault("zqsd");
+        Terrain move = getPrey();
+        if (move.equals(Board.getInstance().getAt(predator.getX(), predator.getY()))){
+            getDefault(null);
         }
     }
 

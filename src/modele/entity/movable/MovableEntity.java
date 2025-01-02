@@ -21,6 +21,17 @@ public abstract class MovableEntity extends Entity {
 		}
 	}
 
+
+	public void move(Terrain terrain) {
+		if (canMove(terrain)) {
+			Board.getInstance().moveTo(this, terrain.getX(), terrain.getY());
+		}
+	}
+
+	public boolean canMove(Terrain target) {
+		return target != null && target.isEmpty() && (target instanceof Empty);
+	}
+
     public char getInverseDirection(char direction) {
 		return switch (direction) {
 			case 'z' -> 's';
