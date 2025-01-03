@@ -10,6 +10,6 @@ public class SnakeRestState extends RestState {
 
     @Override
     protected PredatorState getNextState() {
-        return new SnakeRestState(predator);
+        return new SnakeRaidState(predator);
     }
 }
