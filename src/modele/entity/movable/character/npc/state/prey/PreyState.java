@@ -53,12 +53,10 @@ public abstract class PreyState implements State {
         }
         if (casePossible.isEmpty()){
             Terrain terrain = Board.getInstance().getAt(prey.getX(), prey.getY());
-            System.out.println("getDefaultPrey1");
             Clock.getInstance().addCommandToTurn(new PreyMoveCoordinateCommand(prey, terrain));
             return terrain;
         } else {
             Terrain terrain = casePossible.get((int) (Math.random() * casePossible.size()));
-            System.out.println("getDefaultPrey2");
             Clock.getInstance().addCommandToTurn(new PreyMoveCoordinateCommand(prey, terrain));
             return terrain;
         }
@@ -125,13 +123,10 @@ public abstract class PreyState implements State {
         if (playerAllow && player != null && prey.isFriendly() && !Inventory.getInstance().isFull()){
             Clock.getInstance().addCommandToTurn(new FriendInInventoryCommand(prey));
         } else if (!high.isEmpty()) {
-            System.out.println("getDangerPrey1");
             Clock.getInstance().addCommandToTurn(new PreyMoveCoordinateCommand(prey, high.get(0)));
         } else if (!low.isEmpty()) {
-            System.out.println("getDangerPrey2");
             Clock.getInstance().addCommandToTurn(new PreyMoveCoordinateCommand(prey, low.get(0)));
         } else {
-            System.out.println("getDangerPrey3");
             Clock.getInstance().addCommandToTurn(new PreyMoveCoordinateCommand(prey, getDirectionFromDanger(danger, free)));
         }
         return true;

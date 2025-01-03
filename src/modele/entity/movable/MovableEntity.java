@@ -25,7 +25,6 @@ public abstract class MovableEntity extends Entity {
 
 	public void move(Terrain terrain) {
 		if (canMove(terrain)) {
-			System.out.println("MovableEntity " + this);
 			Board.getInstance().moveTo(this, terrain.getX(), terrain.getY());
 		}
 	}

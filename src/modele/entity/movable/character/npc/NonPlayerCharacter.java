@@ -28,7 +28,6 @@ public abstract class NonPlayerCharacter extends Character implements Interactib
     public void mettreAJour(){
         currentState.deplacement();
         currentState.updateState();
-        System.out.println(currentState + " " + id+ " " + Clock.getInstance().getNbTour());
     }
 
     @Override

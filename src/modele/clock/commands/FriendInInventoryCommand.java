@@ -27,7 +27,6 @@ public class FriendInInventoryCommand implements Command {
 		try{
 			Inventory.getInstance().add(prey);
 			prey.setCurrentState(new FriendInInventoryState(prey));
-			System.out.println("FriendInInventoryCommand");
 			Board.getInstance().getAt(prey.getX(), prey.getY()).clearEntityOnCase();
 			hasGrabbed = true;
 			Board.getInstance().logAction(prey.getDisplayName() + " est " + where);

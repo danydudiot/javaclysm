@@ -64,16 +64,12 @@ public class Squirrel extends Prey {
                 Clock.getInstance().addCommandToTurn(new FriendInInventoryCommand(this));
                 return false;
             } else if (!high.isEmpty() && predator instanceof Fox fox) {
-                System.out.println("Fui dans high " + id);
                 return runAway(fox, currentPosition, high);
 
             } else if (!low.isEmpty() && predator instanceof Owl owl) {
-                System.out.println("Fui dans low " + id);
                 return runAway(owl, currentPosition, low);
 
             } else {
-                System.out.println("Meurt " + id);
-                System.out.println("Squirrel");
                 Board.getInstance().getAt(x,y).clearEntityOnCase();
                 this.setCurrentState(new DeadState(this));
                 (predator).afterHit(true);

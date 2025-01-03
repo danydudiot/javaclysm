@@ -69,11 +69,6 @@ public class Board {
         if (x < 0 || x > width - 1 || y < 0 || y > height - 1) {
             return null;
         }
-        if (board[y][x].getEntityOnCase() != null) {
-            System.out.println("getAt(" + x + "," + y + ") id case= " + board[y][x].id + " id oncase= " + board[y][x].getEntityOnCase().id);
-        } else {
-            System.out.println("getAt(" + x + "," + y + ") id case= " + board[y][x].id);
-        }
         return board[y][x];
     }
 
@@ -106,21 +101,15 @@ public class Board {
     public void moveToward(MovableEntity entity, char direction) {
         // On part du principe que le déplacement est toujours valide (testé en amont)
         Terrain target = getToward(entity.getX(), entity.getY(), direction);
-        System.out.println("moveToward");
         clearCase(entity.getX(), entity.getY());
         target.setEntityOnCase(entity);
     }
 
     public void moveTo(MovableEntity entity, int x, int y) {
         // On part du principe que le déplacement est toujours valide (testé en amont)
-        try {
-            Terrain target = getAt(x, y);
-            System.out.println("moveTo");
-            clearCase(entity.getX(), entity.getY());
-            target.setEntityOnCase(entity);
-        } catch (Exception exception) {
-            throw new EntityNotFoundException(exception.getMessage() + "(x= " + x + ", y= " + y + "), l'entité est " + entity + " sur " + getAt(entity.getX(), entity.getY()));
-        }
+        Terrain target = getAt(x, y);
+        clearCase(entity.getX(), entity.getY());
+        target.setEntityOnCase(entity);
     }
 
     public Terrain find(Entity entity) {
@@ -144,7 +133,6 @@ public class Board {
         if (board[y][x].getEntityOnCase() == null) {
             throw new EntityNotFoundException("L'entité ne peut pas être trouvée. (x= " + x + ", y= " + y + ")");
         } else {
-            System.out.println("Board.clearCase");
             board[y][x].clearEntityOnCase();
         }
     }

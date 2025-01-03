@@ -17,15 +17,8 @@ public class SquirrelNotHungryState extends NotHungryState {
 
 	@Override
 	public void deplacement() {
-		if (!(prey.getCurrentState() instanceof DeadState) && Board.getInstance().getAt(prey.getX(), prey.getY()).getEntityOnCase() == null){
-			System.out.println("problème3 " + prey.id);
-		}
 		boolean result = getDanger(true);
-		if (!(prey.getCurrentState() instanceof DeadState) && Board.getInstance().getAt(prey.getX(), prey.getY()).getEntityOnCase() == null){
-			System.out.println("problème4 " + prey.id);
-		}
 		if (!result){
-
 			getDefault(null);
 		}
 	}

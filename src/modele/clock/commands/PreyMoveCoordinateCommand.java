@@ -24,25 +24,14 @@ public class PreyMoveCoordinateCommand implements Command {
 	@Override
 	public void doCommand() {
 		if (!old_terrain.equals(terrain)){
-			System.out.println("DOPreyMoveCoordinateCommand");
 			prey.move(terrain);
 		}
-		if (!(prey.getCurrentState() instanceof DeadState) && Board.getInstance().getAt(prey.getX(), prey.getY()).getEntityOnCase() == null){
-			System.out.println("problème6 " + prey.id);
-		}
-
 		prey.setHasMoved(true);
-
-		if (!(prey.getCurrentState() instanceof DeadState) && Board.getInstance().getAt(prey.getX(), prey.getY()).getEntityOnCase() == null){
-			System.out.println("problème7 " + prey.id);
-		}
-
 	}
 
 	@Override
 	public void undoCommand() {
 		if (!old_terrain.equals(terrain)) {
-			System.out.println("UNDOPreyMoveCoordinateCommand");
 			prey.move(old_terrain);
 		}
 		prey.setHungryCount(old_hunger);

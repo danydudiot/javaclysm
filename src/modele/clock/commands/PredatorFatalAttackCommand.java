@@ -36,7 +36,6 @@ public class PredatorFatalAttackCommand implements Command{
 
 	@Override
 	public void doCommand() {
-		System.out.println("PredatorFatalAttackCommand prédator= " + predator);
 		Board.getInstance().getAt(prey.getX(), prey.getY()).clearEntityOnCase();
 		prey.setCurrentState(new DeadState(prey));
 		predator.afterHit(true);

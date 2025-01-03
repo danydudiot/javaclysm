@@ -82,33 +82,21 @@ public abstract class Prey extends NonPlayerCharacter implements InventoryItem {
 
     @Override
     public void mettreAJour(){
-        System.out.println(currentState + " " + id + " " + Clock.getInstance().getNbTour());
         if (hungryCount >= 0) {
             --hungryCount; // pour éviter les nombres infiniment négatifs.
         }
         if (!hasMoved) {
-            if (!(currentState instanceof DeadState) && Board.getInstance().getAt(getX(), getY()).getEntityOnCase() == null){
-                System.out.println("problème1 " + id);
-            }
             currentState.deplacement();
-            if (!(currentState instanceof DeadState) && Board.getInstance().getAt(getX(), getY()).getEntityOnCase() == null){
-                System.out.println("problème2 " + id);
-            }
             currentState.updateState();
         }
         hasMoved = false;
-        if (!(currentState instanceof DeadState) && Board.getInstance().getAt(getX(), getY()).getEntityOnCase() == null){
-            System.out.println("problème5 " + id);
-        }
     }
 
     protected boolean runAway(Predator aggressor, Terrain currentPosition, List<Terrain> terrainList) {
         if (terrainList.contains(currentPosition)){
-            System.out.println("runAway1");
             Clock.getInstance().addCommandToTurn(new PreyMoveCoordinateCommand(this, currentPosition));
             setCurrentState(new TerrifyState(this));
         } else {
-            System.out.println("runAway2");
             Clock.getInstance().addCommandToTurn(new PreyMoveCoordinateCommand(this, terrainList.get(0)));
             setCurrentState(new TerrifyState(this));
         }

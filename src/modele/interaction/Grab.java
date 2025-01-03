@@ -13,7 +13,6 @@ public class Grab implements Interaction {
             Board board = Board.getInstance();
             try {
                 Inventory.getInstance().add((InventoryItem) entity);
-                System.out.println("Grab");
                 board.clearCase(entity.getX(), entity.getY());
                 board.logAction(((InventoryItem) entity).getDisplayName() + " ramassé");
             } catch (Exception e) {

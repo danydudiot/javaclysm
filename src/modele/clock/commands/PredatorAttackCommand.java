@@ -35,7 +35,6 @@ public class PredatorAttackCommand implements Command{
 
 	@Override
 	public void doCommand() {
-		System.out.println(predator.id + " attaque " + prey.id);
 		this.wasKilled = prey.hit(predator);
 		if (wasKilled) {
 			Board.getInstance().logAction(predator.getDisplayName() + " à tué " + prey.getDisplayName());
@@ -46,7 +45,6 @@ public class PredatorAttackCommand implements Command{
 	@Override
 	public void undoCommand() {
 		predator.setCurrentState(old_predatorState);
-		System.out.println("PredatorAttackCommand");
 		Board.getInstance().moveTo(predator, old_predatorX, old_predatorY);
 		if (wasKilled) {
 			Board.getInstance().getAt(old_preyX, old_preyY).setEntityOnCase(prey);

@@ -81,16 +81,6 @@ public class Controleur {
      * Appelle la méthode tour() pour chaque tour de jeu.
      */
     private void game() {
-        try {
-            // Crée un FileOutputStream pour le fichier de sortie
-            FileOutputStream fos = new FileOutputStream("output.txt");
-            // Crée un PrintStream basé sur le FileOutputStream
-            PrintStream ps = new PrintStream(fos);
-            // Redirige System.out vers le PrintStream
-            System.setOut(ps);
-        } catch (Exception ignored){
-
-        }
         while (true){
             tour();
         }

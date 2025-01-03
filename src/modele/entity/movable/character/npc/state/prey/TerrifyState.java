@@ -50,15 +50,8 @@ public class TerrifyState extends PreyState {
 
     @Override
     public void deplacement() {
-        if (!(prey.getCurrentState() instanceof DeadState) && Board.getInstance().getAt(prey.getX(), prey.getY()).getEntityOnCase() == null){
-            System.out.println("problème8 " + prey.id);
-        }
         // Clock.getInstance().addCommandToTurn(new PreyMoveCommand(prey, 'a'));
-        System.out.println("TerrifyState");
         Clock.getInstance().addCommandToTurn(new PreyMoveCoordinateCommand(prey, Board.getInstance().getAt(prey.getX(), prey.getY())));
-        if (!(prey.getCurrentState() instanceof DeadState) && Board.getInstance().getAt(prey.getX(), prey.getY()).getEntityOnCase() == null){
-            System.out.println("problème9 " + prey.id);
-        }
     }
 
     @Override
