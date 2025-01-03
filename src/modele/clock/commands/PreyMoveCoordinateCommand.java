@@ -2,11 +2,12 @@ package modele.clock.commands;
 
 import modele.Board;
 import modele.entity.movable.character.npc.prey.Prey;
+import modele.entity.movable.character.npc.state.DeadState;
 import modele.entity.movable.character.npc.state.State;
 import modele.entity.stationary.terrain.Terrain;
 
 public class PreyMoveCoordinateCommand implements Command {
-	Prey prey;
+	public Prey prey;
 	Terrain terrain;
 	Terrain old_terrain;
 	int old_hunger;
@@ -22,13 +23,17 @@ public class PreyMoveCoordinateCommand implements Command {
 
 	@Override
 	public void doCommand() {
-		prey.move(terrain);
+		if (!old_terrain.equals(terrain)){
+			prey.move(terrain);
+		}
 		prey.setHasMoved(true);
 	}
 
 	@Override
 	public void undoCommand() {
-		prey.move(old_terrain);
+		if (!old_terrain.equals(terrain)) {
+			prey.move(old_terrain);
+		}
 		prey.setHungryCount(old_hunger);
 		prey.setCurrentState(old_state);
 	}

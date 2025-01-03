@@ -1,5 +1,6 @@
 package modele.entity.movable;
 
+import exception.EntityNotFoundException;
 import modele.Board;
 import modele.entity.Entity;
 import modele.entity.stationary.terrain.Empty;

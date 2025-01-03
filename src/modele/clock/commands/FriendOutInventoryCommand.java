@@ -15,7 +15,7 @@ import modele.entity.stationary.terrain.Terrain;
 import java.util.List;
 
 public class FriendOutInventoryCommand implements Command {
-	private Prey prey;
+	public Prey prey;
 	private State old_State;
 	private boolean hasDrop;
 	public FriendOutInventoryCommand(Prey prey) {

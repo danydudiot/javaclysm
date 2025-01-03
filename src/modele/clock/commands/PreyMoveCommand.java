@@ -4,7 +4,7 @@ import modele.entity.movable.character.npc.prey.Prey;
 import modele.entity.movable.character.npc.state.State;
 
 public class PreyMoveCommand implements Command {
-	Prey prey;
+	public Prey prey;
 	char direction;
 	int old_hunger;
 	State old_state;

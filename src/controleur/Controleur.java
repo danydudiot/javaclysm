@@ -19,19 +19,37 @@ import modele.interaction.*;
 import vue.Ihm;
 
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
 
+
+/**
+ * Classe qui s'occupe de contrôler le déroulement du jeu.
+ */
 public class Controleur {
+    /** Interface de l'IHM (Interface Homme-Machine) pour interagir avec l'utilisateur. */
     protected Ihm ihm;
+
+    /** L'entité représentant le joueur sur la carte. */
     protected PlayerCharacter playerCharacter;
 
+
+    /**
+     * Constructeur de la classe Controleur.
+     * Initialise l'interface utilisateur et l'inventaire.
+     */
     public Controleur() {
         this.ihm = new Ihm();
         // Init of the inventory
         Inventory.getInstance();
     }
 
+    /**
+     * Démarre le jeu en initialisant le plateau et le joueur.
+     * Gère les exceptions liées au chargement du plateau.
+     */
     public void startGame(){
         Clock.getInstance().reset();
         if (ihm.askBoard()){
@@ -58,14 +76,21 @@ public class Controleur {
         game();
     }
 
-
+    /**
+     * Boucle principale du jeu.
+     * Appelle la méthode tour() pour chaque tour de jeu.
+     */
     private void game() {
         while (true){
             tour();
         }
     }
 
-
+    /**
+     * Gère un tour de jeu.
+     * Affiche l'état actuel du jeu et demande une action au joueur.
+     * Gère les exceptions liées aux actions invalides.
+     */
     private void tour(){
         Clock clock = Clock.getInstance();
         Board board = Board.getInstance();
@@ -82,28 +107,27 @@ public class Controleur {
         );
         char action = ihm.askAction();
         try {
-			if ("zqsd".indexOf(action) != -1) {
+			if ("zqsd".indexOf(action) != -1) { // Déplacement.
 				if (playerCharacter.canMove(action)) {
 					clock.addCommandToTurn(new PlayerMoveCommand(playerCharacter, action));
 					clock.notifierObservateur();
 				} else {
 					Board.getInstance().logError("Déplacement impossible");
 				}
-			} else if ("oklm".indexOf(action) != -1) {
+			} else if ("oklm".indexOf(action) != -1) { // Changement d'orientation.
 				playerCharacter.changeOrientation(action);
-			} else if (action == 'i') {
+			} else if (action == 'i') { // Inventaire.
 				manageInventory();
-			} else if (action == 'e') {
+			} else if (action == 'e') { // Interaction.
 				manageInteraction();
-			} else if (action == 'j') {
+			} else if (action == 'j') { // Jeter.
 				clock.addCommandToTurn(new PlayerDropCommand((Entity) Inventory.getInstance().getEquippedItem()));
 				clock.notifierObservateur();
-			} else if (action == 'r') {
-				clock.undoLastTurn();
-			} else if (action == 'h') {
+			} else if (action == 'h') { // Pour afficher l'aide.
 				ihm.printHelpPage(board.getTheme());
-				tour();
-			} else if (action == 'x') {
+			} else if (action == 'r') { // Retour dans le passé.
+				clock.undoLastTurn();
+			} else if (action == 'x') { // Pour passer un tour.
 				Board.getInstance().logAction("Passage de tour");
 				clock.notifierObservateur();
 			} else if (Character.isDigit(action)) {
@@ -113,15 +137,17 @@ public class Controleur {
 			    }
 			    Board.getInstance().logAction("Passage de " + amount + " tour(s)");
             } else {
-                    throw new InvalidActionException("Action inconnue.");
-                }
+                throw new InvalidActionException("Action inconnue.");
+            }
         } catch (InvalidActionException | MoveInvalidException e) {
             Board.getInstance().logError(e.getMessage());
-            tour();
         }
     }
 
-
+    /**
+     * Gère les interactions du joueur avec les entités sur le terrain.
+     * Affiche les interactions disponibles et exécute l'interaction choisie.
+     */
     private void manageInteraction(){
         Clock clock = Clock.getInstance();
         Board board = Board.getInstance();
@@ -136,18 +162,18 @@ public class Controleur {
                 for (Interaction interaction : interactions) {
                     interactions_string.add(interaction.getDisplayName());
                 }
-                ihm.displayInteractions(interactions_string);
-                int numInteraction = ihm.askInteraction();
+                ihm.displayInteractions(interactions_string); // Affichage des interactions possibles.
+
+                int numInteraction = ihm.askInteraction(); // Demande de l'interaction.
                 if (numInteraction == -1) {
                     return;
                 } else if (numInteraction < interactions.length){
-                    if (interactions[numInteraction] instanceof Grab) {
-
-                        clock.addCommandToTurn(new InteractionGrabCommand((Entity) interactible,(Grab) interactions[numInteraction]));
-                    } else if (interactions[numInteraction] instanceof Hit) {
-                        clock.addCommandToTurn(new InteractionHitCommand((NonPlayerCharacter) entity, (Hit) interactions[numInteraction]));
+                    if (interactions[numInteraction] instanceof Grab grab) {
+                        clock.addCommandToTurn(new InteractionGrabCommand(entity,grab));
+                    } else if (interactions[numInteraction] instanceof Hit hit) {
+                        clock.addCommandToTurn(new InteractionHitCommand((NonPlayerCharacter) entity, hit));
                     }
-                    if (! (interactions[numInteraction] instanceof GrabTimeStone)) {
+                    if (! (interactions[numInteraction] instanceof GrabTimeStone)) { // On passe un tour sauf si on a utilisé une pierre temporelle.
                         clock.notifierObservateur();
                     }
                 }
@@ -159,12 +185,14 @@ public class Controleur {
         }
     }
 
+    /**
+     * Gère l'inventaire du joueur.
+     * Affiche l'inventaire et permet au joueur de sélectionner un objet.
+     */
     private void manageInventory(){
         ihm.displayInventory(Inventory.getInstance().getItemsStrings(), Inventory.getInstance().getEquippedItemId());
         int numSelection = ihm.askInventory();
-        if (numSelection == -1) {
-            return;
-        } else if (numSelection < Inventory.getInstance().getInventorySize()) {
+        if (numSelection > 0 && numSelection < Inventory.getInstance().getInventorySize()) {
             Inventory.getInstance().setEquippedItem(numSelection);
             manageInventory();
         }

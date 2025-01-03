@@ -2,8 +2,11 @@ package modele.clock;
 
 import modele.Board;
 import modele.Colors;
-import modele.clock.commands.Command;
+import modele.clock.commands.*;
+import modele.entity.Entity;
 import modele.entity.movable.character.npc.predator.Predator;
+import modele.entity.movable.character.npc.prey.Prey;
+import modele.entity.movable.character.npc.prey.Squirrel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -59,8 +62,6 @@ public final class Clock implements Observable{
         nbTour++;
         for (Observateur observateur : observateurs){
             observateur.mettreAJour();
-            // TODO : remove
-            //System.out.println(Board.getInstance());
         }
         historizeTurn();
     }
@@ -90,6 +91,45 @@ public final class Clock implements Observable{
     public void historizeTurn() {
         allTurns.add(new ArrayList<>(currentTurn));
         currentTurn = new ArrayList<>();
+    }
+
+    public List<Command> find(Squirrel entity){
+        List<Command> commandList = new ArrayList<>();
+        for (List<Command> turn : allTurns){
+            for (Command command : turn){
+                if (command instanceof PreyMoveCoordinateCommand prey){
+                    if (prey.prey.equals(entity)){
+                        commandList.add(prey);
+                    }
+                }
+                if (command instanceof FriendInInventoryCommand prey){
+                    if (prey.prey.equals(entity)){
+                        commandList.add(prey);
+                    }
+                }
+                if (command instanceof FriendOutInventoryCommand prey){
+                    if (prey.prey.equals(entity)){
+                        commandList.add(prey);
+                    }
+                }
+                if (command instanceof PreyEatCommand prey){
+                    if (prey.prey.equals(entity)){
+                        commandList.add(prey);
+                    }
+                }
+                if (command instanceof PreyMoveCommand prey){
+                    if (prey.prey.equals(entity)){
+                        commandList.add(prey);
+                    }
+                }
+                if (command instanceof PredatorAttackCommand predator){
+                    if (predator.prey.equals(entity)){
+                        commandList.add(predator);
+                    }
+                }
+            }
+        }
+        return commandList;
     }
 }
 

@@ -6,6 +6,7 @@ import modele.clock.Clock;
 import modele.clock.commands.PreyMoveCoordinateCommand;
 import modele.entity.movable.character.npc.prey.Prey;
 import modele.entity.movable.character.npc.prey.Squirrel;
+import modele.entity.movable.character.npc.state.DeadState;
 import modele.entity.stationary.terrain.Terrain;
 
 public class TerrifyState extends PreyState {

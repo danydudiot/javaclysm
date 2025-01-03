@@ -107,15 +107,31 @@ public class Board {
 
     public void moveTo(MovableEntity entity, int x, int y) {
         // On part du principe que le déplacement est toujours valide (testé en amont)
-        Terrain target = getAt(x,y);
+        Terrain target = getAt(x, y);
         clearCase(entity.getX(), entity.getY());
         target.setEntityOnCase(entity);
     }
 
+    public Terrain find(Entity entity) {
+        for (int i = 0; i < board.length; i++) {
+            for (int j = 0; j < board[i].length; j++) {
+                Terrain place = getAt(i, j);
+                if (place != null) {
+                    if (place.equals(entity)) {
+                        return place;
+                    } else if (place.getEntityOnCase() != null && place.getEntityOnCase().equals(entity)) {
+                        return place;
+                    }
+                }
+            }
+
+        }
+        return getAt(0, 0);
+    }
 
     public void clearCase(int x, int y) throws EntityNotFoundException {
         if (board[y][x].getEntityOnCase() == null) {
-            throw new EntityNotFoundException("L'entité ne peut pas être trouvée.");
+            throw new EntityNotFoundException("L'entité ne peut pas être trouvée. (x= " + x + ", y= " + y + ")");
         } else {
             board[y][x].clearEntityOnCase();
         }
@@ -193,10 +209,10 @@ public class Board {
         for (int i = 0; i <= nbCases; ++i) {
             out.add(new ArrayList<>());
         }
-        out.get(0).add(getAt(x,y));
-        all.add(getAt(x,y));
+        out.get(0).add(getAt(x, y));
+        all.add(getAt(x, y));
         for (int i = 1; i <= nbCases; ++i) {
-            for (Terrain terrain : out.get(i-1)) {
+            for (Terrain terrain : out.get(i - 1)) {
                 for (Terrain neighbour : getNeighbours(terrain.getX(), terrain.getY())) {
                     if (!(all.contains(neighbour))) {
                         out.get(i).add(neighbour);
@@ -212,8 +228,8 @@ public class Board {
         List<Terrain> all = new ArrayList<>();
         List<Terrain> toTest = new ArrayList<>();
 
-        all.add(getAt(x,y));
-        toTest.add(getAt(x,y));
+        all.add(getAt(x, y));
+        toTest.add(getAt(x, y));
         for (int i = 1; i <= nbCases; ++i) {
             List<Terrain> next = new ArrayList<>();
             for (Terrain terrain : toTest) {

@@ -1,6 +1,8 @@
 package modele.entity.movable.character.npc.state.prey;
 
 import modele.entity.movable.character.npc.prey.Prey;
+import modele.Board;
+import modele.entity.movable.character.npc.state.DeadState;
 
 public class SquirrelNotHungryState extends NotHungryState {
 	public SquirrelNotHungryState(Prey prey) {
@@ -15,6 +17,9 @@ public class SquirrelNotHungryState extends NotHungryState {
 
 	@Override
 	public void deplacement() {
-		final boolean move = getDanger(true) || getDefault(null) == null;
+		boolean result = getDanger(true);
+		if (!result){
+			getDefault(null);
+		}
 	}
 }

@@ -15,7 +15,7 @@ public class PreyEatCommand implements Command {
 	int old_x;
 	int old_y;
 	boolean isPlayerNearby;
-	Prey prey;
+	public Prey prey;
 	public PreyEatCommand(Prey prey, Food food) {
 		this.prey 				= prey;
 		this.old_state 			= prey.getCurrentState();

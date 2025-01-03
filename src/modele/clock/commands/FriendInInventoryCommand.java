@@ -8,7 +8,7 @@ import modele.entity.movable.character.npc.state.State;
 import modele.entity.movable.character.npc.state.prey.FriendInInventoryState;
 
 public class FriendInInventoryCommand implements Command {
-	private Prey prey;
+	public Prey prey;
 	private State old_State;
 	private boolean hasGrabbed;
 	private String where;

@@ -6,6 +6,7 @@ import modele.clock.Clock;
 import modele.clock.commands.PreyMoveCoordinateCommand;
 import modele.entity.movable.character.npc.NonPlayerCharacter;
 import modele.entity.movable.character.npc.predator.Predator;
+import modele.entity.movable.character.npc.state.DeadState;
 import modele.entity.movable.character.npc.state.prey.JunkieState;
 import modele.entity.movable.character.npc.state.prey.TerrifyState;
 import modele.entity.stationary.food.BadFood;

@@ -81,7 +81,7 @@ public abstract class PredatorState implements State {
 
         for (int i = neighbours.size()-1; i >= 0; --i) {
             for (Terrain terrain : neighbours.get(i)) {
-                if (canMove(terrain)) {
+                if (terrain.isEmpty() && canMove(terrain)) {
                     casePossible.add(terrain);
                 }
             }
