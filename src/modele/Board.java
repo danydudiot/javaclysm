@@ -112,23 +112,6 @@ public class Board {
         target.setEntityOnCase(entity);
     }
 
-    public Terrain find(Entity entity) {
-        for (int i = 0; i < board.length; i++) {
-            for (int j = 0; j < board[i].length; j++) {
-                Terrain place = getAt(i, j);
-                if (place != null) {
-                    if (place.equals(entity)) {
-                        return place;
-                    } else if (place.getEntityOnCase() != null && place.getEntityOnCase().equals(entity)) {
-                        return place;
-                    }
-                }
-            }
-
-        }
-        return getAt(0, 0);
-    }
-
     public void clearCase(int x, int y) throws EntityNotFoundException {
         if (board[y][x].getEntityOnCase() == null) {
             throw new EntityNotFoundException("L'entité ne peut pas être trouvée. (x= " + x + ", y= " + y + ")");
@@ -143,7 +126,17 @@ public class Board {
         if (new_position == null || new_position.getEntityOnCase() != null) {
             throw new InvalidActionException("Vous ne pouvez pas jeter quelque chose sur un case non vide");
         }
-        entity.setPosition(new_position.getX(), new_position.getY());
+        entity.setPosition(x, y);
+        new_position.setEntityOnCase(entity);
+    }
+
+    public void setEntityOnCase(int x, int y, Entity entity) {
+        Terrain new_position = getAt(x,y);
+
+        if (new_position == null || new_position.getEntityOnCase() != null) {
+            throw new InvalidActionException("Case null ou non vide");
+        }
+        entity.setPosition(x, y);
         new_position.setEntityOnCase(entity);
     }
 

@@ -8,12 +8,17 @@ import modele.entity.movable.character.npc.state.State;
 import modele.entity.movable.character.npc.state.prey.FriendInInventoryState;
 
 public class FriendInInventoryCommand implements Command {
-	public Prey prey;
+	private Prey prey;
+	private int old_x;
+	private int old_y;
 	private State old_State;
 	private boolean hasGrabbed;
 	private String where;
+
 	public FriendInInventoryCommand(Prey prey) {
 		this.prey = prey;
+		this.old_x = prey.getX();
+		this.old_y = prey.getY();
 		this.old_State = prey.getCurrentState();
 		if (prey instanceof Squirrel) {
 			this.where = "dans la poche";
@@ -27,9 +32,9 @@ public class FriendInInventoryCommand implements Command {
 		try{
 			Inventory.getInstance().add(prey);
 			prey.setCurrentState(new FriendInInventoryState(prey));
-			Board.getInstance().getAt(prey.getX(), prey.getY()).clearEntityOnCase();
-			hasGrabbed = true;
+			Board.getInstance().clearCase(prey.getX(), prey.getY());
 			Board.getInstance().logAction(prey.getDisplayName() + " est " + where);
+			hasGrabbed = true;
 			prey.setHasMoved(true);
 		} catch (Exception exception){
 			hasGrabbed = false;
@@ -40,8 +45,8 @@ public class FriendInInventoryCommand implements Command {
 	@Override
 	public void undoCommand() {
 		if (hasGrabbed){
-			Inventory.getInstance().dropSpecificItem(prey);
-			Board.getInstance().getAt(prey.getX(), prey.getY()).setEntityOnCase(prey);
+			Inventory.getInstance().remove(prey);
+			Board.getInstance().setEntityOnCase(old_x,old_y,prey);
 			prey.setCurrentState(old_State);
 		}
 	}

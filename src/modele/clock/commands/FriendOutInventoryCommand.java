@@ -29,7 +29,7 @@ public class FriendOutInventoryCommand implements Command {
 		PlayerCharacter playerCharacter = Board.getInstance().getPlayer();
 		int rayon = 1;
 		while (!hasDrop){
-			List<Terrain> around = Board.getInstance().getNear(playerCharacter.getX(), playerCharacter.getY(), rayon);
+			List<Terrain> around = Board.getInstance().getNearSorted(playerCharacter.getX(), playerCharacter.getY(), rayon).get(rayon);
 			for (Terrain terrain : around) {
 				if (terrain.isEmpty()){
 					Inventory.getInstance().remove(prey);
@@ -61,7 +61,7 @@ public class FriendOutInventoryCommand implements Command {
 		try	{
 			Inventory.getInstance().add(prey);
 			prey.setCurrentState(old_State);
-			Board.getInstance().getAt(prey.getX(), prey.getY()).clearEntityOnCase();
+			Board.getInstance().clearCase(prey.getX(), prey.getY());
 		} catch (Exception e) {
 			Board.getInstance().logError(e.getMessage());
 		}
