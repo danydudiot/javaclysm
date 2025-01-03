@@ -81,6 +81,7 @@ public class Monkey extends Prey {
             if (!high.isEmpty() && aggressor instanceof Snake snake) {
                 return runAway(snake, currentPosition, high);
             } else {
+                System.out.println("Monkey");
                 Board.getInstance().getAt(x,y).clearEntityOnCase();
                 this.setCurrentState(new DeadState(this));
                 ((Predator) aggressor).afterHit(true);

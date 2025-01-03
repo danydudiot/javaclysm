@@ -30,8 +30,10 @@ public class PreyEatCommand implements Command {
 	@Override
 	public void doCommand() {
 		prey.eat(isPlayerNearby, food);
+		System.out.println("PreyEatCommand1");
 		Board.getInstance().clearCase(food.getX(), food.getY());
 		if (!(prey.getCurrentState() instanceof FriendInInventoryState)){
+			System.out.println("PreyEatCommand2");
 			Board.getInstance().moveTo(prey, food.getX(), food.getY());
 		} else {
 			prey.setPosition(food.getX(), food.getY());
@@ -46,6 +48,7 @@ public class PreyEatCommand implements Command {
 		if (prey.getCurrentState() instanceof FriendInInventoryState) {
 			Board.getInstance().getAt(food.getX(), food.getY()).setEntityOnCase(prey);
 		}
+		System.out.println("PreyEatCommand3");
 		Board.getInstance().moveTo(prey, old_x, old_y);
 		prey.setCurrentState(old_state);
 		Board.getInstance().getAt(food.getX(), food.getY()).setEntityOnCase(food);

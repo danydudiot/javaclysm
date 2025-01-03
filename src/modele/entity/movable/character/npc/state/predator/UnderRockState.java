@@ -37,6 +37,7 @@ public class UnderRockState extends PredatorState {
 
     @Override
     public void deplacement() {
+        System.out.println("underRock");
         Clock.getInstance().addCommandToTurn(new PredatorMoveCoordinateCommand(predator, Board.getInstance().getAt(predator.getX(), predator.getY())));
     }
 

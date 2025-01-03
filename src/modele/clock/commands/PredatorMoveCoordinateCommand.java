@@ -20,13 +20,19 @@ public class PredatorMoveCoordinateCommand implements Command {
 
 	@Override
 	public void doCommand() {
-		predator.move(terrain);
+		if (!old_terrain.equals(terrain)) {
+			System.out.println("DOPredatorMoveCoordinateCommand");
+			predator.move(terrain);
+		}
 	}
 
 	@Override
 	public void undoCommand() {
 		predator.setCurrentState(old_state);
-		predator.move(old_terrain);
+		if (!old_terrain.equals(terrain)) {
+			System.out.println("UNDOPredatorMoveCoordinateCommand");
+			predator.move(old_terrain);
+		}
 	}
 
 

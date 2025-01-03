@@ -34,6 +34,11 @@ public abstract class Terrain extends StaticEntity {
      * @param entity L'entité a placé sur la case.
      */
     public void setEntityOnCase(Entity entity) {
+        if (entityOnCase != null) {
+            System.out.println("setEntityOnCase(" + entity + "(id= " + entity.id + ") à x= " + x + " y= " + y + " caseID= " + id + " remplace= " + entityOnCase.id);
+        } else {
+            System.out.println("setEntityOnCase(" + entity + "(id= " + entity.id + ") à x= " + x + " y= " + y + " caseID= " + id);
+        }
         this.entityOnCase = entity;
         entity.setPosition(this.getX(), this.getY());
     }
@@ -42,6 +47,12 @@ public abstract class Terrain extends StaticEntity {
      * Supprime l'entité présente sur cette case.
      */
     public void clearEntityOnCase() {
+        if (entityOnCase != null) {
+            System.out.println("clearEntityOnCase(" + x + "," + y + ") id case= " + id + " id oncase= " + entityOnCase.id);
+        } else {
+            System.out.println("clearEntityOnCase(" + x + "," + y + ") id case= " + id);
+        }
+
         this.entityOnCase = null;
     }
 

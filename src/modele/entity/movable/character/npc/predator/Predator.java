@@ -14,6 +14,7 @@ public abstract class Predator extends NonPlayerCharacter {
     @Override
     public boolean hit(Character aggressor) {
         if (currentState instanceof RestState){
+            System.out.println("prédator= " + this);
             Board.getInstance().getAt(x,y).clearEntityOnCase();
             setCurrentState(new DeadState(this));
             return true;

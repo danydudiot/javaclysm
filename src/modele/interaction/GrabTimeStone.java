@@ -16,6 +16,7 @@ public class GrabTimeStone extends Grab {
 		stone.setActive(false);
 		try	{
 			Inventory.getInstance().add((InventoryItem) stone);
+			System.out.println("grab Timestone");
 			board.clearCase(stone.getX(), stone.getY());
 		} catch (Exception e) {
 			board.logError(e.getMessage());

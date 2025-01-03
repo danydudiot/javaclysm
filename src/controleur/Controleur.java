@@ -19,6 +19,8 @@ import modele.interaction.*;
 import vue.Ihm;
 
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -79,6 +81,16 @@ public class Controleur {
      * Appelle la méthode tour() pour chaque tour de jeu.
      */
     private void game() {
+        try {
+            // Crée un FileOutputStream pour le fichier de sortie
+            FileOutputStream fos = new FileOutputStream("output.txt");
+            // Crée un PrintStream basé sur le FileOutputStream
+            PrintStream ps = new PrintStream(fos);
+            // Redirige System.out vers le PrintStream
+            System.setOut(ps);
+        } catch (Exception ignored){
+
+        }
         while (true){
             tour();
         }
@@ -129,11 +141,14 @@ public class Controleur {
 				Board.getInstance().logAction("Passage de tour");
 				clock.notifierObservateur();
 			} else if (Character.isDigit(action)) {
-				int amount = Integer.parseInt(String.valueOf(action));
+                while (true){
+                    clock.notifierObservateur();
+                }
+				/*int amount = Integer.parseInt(String.valueOf(action));
 				for (int i = 0; i < amount; i++) {
 				    clock.notifierObservateur();
 			    }
-			    Board.getInstance().logAction("Passage de " + amount + " tour(s)");
+			    Board.getInstance().logAction("Passage de " + amount + " tour(s)");*/
             } else {
                 throw new InvalidActionException("Action inconnue.");
             }

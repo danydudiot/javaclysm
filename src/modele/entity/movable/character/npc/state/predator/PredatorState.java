@@ -43,6 +43,7 @@ public abstract class PredatorState implements State {
 
         if (casePossible.isEmpty()){
             Terrain currentCase = Board.getInstance().getAt(predator.getX(), predator.getY());
+            System.out.println("getPrey");
             Clock.getInstance().addCommandToTurn(new PredatorMoveCoordinateCommand(predator, currentCase));
             return currentCase;
         } else {
@@ -64,10 +65,12 @@ public abstract class PredatorState implements State {
         }
         if (casePossible.isEmpty()){
             Terrain currentCase = Board.getInstance().getAt(predator.getX(), predator.getY());
+            System.out.println("getDefault1");
             Clock.getInstance().addCommandToTurn(new PredatorMoveCoordinateCommand(predator, currentCase));
             return currentCase;
         } else {
             Terrain move = casePossible.get((int) (Math.random() * casePossible.size()));
+            System.out.println("getDefault2");
             Clock.getInstance().addCommandToTurn(new PredatorMoveCoordinateCommand(predator, move));
             return move;
         }
@@ -81,17 +84,19 @@ public abstract class PredatorState implements State {
 
         for (int i = neighbours.size()-1; i >= 0; --i) {
             for (Terrain terrain : neighbours.get(i)) {
-                if (canMove(terrain)) {
+                if (terrain.isEmpty() && canMove(terrain)) {
                     casePossible.add(terrain);
                 }
             }
             if (!casePossible.isEmpty()){
                 Terrain terrain = casePossible.get((int) (Math.random() * casePossible.size()));
+                System.out.println("getDefault2Case1");
                 Clock.getInstance().addCommandToTurn(new PredatorMoveCoordinateCommand(predator, terrain));
                 return terrain;
             }
         }
         Terrain terrain = Board.getInstance().getAt(predator.getX(), predator.getY());
+        System.out.println("getDefault2Case2");
         Clock.getInstance().addCommandToTurn(new PredatorMoveCoordinateCommand(predator, terrain));
         return terrain;
     }

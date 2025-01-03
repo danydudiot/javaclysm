@@ -35,12 +35,14 @@ public class SquirrelJunkieState extends JunkieState {
             }
             if (!casePossible.isEmpty()){
                 Terrain terrain = casePossible.get((int) (Math.random() * casePossible.size()));
+                System.out.println("Junkie1");
                 Clock.getInstance().addCommandToTurn(new PreyMoveCoordinateCommand(prey, terrain));
                 return;
             }
         }
 
         Terrain terrain = Board.getInstance().getAt(prey.getX(), prey.getY());
+        System.out.println("Junkie1");
         Clock.getInstance().addCommandToTurn(new PreyMoveCoordinateCommand(prey, terrain));
     }
 }

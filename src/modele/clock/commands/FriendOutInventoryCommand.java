@@ -61,6 +61,7 @@ public class FriendOutInventoryCommand implements Command {
 		try	{
 			Inventory.getInstance().add(prey);
 			prey.setCurrentState(old_State);
+			System.out.println("FriendOutInventoryCommand");
 			Board.getInstance().getAt(prey.getX(), prey.getY()).clearEntityOnCase();
 		} catch (Exception e) {
 			Board.getInstance().logError(e.getMessage());

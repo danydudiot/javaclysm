@@ -5,6 +5,7 @@ import modele.Board;
 import modele.Inventory;
 import modele.clock.Clock;
 import modele.clock.commands.FriendInInventoryCommand;
+import modele.clock.commands.PreyMoveCoordinateCommand;
 import modele.entity.movable.character.Character;
 import modele.entity.movable.character.PlayerCharacter;
 import modele.entity.movable.character.npc.predator.Fox;
@@ -13,6 +14,7 @@ import modele.entity.movable.character.npc.predator.Predator;
 import modele.entity.movable.character.npc.state.DeadState;
 import modele.entity.movable.character.npc.state.prey.SquirrelJunkieState;
 import modele.entity.movable.character.npc.state.prey.SquirrelNotHungryState;
+import modele.entity.movable.character.npc.state.prey.TerrifyState;
 import modele.entity.stationary.food.Acorn;
 import modele.entity.stationary.food.BadFood;
 import modele.entity.stationary.food.Food;
@@ -62,12 +64,16 @@ public class Squirrel extends Prey {
                 Clock.getInstance().addCommandToTurn(new FriendInInventoryCommand(this));
                 return false;
             } else if (!high.isEmpty() && predator instanceof Fox fox) {
+                System.out.println("Fui dans high " + id);
                 return runAway(fox, currentPosition, high);
 
             } else if (!low.isEmpty() && predator instanceof Owl owl) {
+                System.out.println("Fui dans low " + id);
                 return runAway(owl, currentPosition, low);
 
             } else {
+                System.out.println("Meurt " + id);
+                System.out.println("Squirrel");
                 Board.getInstance().getAt(x,y).clearEntityOnCase();
                 this.setCurrentState(new DeadState(this));
                 (predator).afterHit(true);

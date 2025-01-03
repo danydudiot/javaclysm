@@ -4,6 +4,9 @@ package modele.entity;
  * Classe abstraite représentant tous les types d'entité.
  */
 public abstract class Entity {
+    public int id;
+    static int new_id = 0;
+
     /**
      * Position vertical sur la carte.
      */
@@ -33,6 +36,7 @@ public abstract class Entity {
     public Entity(int x, int y) {
         this.x = x;
         this.y = y;
+        this.id = new_id++;
     }
 
     /**

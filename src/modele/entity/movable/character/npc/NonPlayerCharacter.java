@@ -1,5 +1,6 @@
 package modele.entity.movable.character.npc;
 
+import modele.clock.Clock;
 import modele.clock.Observateur;
 import modele.entity.movable.character.Character;
 import modele.entity.movable.character.npc.state.State;
@@ -9,6 +10,7 @@ import modele.interaction.Interactible;
 import modele.interaction.Interaction;
 
 public abstract class NonPlayerCharacter extends Character implements Interactible, Observateur {
+
 
     protected State currentState;
     protected Interaction[] interactionList;
@@ -26,7 +28,7 @@ public abstract class NonPlayerCharacter extends Character implements Interactib
     public void mettreAJour(){
         currentState.deplacement();
         currentState.updateState();
-        System.out.println(currentState);
+        System.out.println(currentState + " " + id+ " " + Clock.getInstance().getNbTour());
     }
 
     @Override

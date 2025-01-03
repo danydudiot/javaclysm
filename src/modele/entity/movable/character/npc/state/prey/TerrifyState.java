@@ -6,6 +6,7 @@ import modele.clock.Clock;
 import modele.clock.commands.PreyMoveCoordinateCommand;
 import modele.entity.movable.character.npc.prey.Prey;
 import modele.entity.movable.character.npc.prey.Squirrel;
+import modele.entity.movable.character.npc.state.DeadState;
 import modele.entity.stationary.terrain.Terrain;
 
 public class TerrifyState extends PreyState {
@@ -49,8 +50,15 @@ public class TerrifyState extends PreyState {
 
     @Override
     public void deplacement() {
+        if (!(prey.getCurrentState() instanceof DeadState) && Board.getInstance().getAt(prey.getX(), prey.getY()).getEntityOnCase() == null){
+            System.out.println("problème8 " + prey.id);
+        }
         // Clock.getInstance().addCommandToTurn(new PreyMoveCommand(prey, 'a'));
+        System.out.println("TerrifyState");
         Clock.getInstance().addCommandToTurn(new PreyMoveCoordinateCommand(prey, Board.getInstance().getAt(prey.getX(), prey.getY())));
+        if (!(prey.getCurrentState() instanceof DeadState) && Board.getInstance().getAt(prey.getX(), prey.getY()).getEntityOnCase() == null){
+            System.out.println("problème9 " + prey.id);
+        }
     }
 
     @Override

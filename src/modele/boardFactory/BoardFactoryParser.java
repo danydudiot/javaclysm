@@ -17,9 +17,9 @@ public class BoardFactoryParser extends BoardFactory {
 	public BoardFactoryParser()  {
 //		mapFile = new File("carteBasique.txt");
 //		 mapFile = new File("carteRenard.txt");
-//		 mapFile = new File("carteHibou.txt");
+		 mapFile = new File("carteHibou.txt");
 //		 mapFile = new File("carteSerpent.txt");
-		 mapFile = new File("carteScorpion.txt");
+//		 mapFile = new File("carteScorpion.txt");
 	}
 
 	@Override
