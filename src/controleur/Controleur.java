@@ -19,8 +19,6 @@ import modele.interaction.*;
 import vue.Ihm;
 
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -153,33 +151,30 @@ public class Controleur {
         Board board = Board.getInstance();
         int[] position = playerCharacter.getTarget();
         Terrain terrain = board.getAt(position[0],position[1]);
-        if (terrain != null) {
+        if (terrain != null && terrain.getEntityOnCase() instanceof Interactible interactible) {
             Entity entity = terrain.getEntityOnCase();
-            if (entity instanceof Interactible interactible){
-                // Transtypage par pattern variable.
-                Interaction[] interactions = interactible.getInteractions();
-                List<String> interactions_string = new ArrayList<>();
-                for (Interaction interaction : interactions) {
-                    interactions_string.add(interaction.getDisplayName());
-                }
-                ihm.displayInteractions(interactions_string); // Affichage des interactions possibles.
-
-                int numInteraction = ihm.askInteraction(); // Demande de l'interaction.
-                if (numInteraction == -1) {
-                    return;
-                } else if (numInteraction < interactions.length){
-                    if (interactions[numInteraction] instanceof Grab grab) {
-                        clock.addCommandToTurn(new InteractionGrabCommand(entity,grab));
-                    } else if (interactions[numInteraction] instanceof Hit hit) {
-                        clock.addCommandToTurn(new InteractionHitCommand((NonPlayerCharacter) entity, hit));
-                    }
-                    if (! (interactions[numInteraction] instanceof GrabTimeStone)) { // On passe un tour sauf si on a utilisé une pierre temporelle.
-                        clock.notifierObservateur();
-                    }
-                }
-            } else {
-                board.logError("Pas d'interactions disponibles.");
+            // Transtypage par pattern variable.
+            Interaction[] interactions = interactible.getInteractions();
+            List<String> interactions_string = new ArrayList<>();
+            for (Interaction interaction : interactions) {
+                interactions_string.add(interaction.getDisplayName());
             }
+            ihm.displayInteractions(interactions_string); // Affichage des interactions possibles.
+
+            int numInteraction = ihm.askInteraction(); // Demande de l'interaction.
+            if (numInteraction == -1) { // Fermer l'inventaire
+                return;
+            } else if (numInteraction < interactions.length){
+                if (interactions[numInteraction] instanceof Grab grab) {
+                    clock.addCommandToTurn(new InteractionGrabCommand(entity,grab));
+                } else if (interactions[numInteraction] instanceof Hit hit) {
+                    clock.addCommandToTurn(new InteractionHitCommand((NonPlayerCharacter) entity, hit));
+                }
+                if (! (interactions[numInteraction] instanceof GrabTimeStone)) { // On passe un tour sauf si on a utilisé une pierre temporelle.
+                    clock.notifierObservateur();
+                }
+            }
+
         } else {
             board.logError("Pas d'interactions disponibles.");
         }
