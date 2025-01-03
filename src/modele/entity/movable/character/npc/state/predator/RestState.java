@@ -28,11 +28,10 @@ public abstract class RestState extends PredatorState {
 
     @Override
     public void updateState() {
-        restLevel--;
-
         if (restLevel <= 0){
             predator.setCurrentState(getNextState());
         }
+        restLevel--;
     }
 
     @Override
