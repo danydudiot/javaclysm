@@ -44,6 +44,10 @@ public class Inventory {
         return (items.size() >= MAX_INVENTORY_SIZE);
     }
 
+    public boolean isEmpty() {
+        return (items.isEmpty());
+    }
+
     public void setEquippedItem(InventoryItem equippedItem) {
         this.equippedItemId = items.indexOf(equippedItem);
     }
