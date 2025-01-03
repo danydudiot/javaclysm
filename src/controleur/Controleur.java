@@ -131,14 +131,11 @@ public class Controleur {
 				Board.getInstance().logAction("Passage de tour");
 				clock.notifierObservateur();
 			} else if (Character.isDigit(action)) {
-                while (true){
-                    clock.notifierObservateur();
-                }
-				/*int amount = Integer.parseInt(String.valueOf(action));
+				int amount = Integer.parseInt(String.valueOf(action));
 				for (int i = 0; i < amount; i++) {
 				    clock.notifierObservateur();
 			    }
-			    Board.getInstance().logAction("Passage de " + amount + " tour(s)");*/
+			    Board.getInstance().logAction("Passage de " + amount + " tour(s)");
             } else {
                 throw new InvalidActionException("Action inconnue.");
             }
