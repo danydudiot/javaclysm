@@ -7,11 +7,10 @@ import modele.entity.movable.character.npc.state.State;
 import modele.interaction.Hit;
 
 public class InteractionHitCommand implements Command {
-	NonPlayerCharacter target;
-	State old_state;
-	int old_friendLevel;
-	Hit interaction;
-
+	private NonPlayerCharacter target;
+	private State old_state;
+	private int old_friendLevel;
+	private Hit interaction;
 
 	public InteractionHitCommand(NonPlayerCharacter target, Hit interaction) {
 		this.target			= target;
@@ -32,7 +31,7 @@ public class InteractionHitCommand implements Command {
 		if (target instanceof Prey) {
 			((Prey) target).setFriendLevel(old_friendLevel);
 		} else {
-			Board.getInstance().getAt(target.getX(), target.getY()).setEntityOnCase(target);
+			Board.getInstance().setEntityOnCase(target.getX(), target.getY(), target);
 			target.setCurrentState(old_state);
 		}
 	}
