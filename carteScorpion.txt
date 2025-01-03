@@ -33,8 +33,8 @@ J
 // ✔ Pas d'attaque pendant 2 tours après une attaque
 
 // # Scénario
-// Passer un tour (X) (Le scorpion sur le côté tue le singe, Le serpent tue singe et passe en repos, le scorpion du milieu va sous le rocher et un singe essai d'aller sur le rocher, mais se fait tuer par le scorpion)
+// Passer un tour (X) (Le scorpion sur le côté tue le singe et ne peux plus attaquer, Le serpent tue singe et passe en repos, le scorpion du milieu va sous le rocher et un singe essai d'aller sur le rocher, mais se fait tuer par le scorpion, le scorpion d'en haut va sur le rocher)
 // Tuer le serpent (M, E, 1) (Le serpent meurt, le scorpion sur le côté se déplace normalement, mais ne peux pas attaquer)
 // Passer un tour (X) (Les scorpions peuvent réattaquer, le signe restant essai d'aller sur le rocher, mais se fait tuer par le scorpion)
-// Passer un tour (X)
-// Passer un tour (X)
+// Passer quatre tours (4) (Les scorpions sous les roches sortent)
+

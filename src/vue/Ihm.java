@@ -2,16 +2,13 @@ package vue;
 
 import modele.Colors;
 
-import java.util.ArrayDeque;
-import java.util.List;
-import java.util.Queue;
-import java.util.Scanner;
+import java.util.*;
 
 
 public class Ihm {
 
 	/**
-	 * Représente les deux dernières composantes (la carte en 0 et l'UI en 1) de la dernière frame affichée.
+	 * Représente les deux dernières composantes (la carte en 0 et l'UI en 1) de la dernière frame affichée
 	 */
 	private String[] last_frame = new String[2];
 	/**
@@ -19,7 +16,7 @@ public class Ihm {
 	 */
 	private final int displayHeight;
 	/**
-	 * Représente la largeur de la frame.
+	 * Représente la largeur de la frame
 	 */
 	private final int displayWidth;
 	/**
@@ -29,8 +26,8 @@ public class Ihm {
 
 	/**
 	 * Constructeur par défaut.
-	 * @param height Hauteur de la frame.
-	 * @param width Largeur de la frame.
+	 * @param height hauteur de la frame
+	 * @param width largeur de la frame
 	 */
 	public Ihm(int height, int width) {
 		this.displayHeight = height;
@@ -67,7 +64,7 @@ public class Ihm {
 
 	/**
 	 * METHODE NON-UTILISÉE Permet de demander au joueur d'entrer le path vers une carte.
-	 * @return Une String de path finissant par `.txt`.
+	 * @return une String de path finissant par `.txt`.
 	 */
 	@Deprecated
 	public String askFile() {
@@ -108,7 +105,7 @@ public class Ihm {
 	/**
 	 * Demande une dimension à l'utilisateur.
 	 * @param type "Hauteur" | "Largeur".
-	 * @return La dimension.
+	 * @return la dimension
 	 */
 	public int askDimension(String type) {
 		while (true) {
@@ -129,7 +126,7 @@ public class Ihm {
 
 	/**
 	 * Lit l'input de l'utilisateur et vérifie qu'il est valide.
-	 * @return Le char représentant l'action ∈ {'z', 'q', 's', 'd', 'o', 'k', 'l', 'm', 'e', 'i', 'j', 'r', 'h', 'x'} ou un chiffre.
+	 * @return le char représentant l'action ∈ {'z', 'q', 's', 'd', 'o', 'k', 'l', 'm', 'e', 'i', 'j', 'r', 'h', 'x'}
 	 */
 	public char askAction() {
 		while (true) {
@@ -145,7 +142,7 @@ public class Ihm {
 
 	/**
 	 * Lit le numéro de l'interaction (compris entre 1 et 9) choisie par le joueur.
-	 * @return -1 : fermer le menu, 0-8 : pour le numéro de l'action choisie (ré-indexée à 0 au lieu de 1).
+	 * @return -1: fermer le menu, 0-8: pour le numéro de l'action choisie (ré-indexée à 0 au lieu de 1).
 	 */
 	public int askInteraction() {
 		while (true) {
@@ -159,20 +156,19 @@ public class Ihm {
 	}
 
 	/**
-	 * Affiche la liste des interactions formatée en une table.
-	 * @param interactions Une liste de taille 9 représentant les interactions.
+	 * Affiche la liste des interactions formatté en une table.
+	 * @param interactions une liste de taille 9 représentant les interactions
 	 */
 	public void displayInteractions(List<String> interactions) {
-		String ui = makeInteractionUi(interactions);
+		String ui = makeListUi(interactions, -1, "Choisir l'interaction", 'E');
 		System.out.println(Colors.RESET);
-		System.out.println(last_frame[0].replace('├','└').replace('┬', '─'));
 		System.out.print(ui);
 		last_frame[1] = ui;
 	}
 
 	/**
-	 * Lit le numéro de l'objet sélectionné pour être équipé dans l'inventaire.
-	 * @return -1 : fermer le menu, 0-8 : numéro de l'objet choisi (ré-indexée à 0 au lieu de 1).
+	 * Lit le numéro de l'objet séléctionné pour être equipé dans l'inventaire.
+	 * @return -1: fermer le menu, 0-8: numéro de l'objet choisi (ré-indéxée a 0 au lieu de 1).
 	 */
 	public int askInventory() {
 		while (true) {
@@ -188,16 +184,15 @@ public class Ihm {
 	 * @param equippedItemId l'indice de l'objet équipé ou -1 s'il n'y en a pas.
 	 */
 	public void displayInventory(List<String> items, int equippedItemId) {
-		String ui = makeInventoryUi(items, equippedItemId);
+		String ui = makeListUi(items, equippedItemId, "Selectionner l'objet à equiper", 'I');
 		System.out.println(Colors.RESET);
-		System.out.println(last_frame[0].replace('├','└').replace('┬', '─'));
 		System.out.print(ui);
 		last_frame[1] = ui;
 	}
 
 	/**
 	 * Permet d'afficher les erreurs avant le début du jeu (quand on n'a pas encore d'ui).
-	 * @param error Le message d'erreur à afficher.
+	 * @param error le message d'erreur à afficher.
 	 */
 	public void displayError(String error) {
 		System.out.println(last_frame[0].replace('├','└').replace('┬', '─'));
@@ -206,15 +201,15 @@ public class Ihm {
 
 	/**
 	 * Permet d'afficher une frame de jeu normal (pas inventaire ou interaction).
-	 * @param board Liste des lignes du plateau.
-	 * @param boardHeight Hauteur du plateau.
-	 * @param boardWidth Largeur du plateau.
-	 * @param actionHistory Liste des dernières actions/erreurs loggées.
-	 * @param playerX Position x du joueur.
-	 * @param playerY Position x du joueur.
-	 * @param playerDir Orientation du joueur.
-	 * @param equippedItem Représentation de l'objet équipé.
-	 * @param turnNumber Le numéro de tour.
+	 * @param board liste des lignes du plateau.
+	 * @param boardHeight hauteur du plateau.
+	 * @param boardWidth largeur du plateau.
+	 * @param actionHistory liste des dernières actions/erreurs loggées.
+	 * @param playerX position x du joueur.
+	 * @param playerY position x du joueur.
+	 * @param playerDir orientation du joueur.
+	 * @param equippedItem représentation de l'objet équipé.
+	 * @param turnNumber le numéro de tour.
 	 */
 	public void display(List<List<String>> board, int boardHeight, int boardWidth, List<String> actionHistory, int playerX, int playerY, char playerDir, String equippedItem, int turnNumber) {
 		String croppedBoard = cropBoard(board, boardWidth, boardHeight, displayWidth, displayHeight-4,playerX,playerY, true);
@@ -229,10 +224,10 @@ public class Ihm {
 	}
 
 	/**
-	 * Helper permettant de clamp un nombre entre deux bornes.
-	 * @param value Valeur a clamper.
-	 * @param low Borne basse.
-	 * @param high Borne haute.
+	 * Helper permettant de clamp un nombre entre deux bornes
+	 * @param value valeur a clamper.
+	 * @param low borne basse.
+	 * @param high borne haute.
 	 * @return x ∈ [low, high]
 	 */
 	private int clamp(int value, int low, int high) {
@@ -255,16 +250,30 @@ public class Ihm {
 	}
 
 	/**
+	 * Helper qui permet de tronquer une chaîne au format "Chaine trop long..."
+	 * @param source chaîne source
+	 * @param length taille maximale
+	 * @return la chaine tronquée et suivie de point de suspension si elle est trop longue, la chaine source sinon.
+	 */
+	private String truncate(String source, int length) {
+		if (source.length() > length) {
+			return  source.substring(0, length-3) + "...";
+		} else {
+			return source;
+		}
+	}
+
+	/**
 	 * Helper qui permet de recadrer et de centrer la carte sur la position du joueur.
-	 * @param lines Liste des lignes qui composent la carte.
-	 * @param sourceWidth Largeur initiale de la carte.
-	 * @param sourceHeight Hauteur initiale de la carte.
-	 * @param targetWidth Largeur souhaitée.
-	 * @param targetHeight Hauteur souhaitée.
-	 * @param playerX Position X du joueur.
-	 * @param playerY Position Y du joueur.
-	 * @param border true : ajouter une bordure, false : ne pas en ajouter.
-	 * @return Une String à afficher qui représente la carte à la taille correcte.
+	 * @param lines liste des lignes qui composent la carte.
+	 * @param sourceWidth largeur initiale de la carte
+	 * @param sourceHeight hauteur initiale de la carte
+	 * @param targetWidth largeur souhaitée
+	 * @param targetHeight hauteur souhaitée
+	 * @param playerX position X du joueur
+	 * @param playerY position Y du joueur
+	 * @param border true : ajouter une bordure, false : ne pas en ajouter
+	 * @return une String à afficher qui représente la carte à la taille correcte.
 	 */
 	private String cropBoard(List<List<String>> lines, int sourceWidth, int sourceHeight, int targetWidth, int targetHeight, int playerX, int playerY, boolean border) {
 		StringBuilder output = new StringBuilder();
@@ -301,28 +310,27 @@ public class Ihm {
 						output.append(Colors.LIGHT_BLACK + "#" + Colors.RESET);
 					}
 				}
-
 			}
 			if (border) {
 				output.append("│");
 			}
 		}
-		if (border) {
-			output.append("\n").append("├").append("─".repeat(22)).append("┬").append("─".repeat(targetWidth-23)).append("┘");
-		}
+//		if (border) {
+//			output.append("\n").append("├").append("─".repeat(22)).append("┬").append("─".repeat(targetWidth-23)).append("┘");
+//		}
 		return output.toString();
 	}
 
 	/**
 	 * Helper qui permet de mettre en forme l'UI du jeu.
-	 * @param targetWidth La largeur souhaitée.
-	 * @param actionHistory Les dernières actions loggées.
-	 * @param playerX La position x du joueur.
-	 * @param playerY La position y du joueur.
-	 * @param playerDir La direction du joueur.
-	 * @param equippedItem La representation de l'objet équipé.
-	 * @param turnNumber Le numéro de tour.
-	 * @return Une String à afficher qui représente l'UI de base du jeu.
+	 * @param targetWidth la largeur souhaitée
+	 * @param actionHistory les dernières actions loggées
+	 * @param playerX la position x du joueur
+	 * @param playerY la position y du joueur
+	 * @param playerDir la direction du joueur
+	 * @param equippedItem la representation de l'objet équipé
+	 * @param turnNumber le numéro de tour.
+	 * @return une String à afficher qui représente l'UI de base du jeu.
 	 */
 	private String makeUi(int targetWidth, List<String> actionHistory, int playerX, int playerY, char playerDir, String equippedItem, int turnNumber) {
 		Queue<String> actionHistoryCopy = new ArrayDeque<>(actionHistory);
@@ -333,109 +341,94 @@ public class Ihm {
 	}
 
 	/**
-	 * Helper qui permet d'afficher la liste des interactions sous forme de tableau.
-	 * @param interactions la liste des interactions.
-	 * @return Une String à afficher qui représente les interactions disponibles.
+	 * Affiche une ui sous forme de liste pour les interactions et l'inventaire
+	 * @param items la liste des choses à afficher
+	 * @param selectedItem l'id de la chose à afficher
+	 * @param tooltip le texte affiché en bas
+	 * @param close la touche pour fermer le menu
+	 * @return une String a afficher representant l'inventaire sous forme de liste.
 	 */
-	private String makeInteractionUi(List<String> interactions) {
+	private String makeListUi(List<String> items, int selectedItem, String tooltip, char close) {
 		StringBuilder out = new StringBuilder();
-		for (int i = 1; i <= 9; ++i) {
-			if (i!= 1 && (i%3 == 1)) { out.append('\n'); }
-			out.append("[").append(i).append("] : ");
-			if (i-1 <= interactions.size()-1) {
-				out.append(String.format("%-19s", interactions.get(i-1)));
-			}
-			else { out.append(String.format("%-19s", "...")); }
-		}
-		out.append("\n")
-				.append(Colors.HIGHLIGHT)
-				.append(String.format("%-"+(displayWidth -1)+"s","1-"+ interactions.size() +" : Choisir l'interaction    E : Fermer le menu"));
-		return out.toString();
-	}
-
-	/**
-	 * Helper qui permet d'afficher la liste des objets dans l'inventaire et de mettre en valeur celui qui est équipé.
-	 * @param items La liste des objets.
-	 * @param equippedItem L'indice de l'objet à mettre en valeur.
-	 * @return  Une String à afficher qui représente les objets dans l'inventaire.
-	 */
-	private String makeInventoryUi(List<String> items, int equippedItem) {
-		StringBuilder out = new StringBuilder();
+		out.append("└").append("─".repeat(displayWidth)).append("┘");
 		for (int i = 1; i <= 9; ++i) {
 			if (i!= 1 && (i%3 == 1)) {
 				out.append('\n');
 			}
-			if (i-1 == equippedItem) {
+			if (i-1 == selectedItem) {
 				out.append(Colors.HIGHLIGHT);
 			}
 
 			out.append("[").append(i).append("] : ");
 			if (i-1 <= items.size()-1) {
-				out.append(String.format("%-19s", items.get(i-1)));
+				out.append(String.format("%-"+ (displayWidth - 18)/3 +"s", truncate(items.get(i-1), (displayWidth - 18)/3)));
 			} else {
-				out.append(String.format("%-19s", "..."));
+				out.append(String.format("%-"+ (displayWidth - 18)/3 +"s", "..."));
 			}
 
-			if (i-1 == equippedItem) {
+			if (i-1 == selectedItem) {
 				out.append(Colors.RESET);
 			}
 		}
 		out.append("\n")
 				.append(Colors.HIGHLIGHT)
-				.append(String.format("%-"+(displayWidth -1)+"s","1-"+ items.size() +" : Sélectionner l'objet à équiper    I : fermer le menu"));
+				.append(String.format("%-"+(displayWidth -1)+"s","1-"+ items.size() +" : " + tooltip +"    "+ close +" : fermer le menu"));
 		return out.toString();
 	}
-
+	/**
+	 * Affiche une page de correspondance entre les choses affichées a l'écran
+	 * @param theme le theme choisi.
+	 */
 	public void printHelpPage(char theme) {
 		String[] elements;
 		// TODO : réorganiser dans un ordre plus logique.
 		if (theme == 'F') {
 			elements = new String[] {
-					Colors.GREEN 		+ "A" + Colors.RESET + ": Arbre",
-					Colors.GREEN 		+ "B" + Colors.RESET + ": Buisson",
-					Colors.PURPLE 		+ "C" + Colors.RESET + ": Champignon Normal",
-					Colors.LIGHT_WHITE 	+ "E" + Colors.RESET + ": Écureuil Rassasié",
-					Colors.WHITE 		+ "E" + Colors.RESET + ": Écureuil Affamé",
-					Colors.LIGHT_PURPLE	+ "E" + Colors.RESET + ": Écureuil Ami Rassasié",
-					Colors.PURPLE	 	+ "E" + Colors.RESET + ": Écureuil Ami Affamé",
-					Colors.RED		 	+ "E" + Colors.RESET + ": Écureuil Junkie",
-					Colors.BLUE_BACKGROUND + "E" + Colors.RESET + ": Écureuil Terrifié",
-					Colors.YELLOW 		+ "G" + Colors.RESET + ": Gland",
-					Colors.LIGHT_RED	+ "H" + Colors.RESET + ": Hibou en vol",
-					Colors.LIGHT_BLACK	+ "H" + Colors.RESET + ": Hibou au sol",
-					Colors.BLUE 		+ "M" + Colors.RESET + ": Champignon Vénéneux",
-					Colors.LIGHT_RED	+ "R" + Colors.RESET + ": Renard en chasse",
-					Colors.CYAN 		+ "2" + Colors.RESET + ": Pierre temporelle active (2 tours)",
-					Colors.LIGHT_BLACK	+ "2" + Colors.RESET + ": Pierre temporelle inactive (2 tours)",
-					Colors.BLUE 		+ "3" + Colors.RESET + ": Pierre temporelle active (3 tours)",
-					Colors.LIGHT_BLACK	+ "3" + Colors.RESET + ": Pierre temporelle inactive (3 tours)",
-					Colors.PLAYER		+ "@" + Colors.RESET + ": Joueur"
+					Colors.GREEN 			+ "A" + Colors.RESET + ": Arbre",
+					Colors.GREEN 			+ "B" + Colors.RESET + ": Buisson",
+					Colors.PURPLE 			+ "C" + Colors.RESET + ": Champignon Normal",
+					Colors.LIGHT_WHITE 		+ "E" + Colors.RESET + ": Ecureil Rassasié",
+					Colors.WHITE 			+ "E" + Colors.RESET + ": Ecureil Affamé",
+					Colors.LIGHT_PURPLE		+ "E" + Colors.RESET + ": Ecureil Ami Rassasié",
+					Colors.PURPLE	 		+ "E" + Colors.RESET + ": Ecureil Ami Affamé",
+					Colors.RED		 		+ "E" + Colors.RESET + ": Ecureil Junkie",
+					Colors.BLUE_BACKGROUND 	+ "E" + Colors.RESET + ": Ecureil Terrifié",
+					Colors.YELLOW 			+ "G" + Colors.RESET + ": Gland",
+					Colors.LIGHT_RED		+ "H" + Colors.RESET + ": Hibou en vol",
+					Colors.LIGHT_BLACK		+ "H" + Colors.RESET + ": Hibou au sol",
+					Colors.BLUE 			+ "M" + Colors.RESET + ": Champignon Vénéneux",
+					Colors.LIGHT_RED		+ "R" + Colors.RESET + ": Renard en chasse",
+					Colors.CYAN 			+ "2" + Colors.RESET + ": Pierre temporelle active (2 tours)",
+					Colors.LIGHT_BLACK		+ "2" + Colors.RESET + ": Pierre temporelle inactive (2 tours)",
+					Colors.BLUE 			+ "3" + Colors.RESET + ": Pierre temporelle active (3 tours)",
+					Colors.LIGHT_BLACK		+ "3" + Colors.RESET + ": Pierre temporelle inactive (3 tours)",
+					Colors.PLAYER			+ "@" + Colors.RESET + ": Joueur"
 			};
 		} else {
 			elements = new String[] {
-					Colors.YELLOW		+ "B" + Colors.RESET + ": Banane",
-					Colors.PURPLE 		+ "C" + Colors.RESET + ": Champignon Normal",
-					Colors.LIGHT_RED 	+ "E" + Colors.RESET + ": Serpent en chasse",
-					Colors.RED 			+ "E" + Colors.RESET + ": Serpent en repos",
-					Colors.BLUE 		+ "M" + Colors.RESET + ": Champignon Hallucinogène",
-					Colors.LIGHT_RED 	+ "O" + Colors.RESET + ": Scorpion en déplacement",
-					Colors.HIGHLIGHT 	+ "O" + Colors.RESET + ": Scorpion sous un rocher",
-					Colors.CYAN			+ "P" + Colors.RESET + ": Palmier",
-					Colors.WHITE		+ "R" + Colors.RESET + ": Rocher",
-					Colors.LIGHT_WHITE 	+ "S" + Colors.RESET + ": Singe Rassasié",
-					Colors.WHITE 		+ "S" + Colors.RESET + ": Singe Affamé",
-					Colors.LIGHT_PURPLE	+ "S" + Colors.RESET + ": Singe Ami Rassasié",
-					Colors.PURPLE	 	+ "S" + Colors.RESET + ": Singe Ami Affamé",
-					Colors.RED		 	+ "S" + Colors.RESET + ": Singe Junkie",
-					Colors.CYAN 		+ "2" + Colors.RESET + ": Pierre temporelle active (2 tours)",
-					Colors.LIGHT_BLACK	+ "2" + Colors.RESET + ": Pierre temporelle inactive (2 tours)",
-					Colors.BLUE 		+ "3" + Colors.RESET + ": Pierre temporelle active (3 tours)",
-					Colors.LIGHT_BLACK	+ "3" + Colors.RESET + ": Pierre temporelle inactive (3 tours)",
-					Colors.PLAYER		+ "@" + Colors.RESET + ": Joueur"
+					Colors.YELLOW			+ "B" + Colors.RESET + ": Banane",
+					Colors.PURPLE 			+ "C" + Colors.RESET + ": Champignon Normal",
+					Colors.LIGHT_RED 		+ "E" + Colors.RESET + ": Serpent en chasse",
+					Colors.RED 				+ "E" + Colors.RESET + ": Serpent en repos",
+					Colors.BLUE 			+ "M" + Colors.RESET + ": Champignon Hallucinogène",
+					Colors.LIGHT_RED 		+ "O" + Colors.RESET + ": Scorpion en déplacement",
+					Colors.HIGHLIGHT 		+ "O" + Colors.RESET + ": Scorpion sous un rocher",
+					Colors.CYAN				+ "P" + Colors.RESET + ": Palmier",
+					Colors.WHITE			+ "R" + Colors.RESET + ": Rocher",
+					Colors.LIGHT_WHITE 		+ "S" + Colors.RESET + ": Singe Rassasié",
+					Colors.WHITE 			+ "S" + Colors.RESET + ": Singe Affamé",
+					Colors.LIGHT_PURPLE		+ "S" + Colors.RESET + ": Singe Ami Rassasié",
+					Colors.PURPLE	 		+ "S" + Colors.RESET + ": Singe Ami Affamé",
+					Colors.RED		 		+ "S" + Colors.RESET + ": Singe Junkie",
+					Colors.CYAN 			+ "2" + Colors.RESET + ": Pierre temporelle active (2 tours)",
+					Colors.LIGHT_BLACK		+ "2" + Colors.RESET + ": Pierre temporelle inactive (2 tours)",
+					Colors.BLUE 			+ "3" + Colors.RESET + ": Pierre temporelle active (3 tours)",
+					Colors.LIGHT_BLACK		+ "3" + Colors.RESET + ": Pierre temporelle inactive (3 tours)",
+					Colors.PLAYER			+ "@" + Colors.RESET + ": Joueur"
 
 			};
 		}
-		System.out.println(Colors.RESET + "\n" + Colors.HIGHLIGHT + "           LÉGENDE DES ICÔNES           " + Colors.RESET);
+		System.out.println(Colors.RESET + "\n" + Colors.HIGHLIGHT + "           LEGENDE DES ICONES           " + Colors.RESET);
 		for (String element : elements) {
 			System.out.println(element);
 		}
