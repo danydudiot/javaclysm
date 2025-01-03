@@ -10,11 +10,6 @@ public class DeadState implements State {
     }
 
     @Override
-    public boolean canMove(char direction) {
-        return false;
-    }
-
-    @Override
     public boolean canMove(Terrain terrain) {
         return false;
     }

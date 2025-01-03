@@ -31,12 +31,6 @@ public abstract class PreyState implements State {
     }
 
     @Override
-    public boolean canMove(char direction) {
-        Terrain target = Board.getInstance().getToward(prey.getX(), prey.getY(), direction);
-        return target != null && target.isEmpty();
-    }
-
-    @Override
     public boolean canMove(Terrain terrain) {
         return terrain != null && terrain.isEmpty();
     }

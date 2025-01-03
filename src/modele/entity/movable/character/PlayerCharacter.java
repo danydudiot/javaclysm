@@ -2,6 +2,8 @@ package modele.entity.movable.character;
 
 import modele.Board;
 import modele.Colors;
+import modele.entity.stationary.terrain.Empty;
+import modele.entity.stationary.terrain.Terrain;
 
 public class PlayerCharacter extends Character{
     protected char orientation;
@@ -17,7 +19,11 @@ public class PlayerCharacter extends Character{
     }
 
 
-    @Override
+    public boolean canMove(char direction) {
+        Terrain target = Board.getInstance().getToward(x,y,direction);
+        return target != null && target.isEmpty() && (target instanceof Empty);
+    }
+
     public void move(char direction) {
         if (canMove(direction)) {
             Board.getInstance().moveToward(this, direction);
@@ -39,32 +45,5 @@ public class PlayerCharacter extends Character{
         } else if ("zqsd".indexOf(orientation) != -1){
             this.orientation = orientation;
         }
-    }
-
-    public int[] getTarget(){
-        int[] target = new int[2];
-        switch (orientation) {
-            case 'z' :
-                target[0] = x;
-                target[1] = y-1;
-                break;
-			case 'q' :
-                target[0] = x-1;
-                target[1] = y;
-                break;
-            case 's' :
-                target[0] = x;
-                target[1] = y+1;
-                break;
-            case 'd' :
-                target[0] = x+1;
-                target[1] = y;
-                break;
-            default :
-                target[0] = x;
-                target[1] = y;
-                break;
-		}
-        return target;
     }
 }

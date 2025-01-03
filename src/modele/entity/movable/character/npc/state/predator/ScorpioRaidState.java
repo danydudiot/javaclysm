@@ -23,12 +23,6 @@ public class ScorpioRaidState extends RaidState{
     }
 
     @Override
-    public boolean canMove(char direction) {
-        Terrain terrain = Board.getInstance().getToward(predator.getX(), predator.getY(), direction);
-        return terrain instanceof Empty || terrain instanceof Rock;
-    }
-
-    @Override
     public boolean canMove(Terrain terrain) {
         return terrain instanceof Empty || terrain instanceof Rock;
     }

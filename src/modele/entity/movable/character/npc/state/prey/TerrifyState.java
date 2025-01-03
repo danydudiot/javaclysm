@@ -18,11 +18,6 @@ public class TerrifyState extends PreyState {
     }
 
     @Override
-    public boolean canMove(char direction) {
-        return direction == 'a';
-    }
-
-    @Override
     public boolean canMove(Terrain terrain) {
         return terrain.getEntityOnCase() == prey;
     }

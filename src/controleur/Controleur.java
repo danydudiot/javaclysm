@@ -149,8 +149,7 @@ public class Controleur {
     private void manageInteraction(){
         Clock clock = Clock.getInstance();
         Board board = Board.getInstance();
-        int[] position = playerCharacter.getTarget();
-        Terrain terrain = board.getAt(position[0],position[1]);
+        Terrain terrain = board.getToward(playerCharacter.getX(),playerCharacter.getY(), playerCharacter.getOrientation());
         if (terrain != null && terrain.getEntityOnCase() instanceof Interactible interactible) {
             Entity entity = terrain.getEntityOnCase();
             // Transtypage par pattern variable.

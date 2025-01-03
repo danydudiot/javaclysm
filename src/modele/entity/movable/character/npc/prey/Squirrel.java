@@ -5,7 +5,6 @@ import modele.Board;
 import modele.Inventory;
 import modele.clock.Clock;
 import modele.clock.commands.FriendInInventoryCommand;
-import modele.clock.commands.PreyMoveCoordinateCommand;
 import modele.entity.movable.character.Character;
 import modele.entity.movable.character.PlayerCharacter;
 import modele.entity.movable.character.npc.predator.Fox;
@@ -14,7 +13,6 @@ import modele.entity.movable.character.npc.predator.Predator;
 import modele.entity.movable.character.npc.state.DeadState;
 import modele.entity.movable.character.npc.state.prey.SquirrelJunkieState;
 import modele.entity.movable.character.npc.state.prey.SquirrelNotHungryState;
-import modele.entity.movable.character.npc.state.prey.TerrifyState;
 import modele.entity.stationary.food.Acorn;
 import modele.entity.stationary.food.BadFood;
 import modele.entity.stationary.food.Food;
@@ -24,7 +22,6 @@ import modele.entity.stationary.terrain.low.Low;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class Squirrel extends Prey {
     public Squirrel(int x, int y) {
@@ -72,7 +69,7 @@ public class Squirrel extends Prey {
             } else {
                 Board.getInstance().getAt(x,y).clearEntityOnCase();
                 this.setCurrentState(new DeadState(this));
-                (predator).afterHit(true);
+                predator.afterHit(true);
                 return true;
             }
 

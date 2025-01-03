@@ -15,12 +15,6 @@ public abstract class RestState extends PredatorState {
         this.restLevel = restLevel;
     }
 
-
-    @Override
-    public boolean canMove(char direction) {
-        return false;
-    }
-
     @Override
     public boolean canMove(Terrain terrain) {
         return false;

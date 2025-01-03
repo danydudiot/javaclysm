@@ -11,13 +11,6 @@ public abstract class HungryState extends PreyState {
         super(prey);
     }
 
-
-    @Override
-    public boolean canMove(char direction) {
-        Terrain target = Board.getInstance().getToward(prey.getX(), prey.getY(), direction);
-        return target != null && (target.getEntityOnCase() instanceof Food || target.isEmpty());
-    }
-
     @Override
     public boolean canMove(Terrain terrain) {
         return terrain != null && (terrain.getEntityOnCase() instanceof Food || terrain.isEmpty());

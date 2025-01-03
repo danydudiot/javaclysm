@@ -16,12 +16,6 @@ public class UnderRockState extends PredatorState {
         this.time = 5;
     }
 
-
-    @Override
-    public boolean canMove(char direction) {
-        return direction == 'a';
-    }
-
     @Override
     public boolean canMove(Terrain terrain) {
         return terrain.getEntityOnCase() == predator;

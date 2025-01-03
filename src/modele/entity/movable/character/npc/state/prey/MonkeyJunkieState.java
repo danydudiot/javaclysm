@@ -31,12 +31,6 @@ public class MonkeyJunkieState extends JunkieState {
     }
 
     @Override
-    public boolean canMove(char direction) {
-        Terrain target = Board.getInstance().getToward(prey.getX(), prey.getY(), direction);
-        return super.canMove(direction) || (target instanceof Rock && target.getEntityOnCase() instanceof Scorpio && ((Scorpio)target.getEntityOnCase()).canAttack());
-    }
-
-    @Override
     public boolean canMove(Terrain terrain) {
         return super.canMove(terrain) || (terrain instanceof Rock && terrain.getEntityOnCase() instanceof Scorpio && ((Scorpio)terrain.getEntityOnCase()).canAttack());
     }

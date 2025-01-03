@@ -16,10 +16,7 @@ public class BoardFactoryParser extends BoardFactory {
 	protected File mapFile;
 	public BoardFactoryParser()  {
 //		 this.mapFile = new File("carteBasique.txt");
-//		 this.mapFile = new File("carteRenard.txt");
-		 this.mapFile = new File("carteHibou.txt");
-//		 this.mapFile = new File("carteSerpent.txt");
-//		 this.mapFile = new File("carteScorpion.txt");
+		 this.mapFile = new File("carteRenard.txt");
 //		 this.mapFile = new File("carteHibou.txt");
 //		 this.mapFile = new File("carteSerpent.txt");
 //		 this.mapFile = new File("carteScorpion.txt");
