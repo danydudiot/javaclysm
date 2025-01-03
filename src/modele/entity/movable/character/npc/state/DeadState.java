@@ -26,6 +26,6 @@ public class DeadState implements State {
 
     @Override
     public String applyColorModifier() {
-        return "";
+        return "YOU SHOULD NEVER SEE THIS (DeadState)";
     }
 }

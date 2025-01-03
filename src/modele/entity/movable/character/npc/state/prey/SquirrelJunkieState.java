@@ -19,7 +19,6 @@ public class SquirrelJunkieState extends JunkieState {
         if (prey.getHungryCount() <= 0){
             prey.setCurrentState(new SquirrelHungryState(prey));
         }
-
     }
 
     @Override

@@ -1,6 +1,5 @@
 package modele.entity.movable.character.npc.state.prey;
 
-import modele.Board;
 import modele.Colors;
 import modele.entity.movable.character.npc.prey.Prey;
 import modele.entity.stationary.food.Food;

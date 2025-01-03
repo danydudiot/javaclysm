@@ -1,6 +1,5 @@
 package modele.entity.movable.character.npc.state.prey;
 
-import modele.Board;
 import modele.entity.movable.character.npc.predator.Scorpio;
 import modele.entity.movable.character.npc.prey.Monkey;
 import modele.entity.movable.character.npc.prey.Prey;
@@ -14,7 +13,7 @@ public class MonkeyHungryState extends HungryState {
 
     @Override
     public void deplacement() {
-        final boolean move = getDanger(false) || getFood() || getDefault(null) == null;
+        final boolean move = getDanger(false) || getFood() || getDefault();
     }
 
     public void updateState(){
