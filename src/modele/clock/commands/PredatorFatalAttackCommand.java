@@ -17,7 +17,6 @@ public class PredatorFatalAttackCommand implements Command{
 	State old_preyState;
 	int old_preyX;
 	int old_preyY;
-	boolean wasKilled;
 	int canAttack;
 
 	public PredatorFatalAttackCommand(Predator predator, Prey prey) {
@@ -36,7 +35,7 @@ public class PredatorFatalAttackCommand implements Command{
 
 	@Override
 	public void doCommand() {
-		Board.getInstance().getAt(prey.getX(), prey.getY()).clearEntityOnCase();
+		//Board.getInstance().clearCase(prey.getX(), prey.getY()); // pas besoin car la prey s'est retirer de la case
 		prey.setCurrentState(new DeadState(prey));
 		predator.afterHit(true);
 		Board.getInstance().logAction(predator.getDisplayName() + " à tué " + prey.getDisplayName());
@@ -44,7 +43,7 @@ public class PredatorFatalAttackCommand implements Command{
 
 	@Override
 	public void undoCommand() {
-		Board.getInstance().getAt(old_preyX, old_preyY).setEntityOnCase(prey);
+		Board.getInstance().setEntityOnCase(old_preyX, old_preyY,prey);
 		prey.setCurrentState(old_preyState);
 		predator.setCurrentState(old_predatorState);
 		if (predator instanceof Scorpio scorpio){

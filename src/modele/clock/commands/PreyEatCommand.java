@@ -44,10 +44,10 @@ public class PreyEatCommand implements Command {
 		prey.setFriendLevel(old_friendlyLevel);
 		prey.setHungryCount(old_hungryCount);
 		if (prey.getCurrentState() instanceof FriendInInventoryState) {
-			Board.getInstance().getAt(food.getX(), food.getY()).setEntityOnCase(prey);
+			Board.getInstance().setEntityOnCase(food.getX(), food.getY(), prey);
 		}
 		Board.getInstance().moveTo(prey, old_x, old_y);
 		prey.setCurrentState(old_state);
-		Board.getInstance().getAt(food.getX(), food.getY()).setEntityOnCase(food);
+		Board.getInstance().setEntityOnCase(food.getX(), food.getY(), food);
 	}
 }

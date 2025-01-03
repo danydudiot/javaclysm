@@ -47,7 +47,7 @@ public class PredatorAttackCommand implements Command{
 		predator.setCurrentState(old_predatorState);
 		Board.getInstance().moveTo(predator, old_predatorX, old_predatorY);
 		if (wasKilled) {
-			Board.getInstance().getAt(old_preyX, old_preyY).setEntityOnCase(prey);
+			Board.getInstance().setEntityOnCase(old_preyX, old_preyY, prey);
 		}
 		prey.setCurrentState(old_preyState);
 		if (predator instanceof Scorpio scorpio){
