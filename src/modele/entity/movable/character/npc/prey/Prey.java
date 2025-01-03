@@ -6,10 +6,7 @@ import modele.clock.Clock;
 import modele.clock.commands.PreyMoveCoordinateCommand;
 import modele.entity.movable.character.npc.NonPlayerCharacter;
 import modele.entity.movable.character.npc.predator.Predator;
-import modele.entity.movable.character.npc.state.DeadState;
-import modele.entity.movable.character.npc.state.prey.JunkieState;
 import modele.entity.movable.character.npc.state.prey.TerrifyState;
-import modele.entity.stationary.food.BadFood;
 import modele.entity.stationary.food.Food;
 import modele.entity.stationary.terrain.Terrain;
 
@@ -95,11 +92,10 @@ public abstract class Prey extends NonPlayerCharacter implements InventoryItem {
     protected boolean runAway(Predator aggressor, Terrain currentPosition, List<Terrain> terrainList) {
         if (terrainList.contains(currentPosition)){
             Clock.getInstance().addCommandToTurn(new PreyMoveCoordinateCommand(this, currentPosition));
-            setCurrentState(new TerrifyState(this));
         } else {
             Clock.getInstance().addCommandToTurn(new PreyMoveCoordinateCommand(this, terrainList.get(0)));
-            setCurrentState(new TerrifyState(this));
         }
+        setCurrentState(new TerrifyState(this));
         aggressor.afterHit(false);
         return false;
     }
