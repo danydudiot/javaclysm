@@ -18,7 +18,7 @@ public class TimeStone extends StaticEntity implements Interactible, InventoryIt
     private Interaction[] interactions;
 
     /**
-     * Le nombre de tours a annuler.
+     * Le nombre de tours a annulé.
      */
     private int turns;
 

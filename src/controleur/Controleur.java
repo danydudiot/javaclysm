@@ -152,7 +152,6 @@ public class Controleur {
         Terrain terrain = board.getToward(playerCharacter.getX(),playerCharacter.getY(), playerCharacter.getOrientation());
         if (terrain != null && terrain.getEntityOnCase() instanceof Interactible interactible) {
             Entity entity = terrain.getEntityOnCase();
-            // Transtypage par pattern variable.
             Interaction[] interactions = interactible.getInteractions();
             List<String> interactions_string = new ArrayList<>();
             for (Interaction interaction : interactions) {
@@ -161,9 +160,7 @@ public class Controleur {
             ihm.displayInteractions(interactions_string); // Affichage des interactions possibles.
 
             int numInteraction = ihm.askInteraction(); // Demande de l'interaction.
-            if (numInteraction == -1) { // Fermer l'inventaire
-                return;
-            } else if (numInteraction < interactions.length){
+            if (numInteraction >= 0 && numInteraction < interactions.length){
                 if (interactions[numInteraction] instanceof Grab grab) {
                     clock.addCommandToTurn(new InteractionGrabCommand(entity,grab));
                 } else if (interactions[numInteraction] instanceof Hit hit) {
@@ -173,7 +170,6 @@ public class Controleur {
                     clock.notifierObservateur();
                 }
             }
-
         } else {
             board.logError("Pas d'interactions disponibles.");
         }
@@ -184,13 +180,14 @@ public class Controleur {
      * Affiche l'inventaire et permet au joueur de sélectionner un objet.
      */
     private void manageInventory(){
-		if (Inventory.getInstance().isEmpty()) {
+        Inventory inventory = Inventory.getInstance();
+		if (inventory.isEmpty()) {
 			Board.getInstance().logError("Votre inventaire est vide...");
 		} else {
-			ihm.displayInventory(Inventory.getInstance().getItemsStrings(), Inventory.getInstance().getEquippedItemId());
+			ihm.displayInventory(inventory.getItemsStrings(), inventory.getEquippedItemId());
 			int numSelection = ihm.askInventory();
-			if (numSelection > 0 && numSelection < Inventory.getInstance().getInventorySize()) {
-				Inventory.getInstance().setEquippedItem(numSelection);
+			if (numSelection > 0 && numSelection < inventory.getInventorySize()) {
+                inventory.setEquippedItem(numSelection);
 				manageInventory();
 			}
 		}

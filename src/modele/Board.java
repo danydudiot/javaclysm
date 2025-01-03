@@ -7,7 +7,10 @@ import modele.entity.movable.MovableEntity;
 import modele.entity.movable.character.PlayerCharacter;
 import modele.entity.stationary.terrain.Terrain;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+
 
 public class Board {
 
@@ -49,10 +52,6 @@ public class Board {
         INSTANCE = new Board(theme, height, width, board, player);
     }
 
-    public Terrain[][] getBoard() {
-        return board;
-    }
-
     public int getHeight() {
         return height;
     }
@@ -73,18 +72,13 @@ public class Board {
     }
 
     public Terrain getToward(int x, int y, char direction) {
-        switch (direction) {
-            case 'z':
-                return getAt(x, y - 1);
-            case 's':
-                return getAt(x, y + 1);
-            case 'q':
-                return getAt(x - 1, y);
-            case 'd':
-                return getAt(x + 1, y);
-            default:
-                return getAt(x, y);
-        }
+        return switch (direction) {
+            case 'z' -> getAt(x, y - 1);
+            case 's' -> getAt(x, y + 1);
+            case 'q' -> getAt(x - 1, y);
+            case 'd' -> getAt(x + 1, y);
+            default -> getAt(x, y);
+        };
     }
 
     public List<Terrain> getNeighbours(int x, int y) {
@@ -99,29 +93,25 @@ public class Board {
     }
 
     public void moveToward(MovableEntity entity, char direction) {
-        // On part du principe que le déplacement est toujours valide (testé en amont)
-        Terrain target = getToward(entity.getX(), entity.getY(), direction);
+        // On part du principe que le déplacement est toujours valide (testé en amont).
         clearCase(entity.getX(), entity.getY());
-        target.setEntityOnCase(entity);
+        setEntityOnCase(entity.getX(), entity.getY(), entity);
     }
 
     public void moveTo(MovableEntity entity, int x, int y) {
-        // On part du principe que le déplacement est toujours valide (testé en amont)
-        Terrain target = getAt(x, y);
+        // On part du principe que le déplacement est toujours valide (testé en amont).
         clearCase(entity.getX(), entity.getY());
-        target.setEntityOnCase(entity);
+        setEntityOnCase(x,y,entity);
     }
 
     public void clearCase(int x, int y) throws EntityNotFoundException {
-        if (board[y][x].getEntityOnCase() == null) {
+        if (getAt(x,y) == null || getAt(x,y).getEntityOnCase() == null) {
             throw new EntityNotFoundException("L'entité ne peut pas être trouvée. (x= " + x + ", y= " + y + ")");
-        } else {
-            board[y][x].clearEntityOnCase();
         }
+        getAt(x,y).clearEntityOnCase();
     }
 
-
-    public void fillCase(int x, int y, char direction, Entity entity) {
+    public void fillCase(int x, int y, Entity entity) {
         Terrain new_position = getToward(x, y, getPlayer().getOrientation());
         if (new_position == null || new_position.getEntityOnCase() != null) {
             throw new InvalidActionException("Vous ne pouvez pas jeter quelque chose sur un case non vide");
@@ -139,7 +129,6 @@ public class Board {
         entity.setPosition(x, y);
         new_position.setEntityOnCase(entity);
     }
-
 
     public PlayerCharacter getPlayer() {
         return player;
@@ -164,8 +153,8 @@ public class Board {
     @Override
     public String toString() {
         StringBuilder board_string = new StringBuilder();
-        for (int i = 0; i < board.length; i++) { //(Terrain[] line : board){
-            for (int j = 0; j < board[i].length; j++) {//(Terrain cell : line){
+        for (int i = 0; i < board.length; i++) { //( Terrain[] line : board){
+            for (int j = 0; j < board[i].length; j++) { // (Terrain cell : line){
                 if (board[i][j] == null) {
                     System.out.println("null");
                 }
@@ -237,5 +226,4 @@ public class Board {
         }
         return all;
     }
-
 }

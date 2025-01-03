@@ -27,19 +27,6 @@ public class Inventory {
         return INSTANCE;
     }
 
-    public void setItems(List<InventoryItem> items) {
-        this.items = items;
-    }
-
-    public boolean hasItem(InventoryItem item) {
-        for (InventoryItem i : items) {
-            if (item.equals(i)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
     public boolean isFull() {
         return (items.size() >= MAX_INVENTORY_SIZE);
     }
@@ -76,7 +63,7 @@ public class Inventory {
         if (equippedItemId == -1){
             return "...";
         } else {
-            return items.get(equippedItemId).getDisplayName();
+            return getEquippedItem().getDisplayName();
         }
     }
 
@@ -86,8 +73,8 @@ public class Inventory {
             int x = board.getPlayer().getX();
             int y = board.getPlayer().getY();
             Terrain target = board.getToward(x,y,board.getPlayer().getOrientation());
-            if (target != null && (target instanceof Empty) && (target.getEntityOnCase() == null)) {
-                board.fillCase(x,y,board.getPlayer().getOrientation(), ((Entity) getEquippedItem()));
+            if (target != null && (target instanceof Empty) && target.isEmpty()) {
+                board.fillCase(x,y, ((Entity) getEquippedItem()));
                 board.logAction(getEquippedItemString() + " jeté.");
                 items.remove(equippedItemId);
                 this.equippedItemId = -1;
@@ -98,21 +85,9 @@ public class Inventory {
             if (equippedItemId == -1) {
                 Board.getInstance().logError("Aucun objet équipé.");
             } else {
-                Board.getInstance().logError("Espece de monstre sans coeur.");
+                Board.getInstance().logError("Espèce de monstre sans coeur.");
                 Board.getInstance().logError("Vous n'allez quand même pas faire ça ?");
             }
-        }
-    }
-
-    public void dropSpecificItem(Entity what) {
-        int id = items.indexOf(what);
-        Board board = Board.getInstance();
-        int x = board.getPlayer().getX();
-        int y = board.getPlayer().getY();
-        board.fillCase(x,y,board.getPlayer().getOrientation(), (Entity) items.get(id));
-        items.remove(id);
-        if (equippedItemId == id) {
-            equippedItemId = -1;
         }
     }
 
@@ -136,7 +111,7 @@ public class Inventory {
     }
 
     public void remove(InventoryItem inventoryItem) {
-        if ((equippedItemId != -1) && (items.get(equippedItemId) == inventoryItem)) {
+        if ((equippedItemId != -1) && (getEquippedItem() == inventoryItem)) {
             equippedItemId = -1;
         }
         items.remove(inventoryItem);
