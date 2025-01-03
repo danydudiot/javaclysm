@@ -50,7 +50,6 @@ public class TerrifyState extends PreyState {
 
     @Override
     public void deplacement() {
-        // Clock.getInstance().addCommandToTurn(new PreyMoveCommand(prey, 'a'));
         Clock.getInstance().addCommandToTurn(new PreyMoveCoordinateCommand(prey, Board.getInstance().getAt(prey.getX(), prey.getY())));
     }
 

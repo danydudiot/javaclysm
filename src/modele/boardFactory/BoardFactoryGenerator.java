@@ -4,17 +4,14 @@ import modele.Board;
 import modele.boardFactory.generator.Generator;
 import modele.boardFactory.generator.GeneratorForest;
 import modele.boardFactory.generator.GeneratorJungle;
-import modele.clock.Clock;
 import modele.entity.movable.character.PlayerCharacter;
-import modele.entity.stationary.terrain.Empty;
 import modele.entity.stationary.terrain.Terrain;
 
 public class BoardFactoryGenerator extends BoardFactory {
-
-	int height;
-	int width;
-	Terrain[][] board;
-	Generator generator;
+	protected int height;
+	protected int width;
+	protected Terrain[][] board;
+	protected Generator generator;
 	protected char theme;
 
 	public BoardFactoryGenerator(int height, int width, char theme) {
