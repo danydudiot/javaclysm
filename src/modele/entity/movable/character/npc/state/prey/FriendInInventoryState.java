@@ -2,7 +2,6 @@ package modele.entity.movable.character.npc.state.prey;
 
 import modele.clock.Clock;
 import modele.clock.commands.FriendOutInventoryCommand;
-import modele.entity.movable.character.npc.prey.Monkey;
 import modele.entity.movable.character.npc.prey.Prey;
 import modele.entity.movable.character.npc.prey.Squirrel;
 

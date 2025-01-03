@@ -7,11 +7,11 @@ import modele.entity.movable.character.npc.state.State;
 import modele.entity.stationary.terrain.Terrain;
 
 public class PreyMoveCoordinateCommand implements Command {
-	public Prey prey;
-	Terrain terrain;
-	Terrain old_terrain;
-	int old_hunger;
-	State old_state;
+	private Prey prey;
+	private Terrain terrain;
+	private Terrain old_terrain;
+	private int old_hunger;
+	private State old_state;
 
 	public PreyMoveCoordinateCommand(Prey prey, Terrain terrain) {
 		this.prey 		 = prey;

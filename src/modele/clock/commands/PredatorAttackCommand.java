@@ -8,16 +8,16 @@ import modele.entity.movable.character.npc.state.State;
 
 public class PredatorAttackCommand implements Command{
 
-	Predator predator;
-	State old_predatorState;
-	int old_predatorX;
-	int old_predatorY;
-	public Prey prey;
-	State old_preyState;
-	int old_preyX;
-	int old_preyY;
-	boolean wasKilled;
-	int canAttack;
+	private Predator predator;
+	private State old_predatorState;
+	private int old_predatorX;
+	private int old_predatorY;
+	private Prey prey;
+	private State old_preyState;
+	private int old_preyX;
+	private int old_preyY;
+	private boolean wasKilled;
+	private int canAttack;
 
 	public PredatorAttackCommand(Predator predator, Prey prey) {
 		this.predator 			= predator;

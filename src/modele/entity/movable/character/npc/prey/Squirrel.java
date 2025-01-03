@@ -62,6 +62,7 @@ public class Squirrel extends Prey {
 //            TODO : Retirer si interdit
             if (player != null && isFriendly() && !Inventory.getInstance().isFull()){
                 Clock.getInstance().addCommandToTurn(new FriendInInventoryCommand(this));
+                currentState.updateState();
                 return false;
             } else if (!high.isEmpty() && predator instanceof Fox fox) {
                 return runAway(fox, currentPosition, high);

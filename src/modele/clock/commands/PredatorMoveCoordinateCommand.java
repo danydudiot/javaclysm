@@ -6,10 +6,10 @@ import modele.entity.movable.character.npc.state.State;
 import modele.entity.stationary.terrain.Terrain;
 
 public class PredatorMoveCoordinateCommand implements Command {
-	Predator predator;
-	Terrain terrain;
-	Terrain old_terrain;
-	State old_state;
+	private Predator predator;
+	private Terrain terrain;
+	private Terrain old_terrain;
+	private State old_state;
 
 	public PredatorMoveCoordinateCommand(Predator predator, Terrain terrain) {
 		this.predator = predator;

@@ -8,14 +8,14 @@ import modele.entity.stationary.food.Food;
 
 public class PreyEatCommand implements Command {
 
-	Food food;
-	State old_state;
-	int old_friendlyLevel;
-	int old_hungryCount;
-	int old_x;
-	int old_y;
-	boolean isPlayerNearby;
-	public Prey prey;
+	private Food food;
+	private State old_state;
+	private int old_friendlyLevel;
+	private int old_hungryCount;
+	private int old_x;
+	private int old_y;
+	private boolean isPlayerNearby;
+	private Prey prey;
 	public PreyEatCommand(Prey prey, Food food) {
 		this.prey 				= prey;
 		this.old_state 			= prey.getCurrentState();
