@@ -185,11 +185,15 @@ public class Controleur {
      * Affiche l'inventaire et permet au joueur de sélectionner un objet.
      */
     private void manageInventory(){
-        ihm.displayInventory(Inventory.getInstance().getItemsStrings(), Inventory.getInstance().getEquippedItemId());
-        int numSelection = ihm.askInventory();
-        if (numSelection > 0 && numSelection < Inventory.getInstance().getInventorySize()) {
-            Inventory.getInstance().setEquippedItem(numSelection);
-            manageInventory();
-        }
+		if (Inventory.getInstance().isEmpty()) {
+			Board.getInstance().logError("Votre inventaire est vide...");
+		} else {
+			ihm.displayInventory(Inventory.getInstance().getItemsStrings(), Inventory.getInstance().getEquippedItemId());
+			int numSelection = ihm.askInventory();
+			if (numSelection > 0 && numSelection < Inventory.getInstance().getInventorySize()) {
+				Inventory.getInstance().setEquippedItem(numSelection);
+				manageInventory();
+			}
+		}
     }
 }

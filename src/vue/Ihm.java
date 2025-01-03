@@ -162,6 +162,7 @@ public class Ihm {
 	public void displayInteractions(List<String> interactions) {
 		String ui = makeListUi(interactions, -1, "Choisir l'interaction", 'E');
 		System.out.println(Colors.RESET);
+		System.out.println(last_frame[0]);
 		System.out.print(ui);
 		last_frame[1] = ui;
 	}
@@ -186,6 +187,7 @@ public class Ihm {
 	public void displayInventory(List<String> items, int equippedItemId) {
 		String ui = makeListUi(items, equippedItemId, "Selectionner l'objet à equiper", 'I');
 		System.out.println(Colors.RESET);
+		System.out.println(last_frame[0]);
 		System.out.print(ui);
 		last_frame[1] = ui;
 	}
@@ -212,8 +214,8 @@ public class Ihm {
 	 * @param turnNumber le numéro de tour.
 	 */
 	public void display(List<List<String>> board, int boardHeight, int boardWidth, List<String> actionHistory, int playerX, int playerY, char playerDir, String equippedItem, int turnNumber) {
-		String croppedBoard = cropBoard(board, boardWidth, boardHeight, displayWidth, displayHeight-4,playerX,playerY, true);
-		String ui = makeUi(displayWidth, actionHistory, playerX, playerY, playerDir, equippedItem, turnNumber);
+		String croppedBoard = cropBoard(board, boardWidth, boardHeight, displayWidth, displayHeight-4,playerX,playerY);
+		String ui = makeUi(actionHistory, playerX, playerY, playerDir, equippedItem, turnNumber);
 
 		last_frame[0] = croppedBoard;
 		last_frame[1] = ui;
@@ -236,7 +238,7 @@ public class Ihm {
 
 	/**
 	 * Helper permettant de convertir une direction en fleche.
-	 * @param dir 'z' | 'q' | 's' | 'd'
+	 * @param dir 'z' | 'q' | 's' | 'd' | default
 	 * @return '↑' | '↓' | '←' | '→' | '·'
 	 */
 	private char asArrow(char dir) {
@@ -256,11 +258,33 @@ public class Ihm {
 	 * @return la chaine tronquée et suivie de point de suspension si elle est trop longue, la chaine source sinon.
 	 */
 	private String truncate(String source, int length) {
-		if (source.length() > length) {
-			return  source.substring(0, length-3) + "...";
+		if (getUncoloredLentgh(source) > length) {
+			int difference = source.length() - getUncoloredLentgh(source);
+			if (difference == 0) {
+				return source.substring(0, (length -3)) + "...";
+			} else {
+				return source.substring(0, (source.length() - Colors.RESET.length())).substring(0, (length - 3) + difference - Colors.RESET.length()) + "..." + Colors.RESET;
+			}
 		} else {
 			return source;
 		}
+	}
+
+	/**
+	 * Helper qui donne la taille d'une string sans compter les characteres de colorisations
+	 * @param string la chaîne d'entrée
+	 * @return le nombre de characteres non-colorisations
+	 */
+	private int getUncoloredLentgh(String string) {
+		int j = 0;
+		for (int i = 0; i < string.length(); ++i) {
+			if (string.charAt(i) == '\u001b') {
+				i += 4;
+			} else {
+				j++;
+			}
+		}
+		return j;
 	}
 
 	/**
@@ -272,17 +296,14 @@ public class Ihm {
 	 * @param targetHeight hauteur souhaitée
 	 * @param playerX position X du joueur
 	 * @param playerY position Y du joueur
-	 * @param border true : ajouter une bordure, false : ne pas en ajouter
 	 * @return une String à afficher qui représente la carte à la taille correcte.
 	 */
-	private String cropBoard(List<List<String>> lines, int sourceWidth, int sourceHeight, int targetWidth, int targetHeight, int playerX, int playerY, boolean border) {
+	private String cropBoard(List<List<String>> lines, int sourceWidth, int sourceHeight, int targetWidth, int targetHeight, int playerX, int playerY) {
 		StringBuilder output = new StringBuilder();
+		targetWidth -= 2;
+		targetHeight -= 2;
+		output.append("┌").append("─".repeat(targetWidth)).append("┐");
 
-		if (border) {
-			targetWidth -= 2;
-			targetHeight -= 2;
-			output.append("┌").append("─".repeat(targetWidth)).append("┐");
-		}
 
 		int offsetY = clamp(playerY - (targetHeight / 2), 0, sourceHeight-targetHeight);
 		if (offsetY < 0) {
@@ -292,9 +313,7 @@ public class Ihm {
 			if (! output.isEmpty()) {
 				output.append('\n');
 			}
-			if (border) {
-				output.append("│");
-			}
+			output.append("│");
 			int lineStart = offsetY + i;
 			int start = clamp(playerX - (targetWidth / 2), 0,sourceWidth-targetWidth);
 			if (lineStart < 0 || lineStart >= lines.size()) {
@@ -311,19 +330,13 @@ public class Ihm {
 					}
 				}
 			}
-			if (border) {
-				output.append("│");
-			}
+			output.append("│");
 		}
-//		if (border) {
-//			output.append("\n").append("├").append("─".repeat(22)).append("┬").append("─".repeat(targetWidth-23)).append("┘");
-//		}
 		return output.toString();
 	}
 
 	/**
 	 * Helper qui permet de mettre en forme l'UI du jeu.
-	 * @param targetWidth la largeur souhaitée
 	 * @param actionHistory les dernières actions loggées
 	 * @param playerX la position x du joueur
 	 * @param playerY la position y du joueur
@@ -332,12 +345,17 @@ public class Ihm {
 	 * @param turnNumber le numéro de tour.
 	 * @return une String à afficher qui représente l'UI de base du jeu.
 	 */
-	private String makeUi(int targetWidth, List<String> actionHistory, int playerX, int playerY, char playerDir, String equippedItem, int turnNumber) {
+	private String makeUi(List<String> actionHistory, int playerX, int playerY, char playerDir, String equippedItem, int turnNumber) {
 		Queue<String> actionHistoryCopy = new ArrayDeque<>(actionHistory);
-		return 	"│ tour n°"+ String.format("%-3S", turnNumber) +"           │ " + Colors.LIGHT_WHITE + actionHistoryCopy.remove() + Colors.RESET + '\n' +
-				"│ [" + String.format("%03d", playerX) + ","+ String.format("%03d", playerY) +"]        (" + asArrow(playerDir) +") │ " + Colors.WHITE + actionHistoryCopy.remove() + Colors.RESET + '\n' +
-				"│ >> " + String.format("%-18s", equippedItem) + "│ " + Colors.LIGHT_BLACK + actionHistoryCopy.remove() + Colors.RESET + '\n' +
-				Colors.HIGHLIGHT + String.format(("%-"+(targetWidth-1)+"s"), " ZQSD : Bouger   OKLM : Regarder   I : Inventaire   E : Interagir   J : Jeter");
+		int panelSize = Math.max(24, equippedItem.length() + 6);
+		String hist1 = truncate(actionHistoryCopy.remove(), displayWidth - panelSize - 4);
+		String hist2 = truncate(actionHistoryCopy.remove(), displayWidth - panelSize - 4);
+		String hist3 = truncate(actionHistoryCopy.remove(), displayWidth - panelSize - 4);
+		return 	"├" + "─".repeat(panelSize - 1) + "┬" + "─".repeat(displayWidth - panelSize - 2) + "┤\n" +
+				"│ tour n°"+ String.format("%-"+ (panelSize - 9) + "S", String.format("%-3S", turnNumber))  + "│ " + Colors.LIGHT_WHITE + hist1 + Colors.RESET + " ".repeat(Math.abs(displayWidth - panelSize - getUncoloredLentgh(hist1) -4 )) + " │\n" +
+				"│ [" + String.format("%03d", playerX) + ","+ String.format("%03d", playerY) +"]"+ " ".repeat(panelSize - 15) +"(" + asArrow(playerDir) +") │ " + Colors.WHITE + hist2 + Colors.RESET + " ".repeat(Math.abs(displayWidth - panelSize - getUncoloredLentgh(hist2) -4)) + " │\n" +
+				"│ >> " + String.format("%-"+ (panelSize - 6) +"s", equippedItem) + " │ " + Colors.LIGHT_BLACK + hist3 + Colors.RESET + " ".repeat(Math.abs(displayWidth - panelSize - getUncoloredLentgh(hist3) -4)) + " │\n" +
+				Colors.HIGHLIGHT + String.format(("%-"+(displayWidth)+"s"), " ZQSD : Bouger   OKLM : Regarder   I : Inventaire   E : Interagir   J : Jeter") + Colors.RESET;
 	}
 
 	/**
@@ -350,10 +368,13 @@ public class Ihm {
 	 */
 	private String makeListUi(List<String> items, int selectedItem, String tooltip, char close) {
 		StringBuilder out = new StringBuilder();
-		out.append("└").append("─".repeat(displayWidth)).append("┘");
+		out.append("├").append("─".repeat(displayWidth-2)).append("┤").append('\n');
 		for (int i = 1; i <= 9; ++i) {
-			if (i!= 1 && (i%3 == 1)) {
-				out.append('\n');
+			if ((i%3 == 1)) {
+				if (i!=1) {
+					out.append('\n');
+				}
+				out.append("│ ");
 			}
 			if (i-1 == selectedItem) {
 				out.append(Colors.HIGHLIGHT);
@@ -361,18 +382,24 @@ public class Ihm {
 
 			out.append("[").append(i).append("] : ");
 			if (i-1 <= items.size()-1) {
-				out.append(String.format("%-"+ (displayWidth - 18)/3 +"s", truncate(items.get(i-1), (displayWidth - 18)/3)));
+				// 22 -> taille réservées pour les espaces, les nombres etc...
+				out.append(String.format("%-"+ (displayWidth - 22)/3 +"s", truncate(items.get(i-1), (displayWidth - 22)/3)));
 			} else {
-				out.append(String.format("%-"+ (displayWidth - 18)/3 +"s", "..."));
+				out.append(String.format("%-"+ (displayWidth - 22)/3 +"s", "..."));
 			}
 
 			if (i-1 == selectedItem) {
 				out.append(Colors.RESET);
 			}
+			if ((i%3 == 0)) {
+				out.append(" ".repeat((displayWidth - 21) % 3));
+				out.append("│");
+			}
+
 		}
 		out.append("\n")
 				.append(Colors.HIGHLIGHT)
-				.append(String.format("%-"+(displayWidth -1)+"s","1-"+ items.size() +" : " + tooltip +"    "+ close +" : fermer le menu"));
+				.append(String.format("%-"+(displayWidth)+"s","1-"+ items.size() +" : " + tooltip +"    "+ close +" : fermer le menu"));
 		return out.toString();
 	}
 	/**
