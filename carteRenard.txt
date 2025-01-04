@@ -2,9 +2,9 @@ F
 11
 31
 ###############################
-#           ##                #
-#          #EM#               #
-#           #EC               #
+#           ##              #E#
+#          #EM#             #R#
+#           #EC             ###
 #           #GR#              #
 #            @#               #
 #                             #
@@ -40,11 +40,11 @@ F
 
 
 // # Scénario
-// Passer un tour (X) (L'écureuil du coin, fui l'attaque du renard, celui du bas fui le renard, car voit le danger a moins quatre case).
-// Passer trois tours (3) (L'écureuil du coin passe en rassasié, parce que plus terrifier).
+// Passer un tour (X) (L'écureuil du bas gauche, fui l'attaque du renard, celui du bas centre fui le renard, car voit le danger a moins quatre case, l'écureuil du haut droit meurt).
+// Passer trois tours (3) (L'écureuil du bas gauche passe en rassasié, parce que plus terrifier).
 // Passer un tour (X) (Tous les écureuils sont affamé).
 // Passer un tour (X) (L'écureuil du haut mange le champignon vénéneux donc passe en état Junkie, celui en dessous mange le gland (Priorité de la nourriture) et devient ami).
 // Passer un tour (X) (L'écureuil du bas est attaqué par le renard, il se réfugie dans la poche du joueur).
-// Passer un ou deux tours (1 || 2) (L'écureuil du haut est attaqué par le renard et n'a aucun endroit pour se protéger donc meurt).
-// Passer deux ou trois tours (2 || 3) (L'écureuil qui est monté dans la poche ressort automatiquement dans une case à côté du joueur).
+// (Passer un tour (X) (L'écureuil du haut est attaqué par le renard et n'a aucun endroit pour se protéger donc meurt).)
+// Passer trois tours (3) (L'écureuil qui est monté dans la poche ressort automatiquement dans une case à côté du joueur).
 // Frapper l'écureuil ami (E, 1) (L'écureuil n'est plus ami)

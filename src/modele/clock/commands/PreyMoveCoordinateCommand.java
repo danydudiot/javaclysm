@@ -17,7 +17,7 @@ public class PreyMoveCoordinateCommand implements Command {
 		this.prey 		 = prey;
 		this.terrain 	 = terrain;
 		this.old_terrain = Board.getInstance().getAt(prey.getX(), prey.getY());
-		this.old_hunger  = prey.getHungryCount();
+		this.old_hunger  = prey.getHungryCount()+1;
 		this.old_state 	 = prey.getCurrentState();
 	}
 

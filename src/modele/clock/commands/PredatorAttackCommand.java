@@ -18,6 +18,7 @@ public class PredatorAttackCommand implements Command{
 	private int old_preyY;
 	private boolean wasKilled;
 	private int canAttack;
+	private int hungryCount;
 
 	public PredatorAttackCommand(Predator predator, Prey prey) {
 		this.predator 			= predator;
@@ -25,6 +26,7 @@ public class PredatorAttackCommand implements Command{
 		this.old_predatorX 		= predator.getX();
 		this.old_predatorY 		= predator.getY();
 		this.prey 				= prey;
+		this.hungryCount 		= prey.getHungryCount()+1;
 		this.old_preyState 		= prey.getCurrentState();
 		this.old_preyX 			= prey.getX();
 		this.old_preyY 			= prey.getY();
@@ -50,6 +52,7 @@ public class PredatorAttackCommand implements Command{
 			Board.getInstance().setEntityOnCase(old_preyX, old_preyY, prey);
 		}
 		prey.setCurrentState(old_preyState);
+		prey.setHungryCount(hungryCount);
 		if (predator instanceof Scorpio scorpio){
 			scorpio.setCanAttack(canAttack);
 		}

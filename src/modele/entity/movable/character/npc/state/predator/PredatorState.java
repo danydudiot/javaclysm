@@ -36,9 +36,8 @@ public abstract class PredatorState implements State {
         }
 
         if (casePossible.isEmpty()){
-            Terrain currentCase = Board.getInstance().getAt(predator.getX(), predator.getY());
-            Clock.getInstance().addCommandToTurn(new PredatorMoveCoordinateCommand(predator, currentCase));
-            return currentCase;
+
+            return Board.getInstance().getAt(predator.getX(), predator.getY());
         } else {
             Prey preyEntity = (Prey) casePossible.get(0).getEntityOnCase();
             Clock.getInstance().addCommandToTurn(new PredatorAttackCommand(predator, preyEntity));

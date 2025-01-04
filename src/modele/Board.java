@@ -5,6 +5,8 @@ import exception.InvalidActionException;
 import modele.entity.Entity;
 import modele.entity.movable.MovableEntity;
 import modele.entity.movable.character.PlayerCharacter;
+import modele.entity.movable.character.npc.predator.Scorpio;
+import modele.entity.movable.character.npc.prey.Monkey;
 import modele.entity.stationary.terrain.Terrain;
 
 import java.util.ArrayList;
@@ -93,9 +95,10 @@ public class Board {
     }
 
     public void moveToward(MovableEntity entity, char direction) {
+        Terrain terrain = getToward(entity.getX(), entity.getY(), direction);
         // On part du principe que le déplacement est toujours valide (testé en amont).
         clearCase(entity.getX(), entity.getY());
-        setEntityOnCase(entity.getX(), entity.getY(), entity);
+        terrain.setEntityOnCase(entity);
     }
 
     public void moveTo(MovableEntity entity, int x, int y) {
@@ -122,12 +125,14 @@ public class Board {
 
     public void setEntityOnCase(int x, int y, Entity entity) {
         Terrain new_position = getAt(x,y);
+        if (new_position != null && (new_position.getEntityOnCase() == null || (entity instanceof Monkey && new_position.getEntityOnCase() instanceof Scorpio scorpio && scorpio.canAttack())) ){
 
-        if (new_position == null || new_position.getEntityOnCase() != null) {
+            entity.setPosition(x, y);
+            new_position.setEntityOnCase(entity);
+        }
+        else {//(new_position == null || new_position.getEntityOnCase() != null) {
             throw new InvalidActionException("Case null ou non vide");
         }
-        entity.setPosition(x, y);
-        new_position.setEntityOnCase(entity);
     }
 
     public PlayerCharacter getPlayer() {
