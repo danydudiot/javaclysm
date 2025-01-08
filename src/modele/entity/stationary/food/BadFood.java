@@ -6,6 +6,7 @@ package modele.entity.stationary.food;
 public abstract class BadFood extends Food {
     /**
      * Constructeur abstrait.
+     *
      * @param x La position vertical.
      * @param y La position horizontal.
      */

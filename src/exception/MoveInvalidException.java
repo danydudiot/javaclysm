@@ -15,6 +15,7 @@ public class MoveInvalidException extends RuntimeException {
 
     /**
      * Constructeur de l'exception MoveInvalidException avec un message personnalisé.
+     *
      * @param message Le message détaillant la cause de l'exception.
      */
     public MoveInvalidException(String message) {

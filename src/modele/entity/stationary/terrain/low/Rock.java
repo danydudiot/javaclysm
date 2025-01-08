@@ -27,10 +27,10 @@ public class Rock extends Low {
 
     @Override
     public void setEntityOnCase(Entity entity) {
-        if (getEntityOnCase() == null){
+        if (getEntityOnCase() == null) {
             this.entityOnCase = entity;
             entity.setPosition(this.getX(), this.getY());
-        } else if (getEntityOnCase() instanceof Scorpio scorpio && entity instanceof Monkey monkey){
+        } else if (getEntityOnCase() instanceof Scorpio scorpio && entity instanceof Monkey monkey) {
             Clock.getInstance().addCommandToTurn(new PredatorFatalAttackCommand(scorpio, monkey));
         }
     }

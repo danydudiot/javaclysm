@@ -6,41 +6,71 @@ import modele.entity.movable.character.npc.predator.Scorpio;
 import modele.entity.movable.character.npc.state.State;
 import modele.entity.stationary.terrain.Terrain;
 
+/**
+ * Commande représentant l'action de déplacer un prédateur vers une nouvelle coordonnée.
+ */
 public class PredatorMoveCoordinateCommand implements Command {
-	private Predator predator;
-	private Terrain terrain;
-	private Terrain old_terrain;
-	private State old_state;
-	private int old_underRock;
+    /**
+     * Le prédateur à déplacer.
+     */
+    private Predator predator;
+    /**
+     * Le nouveau terrain vers lequel déplacer le prédateur.
+     */
+    private Terrain terrain;
+    /**
+     * L'ancien terrain du prédateur.
+     */
+    private Terrain old_terrain;
+    /**
+     * L'ancien état du prédateur.
+     */
+    private State old_state;
+    /**
+     * Le temps passé sous un rocher par le prédateur (si c'est un scorpion).
+     */
+    private int old_underRock;
 
-	public PredatorMoveCoordinateCommand(Predator predator, Terrain terrain) {
-		this.predator = predator;
-		this.terrain 	= terrain;
-		this.old_terrain = Board.getInstance().getAt(predator.getX(), predator.getY());
-		this.old_state 	= predator.getCurrentState();
-		if (predator instanceof Scorpio scorpio){
-			this.old_underRock = scorpio.getTimeUnderRock();
-		}
-	}
+    /**
+     * Constructeur de la classe PredatorMoveCoordinateCommand.
+     * Initialise les attributs de la commande.
+     *
+     * @param predator Le prédateur à déplacer.
+     * @param terrain  Le nouveau terrain vers lequel déplacer le prédateur.
+     */
+    public PredatorMoveCoordinateCommand(Predator predator, Terrain terrain) {
+        this.predator = predator;
+        this.terrain = terrain;
+        this.old_terrain = Board.getInstance().getAt(predator.getX(), predator.getY());
+        this.old_state = predator.getCurrentState();
+        if (predator instanceof Scorpio scorpio) {
+            this.old_underRock = scorpio.getTimeUnderRock();
+        }
+    }
 
-	@Override
-	public void doCommand() {
-		if (!old_terrain.equals(terrain)) {
-			predator.move(terrain);
-		}
-	}
+    /**
+     * Exécute la commande pour déplacer le prédateur vers le nouveau terrain.
+     */
+    @Override
+    public void doCommand() {
+        if (!old_terrain.equals(terrain)) {
+            predator.move(terrain);
+        }
+    }
 
-	@Override
-	public void undoCommand() {
-		predator.setCurrentState(old_state);
-		if (!old_terrain.equals(terrain)) {
-			predator.move(old_terrain);
-		}
-		if (predator instanceof Scorpio scorpio){
-			scorpio.setTimeUnderRock(old_underRock);
-		}
-	}
-
+    /**
+     * Commande représentant l'action d'un prédateur attaquant mortellement une proie.
+     */
+    @Override
+    public void undoCommand() {
+        predator.setCurrentState(old_state);
+        if (!old_terrain.equals(terrain)) {
+            predator.move(old_terrain);
+        }
+        if (predator instanceof Scorpio scorpio) {
+            scorpio.setTimeUnderRock(old_underRock);
+        }
+    }
 
 
 }

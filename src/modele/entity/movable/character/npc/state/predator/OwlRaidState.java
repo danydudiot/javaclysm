@@ -12,16 +12,33 @@ import modele.entity.stationary.terrain.low.Bush;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Classe représentant l'état de raid d'un hibou (Owl).
+ */
 public class OwlRaidState extends RaidState {
+    /**
+     * Constructeur de la classe OwlRaidState.
+     *
+     * @param predator Le prédateur associé à cet état.
+     */
     public OwlRaidState(Predator predator) {
         super(predator);
     }
 
+    /**
+     * Met à jour l'état du prédateur.
+     * Cette méthode est actuellement vide et ne fait rien.
+     */
     @Override
     public void updateState() {
 
     }
 
+    /**
+     * Gère le déplacement du prédateur.
+     * Si une proie est trouvée à proximité (hors des buissons), une commande d'attaque est ajoutée.
+     * Sinon, utilise la méthode getDefault2Case pour le déplacement par défaut.
+     */
     @Override
     public void deplacement() {
         List<Terrain> around = Board.getInstance().getNear(predator.getX(), predator.getY(), 3);
@@ -35,10 +52,8 @@ public class OwlRaidState extends RaidState {
         if (!preyList.isEmpty()) {
             Clock.getInstance().addCommandToTurn(new PredatorAttackCommand(predator, preyList.get(0)));
         } else {
-           getDefault2Case();
+            getDefault2Case();
         }
 
     }
-
-
 }

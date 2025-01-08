@@ -104,14 +104,14 @@ public class Board {
     public void moveTo(MovableEntity entity, int x, int y) {
         // On part du principe que le déplacement est toujours valide (testé en amont).
         clearCase(entity.getX(), entity.getY());
-        setEntityOnCase(x,y,entity);
+        setEntityOnCase(x, y, entity);
     }
 
     public void clearCase(int x, int y) throws EntityNotFoundException {
-        if (getAt(x,y) == null || getAt(x,y).getEntityOnCase() == null) {
+        if (getAt(x, y) == null || getAt(x, y).getEntityOnCase() == null) {
             throw new EntityNotFoundException("L'entité ne peut pas être trouvée. (x= " + x + ", y= " + y + ")");
         }
-        getAt(x,y).clearEntityOnCase();
+        getAt(x, y).clearEntityOnCase();
     }
 
     public void fillCase(int x, int y, Entity entity) {
@@ -124,13 +124,12 @@ public class Board {
     }
 
     public void setEntityOnCase(int x, int y, Entity entity) {
-        Terrain new_position = getAt(x,y);
-        if (new_position != null && (new_position.getEntityOnCase() == null || (entity instanceof Monkey && new_position.getEntityOnCase() instanceof Scorpio scorpio && scorpio.canAttack())) ){
+        Terrain new_position = getAt(x, y);
+        if (new_position != null && (new_position.getEntityOnCase() == null || (entity instanceof Monkey && new_position.getEntityOnCase() instanceof Scorpio scorpio && scorpio.canAttack()))) {
 
             entity.setPosition(x, y);
             new_position.setEntityOnCase(entity);
-        }
-        else {//(new_position == null || new_position.getEntityOnCase() != null) {
+        } else {//(new_position == null || new_position.getEntityOnCase() != null) {
             throw new InvalidActionException("Case null ou non vide");
         }
     }

@@ -15,6 +15,7 @@ public class EntityNotFoundException extends RuntimeException {
 
     /**
      * Constructeur de l'exception EntityNotFoundException avec un message personnalisé.
+     *
      * @param message Le message détaillant la cause de l'exception.
      */
     public EntityNotFoundException(String message) {
