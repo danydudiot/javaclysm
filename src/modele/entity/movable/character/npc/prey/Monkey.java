@@ -55,8 +55,6 @@ public class Monkey extends Prey {
             Clock.getInstance().addCommandToTurn(new FriendInInventoryCommand(this));
         } else if (food instanceof BadFood){
             setCurrentState(new MonkeyJunkieState(this));
-        } else {
-            currentState.updateState();
         }
     }
 
@@ -65,7 +63,7 @@ public class Monkey extends Prey {
         if (aggressor instanceof PlayerCharacter){
             friendLevel = 0;
             return true;
-        } else if (aggressor instanceof Predator) {
+        } else if (aggressor instanceof Predator predator) {
             Terrain currentPosition = Board.getInstance().getAt(getX(), getY());
             // Ici on utilise getNear plutôt que getNeighbours car getNear inclue la case actuelle.
             List<Terrain> neighbours = Board.getInstance().getNear(getX(), getY(), 1);
@@ -78,12 +76,12 @@ public class Monkey extends Prey {
             }
 
 
-            if (!high.isEmpty() && aggressor instanceof Snake snake) {
+            if (!high.isEmpty() && predator instanceof Snake snake) {
                 return runAway(snake, currentPosition, high);
             } else {
                 Board.getInstance().getAt(x,y).clearEntityOnCase();
                 this.setCurrentState(new DeadState(this));
-                ((Predator) aggressor).afterHit(true);
+                predator.afterHit(true);
                 return true;
             }
 
@@ -104,8 +102,8 @@ public class Monkey extends Prey {
         List<Terrain> around = Board.getInstance().getNear(getX(), getY(), 4);
         List<Predator> danger = new ArrayList<>();
         for (Terrain terrain : around){
-            if (terrain.getEntityOnCase() instanceof Predator){
-                danger.add((Predator) terrain.getEntityOnCase());
+            if (terrain.getEntityOnCase() instanceof Predator predator){
+                danger.add(predator);
             }
         }
 

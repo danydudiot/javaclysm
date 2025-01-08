@@ -5,6 +5,7 @@ import modele.interaction.Interaction;
 
 public class Scorpio extends Predator{
     protected int canAttack;
+    protected int timeUnderRock;
     public Scorpio(int x, int y) {
         super(x, y);
         this.currentState = new ScorpioRaidState(this);
@@ -29,6 +30,14 @@ public class Scorpio extends Predator{
 
     public void setCanAttack(int canAttack) {
         this.canAttack = canAttack;
+    }
+
+    public int getTimeUnderRock() {
+        return timeUnderRock;
+    }
+
+    public void setTimeUnderRock(int timeUnderRock) {
+        this.timeUnderRock = timeUnderRock;
     }
 
     @Override

@@ -8,16 +8,17 @@ import modele.entity.movable.character.npc.state.State;
 
 public class PredatorAttackCommand implements Command{
 
-	Predator predator;
-	State old_predatorState;
-	int old_predatorX;
-	int old_predatorY;
-	public Prey prey;
-	State old_preyState;
-	int old_preyX;
-	int old_preyY;
-	boolean wasKilled;
-	int canAttack;
+	private Predator predator;
+	private State old_predatorState;
+	private int old_predatorX;
+	private int old_predatorY;
+	private Prey prey;
+	private State old_preyState;
+	private int old_preyX;
+	private int old_preyY;
+	private boolean wasKilled;
+	private int canAttack;
+	private int hungryCount;
 
 	public PredatorAttackCommand(Predator predator, Prey prey) {
 		this.predator 			= predator;
@@ -25,6 +26,7 @@ public class PredatorAttackCommand implements Command{
 		this.old_predatorX 		= predator.getX();
 		this.old_predatorY 		= predator.getY();
 		this.prey 				= prey;
+		this.hungryCount 		= prey.getHungryCount()+1;
 		this.old_preyState 		= prey.getCurrentState();
 		this.old_preyX 			= prey.getX();
 		this.old_preyY 			= prey.getY();
@@ -47,9 +49,10 @@ public class PredatorAttackCommand implements Command{
 		predator.setCurrentState(old_predatorState);
 		Board.getInstance().moveTo(predator, old_predatorX, old_predatorY);
 		if (wasKilled) {
-			Board.getInstance().getAt(old_preyX, old_preyY).setEntityOnCase(prey);
+			Board.getInstance().setEntityOnCase(old_preyX, old_preyY, prey);
 		}
 		prey.setCurrentState(old_preyState);
+		prey.setHungryCount(hungryCount);
 		if (predator instanceof Scorpio scorpio){
 			scorpio.setCanAttack(canAttack);
 		}

@@ -12,13 +12,6 @@ public class FoxRaidState extends RaidState {
     }
 
     @Override
-    public boolean canMove(char direction) {
-        Terrain target = Board.getInstance().getToward(predator.getX(),predator.getY(),direction);
-        // target != null est déjà testé dans instanceof.
-        return target instanceof Empty && target.isEmpty();
-    }
-
-    @Override
     public boolean canMove(Terrain terrain) {
         return terrain instanceof Empty && terrain.isEmpty();
     }

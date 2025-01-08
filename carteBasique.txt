@@ -1,27 +1,16 @@
-F
+J
 11
 31
-AAAAAAAAAAABAABAAAAAAAAAAAAAAAA
-AA             E    R         A
-AA             A              A
-A AA   @       E     A    A   A
-A A         E              E  A
-AAA A         A       R       A
-A                  R          A
-AMB AA      A  E              A
-AM EA AB        A     E  A    A
-AC  M   A                     A
-AAAAAAAAAAAAAAAAAAAAAAAAAAABAAA
-//###############################
-//#                             #
-//#                             #
-//#              R  EA          #
-//#                             #
-//#                             #
-//#                             #
-//#                             #
-//#           @                 #
-//#                             #
-//###############################
+###############################
+#                             #
+#                             #
+#           #   ####          #
+#          #E#   SM#          #
+#           #   ####          #
+#                             #
+#                             #
+#           @                 #
+#                             #
+###############################
 
 

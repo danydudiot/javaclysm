@@ -2,7 +2,6 @@ package modele.interaction;
 
 import modele.Board;
 import modele.Inventory;
-import modele.InventoryItem;
 import modele.entity.Entity;
 import modele.entity.stationary.TimeStone;
 
@@ -15,7 +14,7 @@ public class GrabTimeStone extends Grab {
 		stone.timeTravel();
 		stone.setActive(false);
 		try	{
-			Inventory.getInstance().add((InventoryItem) stone);
+			Inventory.getInstance().add(stone);
 			board.clearCase(stone.getX(), stone.getY());
 		} catch (Exception e) {
 			board.logError(e.getMessage());

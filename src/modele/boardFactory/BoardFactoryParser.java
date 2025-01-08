@@ -13,17 +13,13 @@ import java.io.FileNotFoundException;
 import java.util.Scanner;
 
 public class BoardFactoryParser extends BoardFactory {
-	File mapFile;
+	protected File mapFile;
 	public BoardFactoryParser()  {
-//		 mapFile = new File("carteBasique.txt");
-//		 mapFile = new File("carteRenard.txt");
-//		 mapFile = new File("carteHibou.txt");
-//		 mapFile = new File("carteSerpent.txt");
-//		 mapFile = new File("carteScorpion.txt");
-//		 mapFile = new File("carteHibou.txt");
-		 mapFile = new File("carteSerpent.txt");
-//		 mapFile = new File("carteScorpion.txt");
-
+//		 this.mapFile = new File("carteBasique.txt");
+//		 this.mapFile = new File("carteRenard.txt");
+		 this.mapFile = new File("carteHibou.txt");
+//		 this.mapFile = new File("carteSerpent.txt");
+//		 this.mapFile = new File("carteScorpion.txt");
 	}
 
 	@Override
@@ -33,17 +29,16 @@ public class BoardFactoryParser extends BoardFactory {
 
 
 	public void parseBoard() throws FileNotFoundException {
-		char theme;
-		int height;
-		int width;
-		PlayerCharacter player = null;
-
 		Scanner scanner = new Scanner(mapFile);
-		theme = scanner.nextLine().charAt(0);
-		height = scanner.nextInt();
-		width = scanner.nextInt();
+
+		PlayerCharacter player = null;
+		char theme = scanner.nextLine().charAt(0);
+		int height = scanner.nextInt();
+		int width = scanner.nextInt();
+
 		Terrain[][] board = new Terrain[height][width];
 		int y = 0;
+
 		Generator generator;
 		if (theme == 'F'){
 			generator = new GeneratorForest();
@@ -53,7 +48,7 @@ public class BoardFactoryParser extends BoardFactory {
 
 		while (scanner.hasNextLine()) {
 			String line = scanner.nextLine();
-			if (line.isEmpty() || line.contains("//")) {
+			if (line.isEmpty() || line.contains("//")) { // Ligne vide (entré fantôme Scanner) et "//" commentaire dans la carte.
 				continue;
 			}
 			for (int x = 0; x < width; x++) {

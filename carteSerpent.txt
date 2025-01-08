@@ -46,8 +46,7 @@ J
 // Passer un tour (X) (Tous les singes rassasié passe en affamé)
 // Passer un tour (X) (Le signe du coin n'est plus terrifié et passe affamé, Le singe de gauche mange la banane)
 // Passer un tour (X) (Le singe de droit mange le champignon hallucinogène et passe Junkie)
-// Passer un tour (X) (Le singe de droit ignore le danger (Si le random est avec nous, sinon relance))
-// Passer un tour (X) (Le signe de gauche mange la banane et devient ami et donc monte sur l'épaule du joueur
+// Passer trois tours (3) (Le singe de droit ignore le danger (Si le random est avec nous, sinon relance), Le signe de gauche mange la banane et devient ami et donc monte sur l'épaule du joueur
 // Allez à droite (d)
 // Allez à droite (d)
 // Allez en bas (s) (Le singe descend de l'épaule)

@@ -6,7 +6,7 @@ import modele.interaction.Grab;
 
 public class PlayerDropCommand implements Command {
 
-	Entity what;
+	private Entity what;
 
 	public PlayerDropCommand(Entity what) {
 		this.what = what;

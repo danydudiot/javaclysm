@@ -7,7 +7,6 @@ import modele.entity.stationary.food.Mushroom;
 import modele.entity.stationary.terrain.Empty;
 import modele.entity.stationary.terrain.Terrain;
 
-import java.util.Random;
 
 public abstract class Generator {
     private boolean isPlayerCreated = false;

@@ -1,6 +1,5 @@
 package modele.entity.movable;
 
-import exception.EntityNotFoundException;
 import modele.Board;
 import modele.entity.Entity;
 import modele.entity.stationary.terrain.Empty;
@@ -11,16 +10,6 @@ public abstract class MovableEntity extends Entity {
     public MovableEntity(int x, int y) {
         super(x, y);
     }
-
-	public boolean canMove(char direction) {
-		Terrain target = Board.getInstance().getToward(x,y,direction);
-		return target != null && target.isEmpty() && (target instanceof Empty);
-	}
-	public void move(char direction) {
-		if (canMove(direction)) {
-			Board.getInstance().moveToward(this, direction);
-		}
-	}
 
 
 	public void move(Terrain terrain) {

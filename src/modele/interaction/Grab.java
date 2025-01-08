@@ -9,12 +9,12 @@ public class Grab implements Interaction {
     private final String displayName = "Prendre";
 
     public void interact(Entity entity){
-        if (entity instanceof InventoryItem){
+        if (entity instanceof InventoryItem inventoryItem){
             Board board = Board.getInstance();
             try {
-                Inventory.getInstance().add((InventoryItem) entity);
+                Inventory.getInstance().add(inventoryItem);
                 board.clearCase(entity.getX(), entity.getY());
-                board.logAction(((InventoryItem) entity).getDisplayName() + " ramassé");
+                board.logAction(inventoryItem.getDisplayName() + " ramassé");
             } catch (Exception e) {
                 board.logError(e.getMessage());
             }

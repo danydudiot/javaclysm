@@ -2,13 +2,10 @@ package modele.entity.stationary.terrain.low;
 
 import modele.Colors;
 import modele.clock.Clock;
-import modele.clock.commands.PredatorAttackCommand;
 import modele.clock.commands.PredatorFatalAttackCommand;
 import modele.entity.Entity;
-import modele.entity.movable.character.npc.predator.Predator;
 import modele.entity.movable.character.npc.predator.Scorpio;
 import modele.entity.movable.character.npc.prey.Monkey;
-import modele.entity.movable.character.npc.prey.Prey;
 
 /**
  * Classe représentant un rocher sur la carte.

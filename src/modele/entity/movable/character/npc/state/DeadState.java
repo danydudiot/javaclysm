@@ -10,11 +10,6 @@ public class DeadState implements State {
     }
 
     @Override
-    public boolean canMove(char direction) {
-        return false;
-    }
-
-    @Override
     public boolean canMove(Terrain terrain) {
         return false;
     }
@@ -31,6 +26,6 @@ public class DeadState implements State {
 
     @Override
     public String applyColorModifier() {
-        return "";
+        return "YOU SHOULD NEVER SEE THIS (DeadState)";
     }
 }

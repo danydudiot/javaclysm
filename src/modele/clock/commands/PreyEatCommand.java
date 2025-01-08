@@ -8,14 +8,14 @@ import modele.entity.stationary.food.Food;
 
 public class PreyEatCommand implements Command {
 
-	Food food;
-	State old_state;
-	int old_friendlyLevel;
-	int old_hungryCount;
-	int old_x;
-	int old_y;
-	boolean isPlayerNearby;
-	public Prey prey;
+	private Food food;
+	private State old_state;
+	private int old_friendlyLevel;
+	private int old_hungryCount;
+	private int old_x;
+	private int old_y;
+	private boolean isPlayerNearby;
+	private Prey prey;
 	public PreyEatCommand(Prey prey, Food food) {
 		this.prey 				= prey;
 		this.old_state 			= prey.getCurrentState();
@@ -44,10 +44,10 @@ public class PreyEatCommand implements Command {
 		prey.setFriendLevel(old_friendlyLevel);
 		prey.setHungryCount(old_hungryCount);
 		if (prey.getCurrentState() instanceof FriendInInventoryState) {
-			Board.getInstance().getAt(food.getX(), food.getY()).setEntityOnCase(prey);
+			Board.getInstance().setEntityOnCase(food.getX(), food.getY(), prey);
 		}
 		Board.getInstance().moveTo(prey, old_x, old_y);
 		prey.setCurrentState(old_state);
-		Board.getInstance().getAt(food.getX(), food.getY()).setEntityOnCase(food);
+		Board.getInstance().setEntityOnCase(food.getX(), food.getY(), food);
 	}
 }

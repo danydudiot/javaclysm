@@ -22,12 +22,6 @@ public abstract class PredatorState implements State {
     }
 
     @Override
-    public boolean canMove(char direction) {
-        Terrain target = Board.getInstance().getToward(predator.getX(), predator.getY(), direction);
-        return target != null && (target.isEmpty() || target.getEntityOnCase() instanceof Prey);
-    }
-
-    @Override
     public boolean canMove(Terrain terrain) {
         return terrain != null && (terrain.isEmpty() || terrain.getEntityOnCase() instanceof Prey);
     }
@@ -42,9 +36,8 @@ public abstract class PredatorState implements State {
         }
 
         if (casePossible.isEmpty()){
-            Terrain currentCase = Board.getInstance().getAt(predator.getX(), predator.getY());
-            Clock.getInstance().addCommandToTurn(new PredatorMoveCoordinateCommand(predator, currentCase));
-            return currentCase;
+
+            return Board.getInstance().getAt(predator.getX(), predator.getY());
         } else {
             Prey preyEntity = (Prey) casePossible.get(0).getEntityOnCase();
             Clock.getInstance().addCommandToTurn(new PredatorAttackCommand(predator, preyEntity));

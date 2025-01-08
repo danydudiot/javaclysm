@@ -1,20 +1,13 @@
 package modele.boardFactory.generator;
 
 import modele.clock.Clock;
-import modele.entity.movable.character.npc.predator.Fox;
-import modele.entity.movable.character.npc.predator.Owl;
 import modele.entity.movable.character.npc.predator.Scorpio;
 import modele.entity.movable.character.npc.predator.Snake;
 import modele.entity.movable.character.npc.prey.Monkey;
-import modele.entity.movable.character.npc.prey.Squirrel;
-import modele.entity.stationary.food.Acorn;
 import modele.entity.stationary.food.Banana;
 import modele.entity.stationary.food.HallucinogenicMushroom;
-import modele.entity.stationary.food.PoisonousMushroom;
 import modele.entity.stationary.terrain.Terrain;
 import modele.entity.stationary.terrain.high.PalmTree;
-import modele.entity.stationary.terrain.high.Tree;
-import modele.entity.stationary.terrain.low.Bush;
 import modele.entity.stationary.terrain.low.Rock;
 
 public class GeneratorJungle extends Generator{

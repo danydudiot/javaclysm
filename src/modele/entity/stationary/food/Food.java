@@ -10,7 +10,6 @@ import modele.interaction.Interactible;
 import modele.interaction.Interaction;
 
 import java.util.List;
-import java.util.Map;
 
 
 /**

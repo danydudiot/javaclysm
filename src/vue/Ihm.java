@@ -2,7 +2,10 @@ package vue;
 
 import modele.Colors;
 
-import java.util.*;
+import java.util.ArrayDeque;
+import java.util.List;
+import java.util.Queue;
+import java.util.Scanner;
 
 
 public class Ihm {
@@ -10,7 +13,7 @@ public class Ihm {
 	/**
 	 * Représente les deux dernières composantes (la carte en 0 et l'UI en 1) de la dernière frame affichée
 	 */
-	private String[] last_frame = new String[2];
+	private String[] last_frame;
 	/**
 	 * Représente la hauteur de la frame.
 	 */
@@ -51,10 +54,10 @@ public class Ihm {
 	public boolean askBoard() {
 		while (true) {
 			System.out.println("Voulez vous charger la carte pré-enregistrée (carte.txt) ? (y/n)");
-			String answer = sc.nextLine();
-			if (answer.equals("y") || answer.equals("Y")) {
+			String answer = sc.nextLine().toLowerCase();
+			if (answer.equals("y")) {
 				return true;
-			} else if (answer.equals("n") || answer.equals("N")) {
+			} else if (answer.equals("n")) {
 				return false;
 			} else {
 				System.out.println(Colors.RED + "caractère non reconnu." + Colors.RESET);
@@ -142,21 +145,25 @@ public class Ihm {
 
 	/**
 	 * Lit le numéro de l'interaction (compris entre 1 et 9) choisie par le joueur.
-	 * @return -1: fermer le menu, 0-8: pour le numéro de l'action choisie (ré-indexée à 0 au lieu de 1).
+	 * @return -1 : fermer le menu, 0-8 : pour le numéro de l'action choisie (ré-indexée à 0 au lieu de 1).
 	 */
 	public int askInteraction() {
 		while (true) {
 			String scannerInput = sc.nextLine();
 			if (! scannerInput.isEmpty()) {
 				char input = scannerInput.toLowerCase().charAt(0);
-				if (input == 'e') { return -1; }
-				else if (Character.isDigit(input)) { return Integer.parseInt(Character.toString(input))-1; }
+				if (input == 'e') {
+					return -1;
+				}
+				else if (Character.isDigit(input)) {
+					return Integer.parseInt(Character.toString(input))-1;
+				}
 			}
 		}
 	}
 
 	/**
-	 * Affiche la liste des interactions formatté en une table.
+	 * Affiche la liste des interactions formatée en une table.
 	 * @param interactions une liste de taille 9 représentant les interactions
 	 */
 	public void displayInteractions(List<String> interactions) {
@@ -168,14 +175,18 @@ public class Ihm {
 	}
 
 	/**
-	 * Lit le numéro de l'objet séléctionné pour être equipé dans l'inventaire.
-	 * @return -1: fermer le menu, 0-8: numéro de l'objet choisi (ré-indéxée a 0 au lieu de 1).
+	 * Lit le numéro de l'objet sélectionné pour être équipé dans l'inventaire.
+	 * @return -1 : fermer le menu, 0-8 : numéro de l'objet choisi (ré-indexée à 0 au lieu de 1).
 	 */
 	public int askInventory() {
 		while (true) {
 			char input = sc.nextLine().charAt(0);
-			if (input == 'i') { return -1; }
-			else if (Character.isDigit(input)) { return Integer.parseInt(Character.toString(input))-1; }
+			if (input == 'i') {
+				return -1;
+			}
+			else if (Character.isDigit(input)) {
+				return Integer.parseInt(Character.toString(input))-1;
+			}
 		}
 	}
 
@@ -185,7 +196,7 @@ public class Ihm {
 	 * @param equippedItemId l'indice de l'objet équipé ou -1 s'il n'y en a pas.
 	 */
 	public void displayInventory(List<String> items, int equippedItemId) {
-		String ui = makeListUi(items, equippedItemId, "Selectionner l'objet à equiper", 'I');
+		String ui = makeListUi(items, equippedItemId, "Sélectionner l'objet à équiper", 'I');
 		System.out.println(Colors.RESET);
 		System.out.println(last_frame[0]);
 		System.out.print(ui);
@@ -258,8 +269,8 @@ public class Ihm {
 	 * @return la chaine tronquée et suivie de point de suspension si elle est trop longue, la chaine source sinon.
 	 */
 	private String truncate(String source, int length) {
-		if (getUncoloredLentgh(source) > length) {
-			int difference = source.length() - getUncoloredLentgh(source);
+		if (getUncoloredLength(source) > length) {
+			int difference = source.length() - getUncoloredLength(source);
 			if (difference == 0) {
 				return source.substring(0, (length -3)) + "...";
 			} else {
@@ -271,11 +282,11 @@ public class Ihm {
 	}
 
 	/**
-	 * Helper qui donne la taille d'une string sans compter les characteres de colorisations
+	 * Helper qui donne la taille d'une string sans compter les caractères de colorisations
 	 * @param string la chaîne d'entrée
-	 * @return le nombre de characteres non-colorisations
+	 * @return le nombre de caractères non-colorisations
 	 */
-	private int getUncoloredLentgh(String string) {
+	private int getUncoloredLength(String string) {
 		int j = 0;
 		for (int i = 0; i < string.length(); ++i) {
 			if (string.charAt(i) == '\u001b') {
@@ -352,9 +363,9 @@ public class Ihm {
 		String hist2 = truncate(actionHistoryCopy.remove(), displayWidth - panelSize - 4);
 		String hist3 = truncate(actionHistoryCopy.remove(), displayWidth - panelSize - 4);
 		return 	"├" + "─".repeat(panelSize - 1) + "┬" + "─".repeat(displayWidth - panelSize - 2) + "┤\n" +
-				"│ tour n°"+ String.format("%-"+ (panelSize - 9) + "S", String.format("%-3S", turnNumber))  + "│ " + Colors.LIGHT_WHITE + hist1 + Colors.RESET + " ".repeat(Math.abs(displayWidth - panelSize - getUncoloredLentgh(hist1) -4 )) + " │\n" +
-				"│ [" + String.format("%03d", playerX) + ","+ String.format("%03d", playerY) +"]"+ " ".repeat(panelSize - 15) +"(" + asArrow(playerDir) +") │ " + Colors.WHITE + hist2 + Colors.RESET + " ".repeat(Math.abs(displayWidth - panelSize - getUncoloredLentgh(hist2) -4)) + " │\n" +
-				"│ >> " + String.format("%-"+ (panelSize - 6) +"s", equippedItem) + " │ " + Colors.LIGHT_BLACK + hist3 + Colors.RESET + " ".repeat(Math.abs(displayWidth - panelSize - getUncoloredLentgh(hist3) -4)) + " │\n" +
+				"│ tour n°"+ String.format("%-"+ (panelSize - 9) + "S", String.format("%-3S", turnNumber))  + "│ " + Colors.LIGHT_WHITE + hist1 + Colors.RESET + " ".repeat(Math.abs(displayWidth - panelSize - getUncoloredLength(hist1) -4 )) + " │\n" +
+				"│ [" + String.format("%03d", playerX) + ","+ String.format("%03d", playerY) +"]"+ " ".repeat(panelSize - 15) +"(" + asArrow(playerDir) +") │ " + Colors.WHITE + hist2 + Colors.RESET + " ".repeat(Math.abs(displayWidth - panelSize - getUncoloredLength(hist2) -4)) + " │\n" +
+				"│ >> " + String.format("%-"+ (panelSize - 6) +"s", equippedItem) + " │ " + Colors.LIGHT_BLACK + hist3 + Colors.RESET + " ".repeat(Math.abs(displayWidth - panelSize - getUncoloredLength(hist3) -4)) + " │\n" +
 				Colors.HIGHLIGHT + String.format(("%-"+(displayWidth)+"s"), " ZQSD : Bouger   OKLM : Regarder   I : Inventaire   E : Interagir   J : Jeter") + Colors.RESET;
 	}
 
@@ -364,7 +375,7 @@ public class Ihm {
 	 * @param selectedItem l'id de la chose à afficher
 	 * @param tooltip le texte affiché en bas
 	 * @param close la touche pour fermer le menu
-	 * @return une String a afficher representant l'inventaire sous forme de liste.
+	 * @return une String à afficher représentant l'inventaire sous forme de liste.
 	 */
 	private String makeListUi(List<String> items, int selectedItem, String tooltip, char close) {
 		StringBuilder out = new StringBuilder();
@@ -382,7 +393,7 @@ public class Ihm {
 
 			out.append("[").append(i).append("] : ");
 			if (i-1 <= items.size()-1) {
-				// 22 -> taille réservées pour les espaces, les nombres etc...
+				// 22 -> taille réservée pour les espaces, les nombres etc ...
 				out.append(String.format("%-"+ (displayWidth - 22)/3 +"s", truncate(items.get(i-1), (displayWidth - 22)/3)));
 			} else {
 				out.append(String.format("%-"+ (displayWidth - 22)/3 +"s", "..."));
@@ -403,7 +414,7 @@ public class Ihm {
 		return out.toString();
 	}
 	/**
-	 * Affiche une page de correspondance entre les choses affichées a l'écran
+	 * Affiche une page de correspondance entre les choses affichées à l'écran
 	 * @param theme le theme choisi.
 	 */
 	public void printHelpPage(char theme) {
@@ -414,12 +425,12 @@ public class Ihm {
 					Colors.GREEN 			+ "A" + Colors.RESET + ": Arbre",
 					Colors.GREEN 			+ "B" + Colors.RESET + ": Buisson",
 					Colors.PURPLE 			+ "C" + Colors.RESET + ": Champignon Normal",
-					Colors.LIGHT_WHITE 		+ "E" + Colors.RESET + ": Ecureil Rassasié",
-					Colors.WHITE 			+ "E" + Colors.RESET + ": Ecureil Affamé",
-					Colors.LIGHT_PURPLE		+ "E" + Colors.RESET + ": Ecureil Ami Rassasié",
-					Colors.PURPLE	 		+ "E" + Colors.RESET + ": Ecureil Ami Affamé",
-					Colors.RED		 		+ "E" + Colors.RESET + ": Ecureil Junkie",
-					Colors.BLUE_BACKGROUND 	+ "E" + Colors.RESET + ": Ecureil Terrifié",
+					Colors.LIGHT_WHITE 		+ "E" + Colors.RESET + ": Écureuil Rassasié",
+					Colors.WHITE 			+ "E" + Colors.RESET + ": Écureuil Affamé",
+					Colors.LIGHT_PURPLE		+ "E" + Colors.RESET + ": Écureuil Ami Rassasié",
+					Colors.PURPLE	 		+ "E" + Colors.RESET + ": Écureuil Ami Affamé",
+					Colors.RED		 		+ "E" + Colors.RESET + ": Écureuil Junkie",
+					Colors.BLUE_BACKGROUND 	+ "E" + Colors.RESET + ": Écureuil Terrifié",
 					Colors.YELLOW 			+ "G" + Colors.RESET + ": Gland",
 					Colors.LIGHT_RED		+ "H" + Colors.RESET + ": Hibou en vol",
 					Colors.LIGHT_BLACK		+ "H" + Colors.RESET + ": Hibou au sol",
@@ -455,7 +466,7 @@ public class Ihm {
 
 			};
 		}
-		System.out.println(Colors.RESET + "\n" + Colors.HIGHLIGHT + "           LEGENDE DES ICONES           " + Colors.RESET);
+		System.out.println(Colors.RESET + "\n" + Colors.HIGHLIGHT + "           LÉGENDE DES ICÔNES           " + Colors.RESET);
 		for (String element : elements) {
 			System.out.println(element);
 		}

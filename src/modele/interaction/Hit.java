@@ -8,9 +8,9 @@ public class Hit implements Interaction {
     private final String displayName = "Frapper";
 
     public void interact(Entity entity){
-        if (entity instanceof NonPlayerCharacter){
+        if (entity instanceof NonPlayerCharacter npc){
             Board.getInstance().logAction(entity.getDisplayName() + " à été frappé");
-            ((NonPlayerCharacter) entity).hit(Board.getInstance().getPlayer());
+            npc.hit(Board.getInstance().getPlayer());
         }
     }
 

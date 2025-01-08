@@ -1,6 +1,7 @@
 package modele.entity.movable.character.npc.state.predator;
 
 
+import exception.InvalidActionException;
 import modele.Board;
 import modele.Colors;
 import modele.clock.Clock;
@@ -10,16 +11,15 @@ import modele.entity.movable.character.npc.predator.Scorpio;
 import modele.entity.stationary.terrain.Terrain;
 
 public class UnderRockState extends PredatorState {
-    protected int time;
+    private Scorpio scorpio;
     public UnderRockState(Predator predator) {
         super(predator);
-        this.time = 5;
-    }
-
-
-    @Override
-    public boolean canMove(char direction) {
-        return direction == 'a';
+        if (predator instanceof Scorpio scorpio){
+            this.scorpio = scorpio;
+            scorpio.setTimeUnderRock(5);
+        } else {
+            throw new InvalidActionException("Ce n'est pas un scorpion qui va sous le rocher.");
+        }
     }
 
     @Override
@@ -29,8 +29,8 @@ public class UnderRockState extends PredatorState {
 
     @Override
     public void updateState() {
-        time--;
-        if (time <= 0){
+        scorpio.setTimeUnderRock(scorpio.getTimeUnderRock()-1);
+        if (scorpio.getTimeUnderRock() <= 0){
             predator.setCurrentState(new ScorpioRaidState(predator));
         }
     }

@@ -31,12 +31,6 @@ public abstract class PreyState implements State {
     }
 
     @Override
-    public boolean canMove(char direction) {
-        Terrain target = Board.getInstance().getToward(prey.getX(), prey.getY(), direction);
-        return target != null && target.isEmpty();
-    }
-
-    @Override
     public boolean canMove(Terrain terrain) {
         return terrain != null && terrain.isEmpty();
     }
@@ -47,19 +41,19 @@ public abstract class PreyState implements State {
 
 
         for (Terrain terrain : neighbours) {
-            if (canMove(terrain) && !terrain.equals(forbidden)) {
+            if (canMove(terrain) && (forbidden == null || !forbidden.equals(terrain))) {
                 casePossible.add(terrain);
             }
         }
+        Terrain current = Board.getInstance().getAt(prey.getX(), prey.getY());
+
         if (casePossible.isEmpty()){
-            Terrain terrain = Board.getInstance().getAt(prey.getX(), prey.getY());
-            Clock.getInstance().addCommandToTurn(new PreyMoveCoordinateCommand(prey, terrain));
-            return terrain;
+            Clock.getInstance().addCommandToTurn(new PreyMoveCoordinateCommand(prey, current));
         } else {
             Terrain terrain = casePossible.get((int) (Math.random() * casePossible.size()));
             Clock.getInstance().addCommandToTurn(new PreyMoveCoordinateCommand(prey, terrain));
-            return terrain;
         }
+        return current;
     }
 
     protected boolean getFood(){
@@ -90,8 +84,8 @@ public abstract class PreyState implements State {
         List<Terrain> around = Board.getInstance().getNear(prey.getX(), prey.getY(), 4);
         List<Predator> danger = new ArrayList<>();
         for (Terrain terrain : around){
-            if (terrain.getEntityOnCase() instanceof Predator && !(terrain instanceof Rock && terrain.getEntityOnCase() instanceof Scorpio)){
-                danger.add((Predator) terrain.getEntityOnCase());
+            if (terrain.getEntityOnCase() instanceof Predator predator && !(terrain instanceof Rock && predator instanceof Scorpio)){
+                danger.add(predator);
             }
         }
 
@@ -108,8 +102,8 @@ public abstract class PreyState implements State {
 
 
         for (Terrain terrain : neighbours){
-            if (terrain.getEntityOnCase() instanceof PlayerCharacter){
-                player = (PlayerCharacter) terrain.getEntityOnCase();
+            if (terrain.getEntityOnCase() instanceof PlayerCharacter playerCharacter){
+                player = playerCharacter;
             } else if (terrain instanceof High && (terrain.getEntityOnCase() == null || terrain.getEntityOnCase() == prey)){
                 high.add(terrain);
             } else if (terrain instanceof Low && (terrain.getEntityOnCase() == null || terrain.getEntityOnCase() == prey)){
@@ -138,16 +132,12 @@ public abstract class PreyState implements State {
         float somme_x = 0;
         float somme_y = 0;
         for (Entity entity : danger){
-            int[] position = entity.getPosition();
-            somme_x += position[0];
-            somme_y += position[1];
+            somme_x += entity.getX();
+            somme_y += entity.getY();
         }
 
         float moyenne_x = somme_x / danger.size();
         float moyenne_y = somme_y / danger.size();
-
-
-
 
         Map<Terrain, Double> distance = new HashMap<>();
 
