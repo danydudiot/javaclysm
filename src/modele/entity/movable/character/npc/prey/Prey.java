@@ -17,8 +17,11 @@ public abstract class Prey extends NonPlayerCharacter implements InventoryItem {
     protected int hungryCount;
     protected Class<? extends Food> foodPreference;
     protected int friendLevel;
-
     protected boolean hasMoved;
+
+    protected int fearLevel;
+    protected int timeInPocket;
+
 
 
     public Prey(int x, int y, int hungryCountBase) {
@@ -43,6 +46,22 @@ public abstract class Prey extends NonPlayerCharacter implements InventoryItem {
     }
     public void setFriendLevel(int value) {
         friendLevel = value;
+    }
+
+    public int getFearLevel() {
+        return fearLevel;
+    }
+
+    public void setFearLevel(int fearLevel) {
+        this.fearLevel = fearLevel;
+    }
+
+    public int getTimeInPocket() {
+        return timeInPocket;
+    }
+
+    public void setTimeInPocket(int timeInPocket) {
+        this.timeInPocket = timeInPocket;
     }
 
     public int getHungryCount() {

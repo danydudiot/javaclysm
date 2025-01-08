@@ -20,7 +20,7 @@ public class MonkeyJunkieState extends JunkieState {
 
     @Override
     public void deplacement() {
-        getDefault();
+        getDefault(null);
     }
 
     @Override

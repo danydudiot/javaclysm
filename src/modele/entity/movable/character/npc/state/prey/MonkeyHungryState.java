@@ -13,7 +13,7 @@ public class MonkeyHungryState extends HungryState {
 
     @Override
     public void deplacement() {
-        final boolean move = getDanger(false) || getFood() || getDefault();
+        final boolean move = getDanger(false) || getFood() || getDefault(null) != null;
     }
 
     public void updateState(){

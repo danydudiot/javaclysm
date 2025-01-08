@@ -35,25 +35,25 @@ public abstract class PreyState implements State {
         return terrain != null && terrain.isEmpty();
     }
 
-    protected boolean getDefault(){
+    protected Terrain getDefault(Terrain forbidden){
         List<Terrain> neighbours = Board.getInstance().getNeighbours(prey.getX(), prey.getY());
         List<Terrain> casePossible = new ArrayList<>();
 
 
         for (Terrain terrain : neighbours) {
-            if (canMove(terrain)) {
+            if (canMove(terrain) && (forbidden == null || !forbidden.equals(terrain))) {
                 casePossible.add(terrain);
             }
         }
+        Terrain current = Board.getInstance().getAt(prey.getX(), prey.getY());
+
         if (casePossible.isEmpty()){
-            Terrain terrain = Board.getInstance().getAt(prey.getX(), prey.getY());
-            Clock.getInstance().addCommandToTurn(new PreyMoveCoordinateCommand(prey, terrain));
-            return false;
+            Clock.getInstance().addCommandToTurn(new PreyMoveCoordinateCommand(prey, current));
         } else {
             Terrain terrain = casePossible.get((int) (Math.random() * casePossible.size()));
             Clock.getInstance().addCommandToTurn(new PreyMoveCoordinateCommand(prey, terrain));
-            return true;
         }
+        return current;
     }
 
     protected boolean getFood(){

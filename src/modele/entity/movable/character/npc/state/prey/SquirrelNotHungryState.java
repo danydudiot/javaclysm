@@ -15,6 +15,6 @@ public class SquirrelNotHungryState extends NotHungryState {
 
 	@Override
 	public void deplacement() {
-		final boolean result = getDanger(true) || getDefault();
+		final boolean result = getDanger(true) || getDefault(null) != null;
 	}
 }

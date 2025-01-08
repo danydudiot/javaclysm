@@ -21,7 +21,7 @@ public class MonkeyNotHungryState extends NotHungryState{
 
 	@Override
 	public void deplacement() {
-		final boolean move = getDanger(false) || getDefault();
+		final boolean move = getDanger(false) || getDefault(null) != null;
 	}
 
 	@Override
