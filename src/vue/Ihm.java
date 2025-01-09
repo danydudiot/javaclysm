@@ -7,11 +7,13 @@ import java.util.List;
 import java.util.Queue;
 import java.util.Scanner;
 
-
+/**
+ * La classe qui permet de communiquer avec l'utilisateur par la console.
+ */
 public class Ihm {
 
     /**
-     * Représente les deux dernières composantes (la carte en 0 et l'UI en 1) de la dernière frame affichée
+     * Représente les deux dernières composantes (la carte en 0 et l'UI en 1) de la dernière frame affichée.
      */
     private String[] last_frame;
     /**
@@ -19,7 +21,7 @@ public class Ihm {
      */
     private final int displayHeight;
     /**
-     * Représente la largeur de la frame
+     * Représente la largeur de la frame.
      */
     private final int displayWidth;
     /**
@@ -30,8 +32,8 @@ public class Ihm {
     /**
      * Constructeur par défaut.
      *
-     * @param height hauteur de la frame
-     * @param width  largeur de la frame
+     * @param height La hauteur de la frame.
+     * @param width  La largeur de la frame.
      */
     public Ihm(int height, int width) {
         this.displayHeight = height;
@@ -113,7 +115,7 @@ public class Ihm {
      * Demande une dimension à l'utilisateur.
      *
      * @param type "Hauteur" | "Largeur".
-     * @return la dimension
+     * @return La dimension.
      */
     public int askDimension(String type) {
         while (true) {
@@ -135,7 +137,7 @@ public class Ihm {
     /**
      * Lit l'input de l'utilisateur et vérifie qu'il est valide.
      *
-     * @return le char représentant l'action ∈ {'z', 'q', 's', 'd', 'o', 'k', 'l', 'm', 'e', 'i', 'j', 'r', 'h', 'x'}
+     * @return Le char représentant l'action ∈ {'z', 'q', 's', 'd', 'o', 'k', 'l', 'm', 'e', 'i', 'j', 'r', 'h', 'x'}.
      */
     public char askAction() {
         while (true) {
@@ -171,7 +173,7 @@ public class Ihm {
     /**
      * Affiche la liste des interactions formatée en une table.
      *
-     * @param interactions une liste de taille 9 représentant les interactions
+     * @param interactions Une liste de taille 9 représentant les interactions.
      */
     public void displayInteractions(List<String> interactions) {
         String ui = makeListUi(interactions, -1, "Choisir l'interaction", 'E');
@@ -200,8 +202,8 @@ public class Ihm {
     /**
      * Permet d'afficher la frame d'inventaire.
      *
-     * @param items          la liste de taille 9 des représentations de l'inventaire
-     * @param equippedItemId l'indice de l'objet équipé ou -1 s'il n'y en a pas.
+     * @param items          La liste de taille 9 des représentations de l'inventaire.
+     * @param equippedItemId L'indice de l'objet équipé ou -1 s'il n'y en a pas.
      */
     public void displayInventory(List<String> items, int equippedItemId) {
         String ui = makeListUi(items, equippedItemId, "Sélectionner l'objet à équiper", 'I');
@@ -224,15 +226,15 @@ public class Ihm {
     /**
      * Permet d'afficher une frame de jeu normal (pas inventaire ou interaction).
      *
-     * @param board         liste des lignes du plateau.
-     * @param boardHeight   hauteur du plateau.
-     * @param boardWidth    largeur du plateau.
-     * @param actionHistory liste des dernières actions/erreurs loggées.
-     * @param playerX       position x du joueur.
-     * @param playerY       position x du joueur.
-     * @param playerDir     orientation du joueur.
-     * @param equippedItem  représentation de l'objet équipé.
-     * @param turnNumber    le numéro de tour.
+     * @param board         La liste des lignes du plateau.
+     * @param boardHeight   La hauteur du plateau.
+     * @param boardWidth    La largeur du plateau.
+     * @param actionHistory La liste des dernières actions/erreurs loggées.
+     * @param playerX       La position x du joueur.
+     * @param playerY       La position x du joueur.
+     * @param playerDir     L'orientation du joueur.
+     * @param equippedItem  La représentation de l'objet équipé.
+     * @param turnNumber    Le numéro de tour.
      */
     public void display(List<List<String>> board, int boardHeight, int boardWidth, List<String> actionHistory, int playerX, int playerY, char playerDir, String equippedItem, int turnNumber) {
         String croppedBoard = cropBoard(board, boardWidth, boardHeight, displayWidth, displayHeight - 4, playerX, playerY);
@@ -247,22 +249,22 @@ public class Ihm {
     }
 
     /**
-     * Helper permettant de clamp un nombre entre deux bornes
+     * Helper permettant de clamp un nombre entre deux bornes.
      *
-     * @param value valeur a clamper.
-     * @param low   borne basse.
-     * @param high  borne haute.
-     * @return x ∈ [low, high]
+     * @param value La valeur a clamper.
+     * @param low   La borne basse.
+     * @param high  La borne haute.
+     * @return x ∈ [low, high].
      */
     private int clamp(int value, int low, int high) {
         return Math.min(Math.max(low, value), high);
     }
 
     /**
-     * Helper permettant de convertir une direction en fleche.
+     * Helper permettant de convertir une direction en flèche.
      *
-     * @param dir 'z' | 'q' | 's' | 'd' | default
-     * @return '↑' | '↓' | '←' | '→' | '·'
+     * @param dir 'z' | 'q' | 's' | 'd' | default.
+     * @return '↑' | '↓' | '←' | '→' | '·'.
      */
     private char asArrow(char dir) {
         return switch (dir) {
@@ -275,11 +277,11 @@ public class Ihm {
     }
 
     /**
-     * Helper qui permet de tronquer une chaîne au format "Chaine trop long..."
+     * Helper qui permet de tronquer une chaîne au format "Chaine trop long...".
      *
-     * @param source chaîne source
-     * @param length taille maximale
-     * @return la chaine tronquée et suivie de point de suspension si elle est trop longue, la chaine source sinon.
+     * @param source La chaîne source.
+     * @param length La taille maximale.
+     * @return La chaine tronquée et suivie de point de suspension si elle est trop longue, la chaine source sinon.
      */
     private String truncate(String source, int length) {
         if (getUncoloredLength(source) > length) {
@@ -295,10 +297,10 @@ public class Ihm {
     }
 
     /**
-     * Helper qui donne la taille d'une String sans compter les caractères de colorisations
+     * Helper qui donne la taille d'une String sans compter les caractères de colorisations.
      *
-     * @param string la chaîne d'entrée
-     * @return le nombre de caractères non-colorisations
+     * @param string La chaîne d'entrée.
+     * @return Le nombre de caractères non-colorisations.
      */
     private int getUncoloredLength(String string) {
         int j = 0;
@@ -315,14 +317,14 @@ public class Ihm {
     /**
      * Helper qui permet de recadrer et de centrer la carte sur la position du joueur.
      *
-     * @param lines        liste des lignes qui composent la carte.
-     * @param sourceWidth  largeur initiale de la carte
-     * @param sourceHeight hauteur initiale de la carte
-     * @param targetWidth  largeur souhaitée
-     * @param targetHeight hauteur souhaitée
-     * @param playerX      position X du joueur
-     * @param playerY      position Y du joueur
-     * @return une String à afficher qui représente la carte à la taille correcte.
+     * @param lines        La liste des lignes qui composent la carte.
+     * @param sourceWidth  La largeur initiale de la carte.
+     * @param sourceHeight La hauteur initiale de la carte.
+     * @param targetWidth  La largeur souhaitée.
+     * @param targetHeight La hauteur souhaitée.
+     * @param playerX      La position X du joueur.
+     * @param playerY      La position Y du joueur.
+     * @return Une String à afficher qui représente la carte à la taille correcte.
      */
     private String cropBoard(List<List<String>> lines, int sourceWidth, int sourceHeight, int targetWidth, int targetHeight, int playerX, int playerY) {
         StringBuilder output = new StringBuilder();
@@ -364,13 +366,13 @@ public class Ihm {
     /**
      * Helper qui permet de mettre en forme l'UI du jeu.
      *
-     * @param actionHistory les dernières actions loggées
-     * @param playerX       la position x du joueur
-     * @param playerY       la position y du joueur
-     * @param playerDir     la direction du joueur
-     * @param equippedItem  la representation de l'objet équipé
-     * @param turnNumber    le numéro de tour.
-     * @return une String à afficher qui représente l'UI de base du jeu.
+     * @param actionHistory Les dernières actions loggées.
+     * @param playerX       La position x du joueur.
+     * @param playerY       La position y du joueur.
+     * @param playerDir     La direction du joueur.
+     * @param equippedItem  La représentation de l'objet équipé.
+     * @param turnNumber    Le numéro de tour.
+     * @return Une String à afficher qui représente l'UI de base du jeu.
      */
     private String makeUi(List<String> actionHistory, int playerX, int playerY, char playerDir, String equippedItem, int turnNumber) {
         Queue<String> actionHistoryCopy = new ArrayDeque<>(actionHistory);
@@ -378,21 +380,17 @@ public class Ihm {
         String hist1 = truncate(actionHistoryCopy.remove(), displayWidth - panelSize - 4);
         String hist2 = truncate(actionHistoryCopy.remove(), displayWidth - panelSize - 4);
         String hist3 = truncate(actionHistoryCopy.remove(), displayWidth - panelSize - 4);
-        return "├" + "─".repeat(panelSize - 1) + "┬" + "─".repeat(displayWidth - panelSize - 2) + "┤\n" +
-                "│ tour n°" + String.format("%-" + (panelSize - 9) + "S", String.format("%-3S", turnNumber)) + "│ " + Colors.LIGHT_WHITE + hist1 + Colors.RESET + " ".repeat(Math.abs(displayWidth - panelSize - getUncoloredLength(hist1) - 4)) + " │\n" +
-                "│ [" + String.format("%03d", playerX) + "," + String.format("%03d", playerY) + "]" + " ".repeat(panelSize - 15) + "(" + asArrow(playerDir) + ") │ " + Colors.WHITE + hist2 + Colors.RESET + " ".repeat(Math.abs(displayWidth - panelSize - getUncoloredLength(hist2) - 4)) + " │\n" +
-                "│ >> " + String.format("%-" + (panelSize - 6) + "s", equippedItem) + " │ " + Colors.LIGHT_BLACK + hist3 + Colors.RESET + " ".repeat(Math.abs(displayWidth - panelSize - getUncoloredLength(hist3) - 4)) + " │\n" +
-                Colors.HIGHLIGHT + String.format(("%-" + (displayWidth) + "s"), " ZQSD : Bouger   OKLM : Regarder   I : Inventaire   E : Interagir   J : Jeter") + Colors.RESET;
+        return "├" + "─".repeat(panelSize - 1) + "┬" + "─".repeat(displayWidth - panelSize - 2) + "┤\n" + "│ tour n°" + String.format("%-" + (panelSize - 9) + "S", String.format("%-3S", turnNumber)) + "│ " + Colors.LIGHT_WHITE + hist1 + Colors.RESET + " ".repeat(Math.abs(displayWidth - panelSize - getUncoloredLength(hist1) - 4)) + " │\n" + "│ [" + String.format("%03d", playerX) + "," + String.format("%03d", playerY) + "]" + " ".repeat(panelSize - 15) + "(" + asArrow(playerDir) + ") │ " + Colors.WHITE + hist2 + Colors.RESET + " ".repeat(Math.abs(displayWidth - panelSize - getUncoloredLength(hist2) - 4)) + " │\n" + "│ >> " + String.format("%-" + (panelSize - 6) + "s", equippedItem) + " │ " + Colors.LIGHT_BLACK + hist3 + Colors.RESET + " ".repeat(Math.abs(displayWidth - panelSize - getUncoloredLength(hist3) - 4)) + " │\n" + Colors.HIGHLIGHT + String.format(("%-" + (displayWidth) + "s"), " ZQSD : Bouger   OKLM : Regarder   I : Inventaire   E : Interagir   J : Jeter") + Colors.RESET;
     }
 
     /**
-     * Affiche une ui sous forme de liste pour les interactions et l'inventaire
+     * Affiche une ui sous forme de liste pour les interactions et l'inventaire.
      *
-     * @param items        la liste des choses à afficher
-     * @param selectedItem l'id de la chose à afficher
-     * @param tooltip      le texte affiché en bas
-     * @param close        la touche pour fermer le menu
-     * @return une String à afficher représentant l'inventaire sous forme de liste.
+     * @param items        La liste des choses à afficher.
+     * @param selectedItem L'id de la chose à afficher.
+     * @param tooltip      Le texte affiché en bas.
+     * @param close        La touche pour fermer le menu.
+     * @return Une String à afficher représentant l'inventaire sous forme de liste.
      */
     private String makeListUi(List<String> items, int selectedItem, String tooltip, char close) {
         StringBuilder out = new StringBuilder();
@@ -425,16 +423,14 @@ public class Ihm {
             }
 
         }
-        out.append("\n")
-                .append(Colors.HIGHLIGHT)
-                .append(String.format("%-" + (displayWidth) + "s", "1-" + items.size() + " : " + tooltip + "    " + close + " : fermer le menu"));
+        out.append("\n").append(Colors.HIGHLIGHT).append(String.format("%-" + (displayWidth) + "s", "1-" + items.size() + " : " + tooltip + "    " + close + " : fermer le menu"));
         return out.toString();
     }
 
     /**
-     * Affiche une page de correspondance entre les choses affichées à l'écran
+     * Affiche une page de correspondance entre les choses affichées à l'écran.
      *
-     * @param theme le theme choisi.
+     * @param theme Le thème choisi.
      */
     public void printHelpPage(char theme) {
         String[] elements;

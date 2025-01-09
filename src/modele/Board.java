@@ -13,18 +13,48 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-
+/**
+ * Classe représentant le plateau de jeu.
+ */
 public class Board {
-
+    /**
+     * Instance unique de la classe Board (singleton).
+     */
     private static Board INSTANCE;
+    /**
+     * Plateau de jeu représenté par une matrice de terrains.
+     */
     private final Terrain[][] board;
+    /**
+     * Hauteur du plateau de jeu.
+     */
     private final int height;
+    /**
+     * Largeur du plateau de jeu.
+     */
     private final int width;
+    /**
+     * Thème du plateau de jeu.
+     */
     private final char theme;
+    /**
+     * Personnage joueur sur le plateau de jeu.
+     */
     private final PlayerCharacter player;
-
+    /**
+     * Liste des journaux d'actions.
+     */
     private List<String> logs;
 
+    /**
+     * Constructeur privé pour initialiser le plateau de jeu.
+     *
+     * @param theme  Thème du plateau de jeu.
+     * @param height Hauteur du plateau de jeu.
+     * @param width  Largeur du plateau de jeu.
+     * @param board  Matrice de terrains représentant le plateau de jeu.
+     * @param player Personnage joueur sur le plateau de jeu.
+     */
     private Board(char theme, int height, int width, Terrain[][] board, PlayerCharacter player) {
         logs = new ArrayList<>();
         this.theme = theme;
@@ -34,6 +64,9 @@ public class Board {
         this.player = player;
     }
 
+    /**
+     * Constructeur privé par défaut.
+     */
     private Board() {
         logs = new ArrayList<>();
         this.theme = 0;
@@ -43,6 +76,11 @@ public class Board {
         this.player = null;
     }
 
+    /**
+     * Obtient l'instance unique de la classe Board.
+     *
+     * @return L'instance unique de la classe Board.
+     */
     public static Board getInstance() {
         if (INSTANCE == null) {
             INSTANCE = new Board();
@@ -50,22 +88,53 @@ public class Board {
         return INSTANCE;
     }
 
+    /**
+     * Construit le plateau de jeu avec les paramètres spécifiés.
+     *
+     * @param theme  Thème du plateau de jeu.
+     * @param height Hauteur du plateau de jeu.
+     * @param width  Largeur du plateau de jeu.
+     * @param board  Matrice de terrains représentant le plateau de jeu.
+     * @param player Personnage joueur sur le plateau de jeu.
+     */
     public static void buildBoard(char theme, int height, int width, Terrain[][] board, PlayerCharacter player) {
         INSTANCE = new Board(theme, height, width, board, player);
     }
 
+    /**
+     * Obtient la hauteur du plateau de jeu.
+     *
+     * @return La hauteur du plateau de jeu.
+     */
     public int getHeight() {
         return height;
     }
 
+    /**
+     * Obtient la largeur du plateau de jeu.
+     *
+     * @return La largeur du plateau de jeu.
+     */
     public int getWidth() {
         return width;
     }
 
+    /**
+     * Obtient le thème du plateau de jeu.
+     *
+     * @return Le thème du plateau de jeu.
+     */
     public char getTheme() {
         return theme;
     }
 
+    /**
+     * Obtient le terrain à la position spécifiée.
+     *
+     * @param x Coordonnée x du terrain.
+     * @param y Coordonnée y du terrain.
+     * @return Le terrain à la position spécifiée, ou null si la position est invalide.
+     */
     public Terrain getAt(int x, int y) {
         if (x < 0 || x > width - 1 || y < 0 || y > height - 1) {
             return null;
@@ -73,6 +142,14 @@ public class Board {
         return board[y][x];
     }
 
+    /**
+     * Obtient le terrain dans la direction spécifiée à partir de la position donnée.
+     *
+     * @param x         Coordonnée x de départ.
+     * @param y         Coordonnée y de départ.
+     * @param direction Direction du déplacement ('z' pour haut, 's' pour bas, 'q' pour gauche, 'd' pour droite).
+     * @return Le terrain dans la direction spécifiée, ou le terrain de départ si la direction est invalide.
+     */
     public Terrain getToward(int x, int y, char direction) {
         return switch (direction) {
             case 'z' -> getAt(x, y - 1);
@@ -83,6 +160,13 @@ public class Board {
         };
     }
 
+    /**
+     * Obtient les terrains voisins de la position spécifiée.
+     *
+     * @param x Coordonnée x de la position.
+     * @param y Coordonnée y de la position.
+     * @return Une liste des terrains voisins.
+     */
     public List<Terrain> getNeighbours(int x, int y) {
         List<Terrain> out = new ArrayList<>();
         for (char c : new char[]{'z', 'q', 's', 'd'}) {
@@ -94,6 +178,12 @@ public class Board {
         return out;
     }
 
+    /**
+     * Déplace une entité mobile dans la direction spécifiée.
+     *
+     * @param entity    L'entité mobile à déplacer.
+     * @param direction La direction du déplacement.
+     */
     public void moveToward(MovableEntity entity, char direction) {
         Terrain terrain = getToward(entity.getX(), entity.getY(), direction);
         // On part du principe que le déplacement est toujours valide (testé en amont).
@@ -101,12 +191,26 @@ public class Board {
         terrain.setEntityOnCase(entity);
     }
 
+    /**
+     * Déplace une entité mobile à la position spécifiée.
+     *
+     * @param entity L'entité mobile à déplacer.
+     * @param x      Coordonnée x de la nouvelle position.
+     * @param y      Coordonnée y de la nouvelle position.
+     */
     public void moveTo(MovableEntity entity, int x, int y) {
         // On part du principe que le déplacement est toujours valide (testé en amont).
         clearCase(entity.getX(), entity.getY());
         setEntityOnCase(x, y, entity);
     }
 
+    /**
+     * Vide la case à la position spécifiée.
+     *
+     * @param x Coordonnée x de la case.
+     * @param y Coordonnée y de la case.
+     * @throws EntityNotFoundException Si aucune entité n'est trouvée sur la case.
+     */
     public void clearCase(int x, int y) throws EntityNotFoundException {
         if (getAt(x, y) == null || getAt(x, y).getEntityOnCase() == null) {
             throw new EntityNotFoundException("L'entité ne peut pas être trouvée. (x= " + x + ", y= " + y + ")");
@@ -114,6 +218,13 @@ public class Board {
         getAt(x, y).clearEntityOnCase();
     }
 
+    /**
+     * Remplit la case à la position spécifiée avec une entité.
+     *
+     * @param x      Coordonnée x de la case.
+     * @param y      Coordonnée y de la case.
+     * @param entity L'entité à placer sur la case.
+     */
     public void fillCase(int x, int y, Entity entity) {
         Terrain new_position = getToward(x, y, getPlayer().getOrientation());
         if (new_position == null || new_position.getEntityOnCase() != null) {
@@ -123,6 +234,13 @@ public class Board {
         new_position.setEntityOnCase(entity);
     }
 
+    /**
+     * Place une entité sur la case à la position spécifiée.
+     *
+     * @param x      Coordonnée x de la case.
+     * @param y      Coordonnée y de la case.
+     * @param entity L'entité à placer sur la case.
+     */
     public void setEntityOnCase(int x, int y, Entity entity) {
         Terrain new_position = getAt(x, y);
         if (new_position != null && (new_position.getEntityOnCase() == null || (entity instanceof Monkey && new_position.getEntityOnCase() instanceof Scorpio scorpio && scorpio.canAttack()))) {
@@ -134,10 +252,20 @@ public class Board {
         }
     }
 
+    /**
+     * Obtient le personnage joueur sur le plateau de jeu.
+     *
+     * @return Le personnage joueur sur le plateau de jeu.
+     */
     public PlayerCharacter getPlayer() {
         return player;
     }
 
+    /**
+     * Obtient le plateau de jeu sous forme de liste de listes de chaînes de caractères.
+     *
+     * @return Le plateau de jeu sous forme de liste de listes de chaînes de caractères.
+     */
     public List<List<String>> getBoardAsList() {
         List<List<String>> board_list = new ArrayList<>();
         for (Terrain[] terrains : board) { //(Terrain[] line : board){
@@ -154,6 +282,11 @@ public class Board {
         return board_list;
     }
 
+    /**
+     * Retourne une représentation en chaîne de caractères du plateau de jeu.
+     *
+     * @return Une représentation en chaîne de caractères du plateau de jeu.
+     */
     @Override
     public String toString() {
         StringBuilder board_string = new StringBuilder();
@@ -169,14 +302,30 @@ public class Board {
         return board_string.toString();
     }
 
+    /**
+     * Enregistre une action dans les journaux.
+     *
+     * @param log L'action à enregistrer.
+     */
     public void logAction(String log) {
         logs.add(log);
     }
 
+    /**
+     * Enregistre une erreur dans les journaux.
+     *
+     * @param error L'erreur à enregistrer.
+     */
     public void logError(String error) {
         logs.add(Colors.RED + error + Colors.RESET);
     }
 
+    /**
+     * Obtient les derniers journaux d'actions.
+     *
+     * @param amount Le nombre de journaux à obtenir.
+     * @return Une liste des derniers journaux d'actions.
+     */
     public List<String> peekAtLogs(int amount) {
         List<String> out = new LinkedList<>();
         for (int i = 0; i < amount; i++) {
@@ -189,6 +338,14 @@ public class Board {
         return out;
     }
 
+    /**
+     * Obtient les terrains proches de la position spécifiée, triés par distance.
+     *
+     * @param x       Coordonnée x de la position.
+     * @param y       Coordonnée y de la position.
+     * @param nbCases Nombre de cases à considérer.
+     * @return Une liste de listes de terrains proches, triés par distance.
+     */
     public List<List<Terrain>> getNearSorted(int x, int y, int nbCases) {
         List<List<Terrain>> out = new ArrayList<>();
         List<Terrain> all = new ArrayList<>();
@@ -210,6 +367,14 @@ public class Board {
         return out;
     }
 
+    /**
+     * Obtient les terrains proches de la position spécifiée.
+     *
+     * @param x       Coordonnée x de la position.
+     * @param y       Coordonnée y de la position.
+     * @param nbCases Nombre de cases à considérer.
+     * @return Une liste de terrains proches.
+     */
     public List<Terrain> getNear(int x, int y, int nbCases) {
         List<Terrain> all = new ArrayList<>();
         List<Terrain> toTest = new ArrayList<>();
