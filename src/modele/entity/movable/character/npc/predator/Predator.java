@@ -10,6 +10,10 @@ import modele.entity.movable.character.npc.state.predator.RestState;
  * Classe abstraite représentant un prédateur dans le jeu.
  */
 public abstract class Predator extends NonPlayerCharacter {
+    /**
+     * Le niveau de fatigue.
+     */
+    protected int restLevel;
 
     /**
      * Constructeur de la classe Predator.
@@ -45,4 +49,22 @@ public abstract class Predator extends NonPlayerCharacter {
      * @param killed Indique si le prédateur a été tué.
      */
     public abstract void afterHit(boolean killed);
+
+    /**
+     * Obtient le niveau de fatigue du prédateur.
+     *
+     * @return Le niveau de fatigue du prédateur.
+     */
+    public int getRestLevel() {
+        return restLevel;
+    }
+
+    /**
+     * Définit le niveau de fatigue du prédateur.
+     *
+     * @param restLevel Le nouveau niveau de fatigue du prédateur.
+     */
+    public void setRestLevel(int restLevel) {
+        this.restLevel = restLevel;
+    }
 }

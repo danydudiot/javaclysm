@@ -30,6 +30,10 @@ public class PredatorMoveCoordinateCommand implements Command {
      * Le temps passé sous un rocher par le prédateur (si c'est un scorpion).
      */
     private int old_underRock;
+    /**
+     * l'ancien niveau de fatigue.
+     */
+    private int old_restLevel;
 
     /**
      * Constructeur de la classe PredatorMoveCoordinateCommand.
@@ -43,6 +47,7 @@ public class PredatorMoveCoordinateCommand implements Command {
         this.terrain = terrain;
         this.old_terrain = Board.getInstance().getAt(predator.getX(), predator.getY());
         this.old_state = predator.getCurrentState();
+        this.old_restLevel = predator.getRestLevel();
         if (predator instanceof Scorpio scorpio) {
             this.old_underRock = scorpio.getTimeUnderRock();
         }
@@ -64,6 +69,7 @@ public class PredatorMoveCoordinateCommand implements Command {
     @Override
     public void undoCommand() {
         predator.setCurrentState(old_state);
+        predator.setRestLevel(old_restLevel);
         if (!old_terrain.equals(terrain)) {
             predator.move(old_terrain);
         }

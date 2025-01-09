@@ -11,7 +11,6 @@ import modele.entity.stationary.terrain.Terrain;
  * Classe abstraite représentant l'état de repos d'un prédateur.
  */
 public abstract class RestState extends PredatorState {
-    protected int restLevel;
 
     /**
      * Constructeur de la classe RestState.
@@ -21,7 +20,7 @@ public abstract class RestState extends PredatorState {
      */
     public RestState(Predator predator, int restLevel) {
         super(predator);
-        this.restLevel = restLevel;
+        predator.setRestLevel(restLevel);
     }
 
     /**
@@ -41,10 +40,10 @@ public abstract class RestState extends PredatorState {
      */
     @Override
     public void updateState() {
-        if (restLevel <= 0) {
+        if (predator.getRestLevel() <= 0) {
             predator.setCurrentState(getNextState());
         }
-        restLevel--;
+        predator.setRestLevel(predator.getRestLevel() - 1);
     }
 
     /**
