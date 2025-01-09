@@ -66,6 +66,7 @@ public final class Clock implements Observable {
 
     /**
      * Réinitialise l'horloge en remettant à zéro les attributs.
+     * @return Le numéro du tour.
      */
     public int getNbTour() {
         return nbTour;

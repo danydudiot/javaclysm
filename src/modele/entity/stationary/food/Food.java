@@ -33,6 +33,11 @@ public abstract class Food extends StaticEntity implements Interactible, Invento
         interactionList[0] = new Grab();
     }
 
+    /**
+     * Vérifie si un joueur est à proximité.
+     *
+     * @return true si un joueur est à proximité, false sinon.
+     */
     public boolean isPlayerNearby() {
         List<Terrain> neighbours = Board.getInstance().getNeighbours(x, y);
         for (Terrain terrain : neighbours) {

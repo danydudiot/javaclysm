@@ -13,6 +13,9 @@ public abstract class Terrain extends StaticEntity {
      * Potentielle entité sur cette case (null si vide)
      */
     protected Entity entityOnCase;
+    /**
+     * La couleur d'accentuation de la case
+     */
     protected String highlightColor;
 
 

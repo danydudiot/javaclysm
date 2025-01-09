@@ -13,6 +13,9 @@ import modele.entity.stationary.terrain.Terrain;
  * Classe représentant l'état d'un prédateur sous un rocher.
  */
 public class UnderRockState extends PredatorState {
+    /**
+     * Le scorpion sous le rocher
+     */
     private Scorpio scorpio;
 
     /**

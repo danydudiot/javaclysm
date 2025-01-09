@@ -83,10 +83,20 @@ public abstract class Entity {
         return displayName;
     }
 
+    /**
+     * Obtient la position verticale de l'entité.
+     *
+     * @return La position verticale de l'entité.
+     */
     public int getX() {
         return x;
     }
 
+    /**
+     * Obtient la position horizontale de l'entité.
+     *
+     * @return La position horizontale de l'entité.
+     */
     public int getY() {
         return y;
     }
