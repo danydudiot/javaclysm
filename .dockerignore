@@ -1,0 +1,11 @@
+# Fichiers de documentation
+documents/
+
+# Fichiers de configuration IDE
+*.iml
+.idea/
+
+# Autres fichiers non nécessaires
+README.md
+LICENCE
+.gitignore
