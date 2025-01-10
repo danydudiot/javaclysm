@@ -9,7 +9,7 @@ Pour construire et lancer l'application dans un conteneur Docker, exécutez les 
 
 ```
 # Construction de l'image
-docker build -t javaclysm.
+docker build -t javaclysm .
 
 # Exécution du conteneur
 docker run -it --name javaclysm-container javaclysm
